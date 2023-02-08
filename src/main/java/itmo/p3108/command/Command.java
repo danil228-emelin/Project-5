@@ -1,5 +1,10 @@
 package itmo.p3108.command;
-@FunctionalInterface
+
+import itmo.p3108.CollectionController;
+
 public interface Command {
-String execute();
+    CollectionController controller = CollectionController.getInstance() ;
+    String execute();
+
+    String name();
 }

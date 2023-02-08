@@ -1,9 +1,18 @@
 package itmo.p3108.command;
 
-public class Help implements Command {
-    private static final Help help = new Help();
-    public static  Help getInstance(){return help;}
-    private Help(){}
+public class Help implements  NoArgumentCommand {
+    private static  Help help ;
+
+    private Help() {
+    }
+
+    public static Help getInstance() {
+       if (help ==null){
+          help = new Help();
+       }
+        return help;
+    }
+
     @Override
     public String execute() {
 
@@ -23,5 +32,10 @@ public class Help implements Command {
                 "    count_by_height height : вывести количество элементов, значение поля height которых равно заданному\n" +
                 "    filter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки\n" +
                 "    print_descending : вывести элементы коллекции в порядке убывания";
+    }
+
+    @Override
+    public String name() {
+        return "help";
     }
 }
