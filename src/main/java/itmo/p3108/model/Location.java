@@ -1,4 +1,4 @@
-package itmo.p3108.classes;
+package itmo.p3108.model;
 
 public class Location {
     private double x;
