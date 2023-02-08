@@ -19,6 +19,9 @@ public class Show implements NoArgumentCommand {
 
     @Override
     public String execute() {
+        if (controller.isEmpty()){
+            return "Элементов в коллекции нет";
+        }
         return controller.getPersonList().stream()
                 .map(Person::toString)
                 .collect(Collectors.joining(","));
