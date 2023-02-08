@@ -2,6 +2,7 @@ package itmo.p3108;
 
 import itmo.p3108.model.Person;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public final class CollectionController {
     private CollectionController() {
         personList = new ArrayList<>();
         localDate = LocalDate.now();
+
     }
 
     public static CollectionController getInstance() {
