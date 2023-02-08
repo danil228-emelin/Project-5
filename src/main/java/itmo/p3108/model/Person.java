@@ -1,8 +1,11 @@
 package itmo.p3108.model;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-@Builder
+@Builder(toBuilder = true)
+@Getter
 public class Person {
     private Long id;
     private String name;
@@ -13,4 +16,19 @@ public class Person {
     private Color eyeColor;
     private Country nationality;
     private Location location;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", height=" + height +
+                ", birthday=" + birthday +
+                ", eyeColor=" + eyeColor +
+                ", nationality=" + nationality +
+                ", location=" + location +
+                '}';
+    }
 }
