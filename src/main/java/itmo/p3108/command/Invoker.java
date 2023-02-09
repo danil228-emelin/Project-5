@@ -20,13 +20,12 @@ public class Invoker {
         return invoker;
     }
 
-    public boolean add(@NonNull Command command) {
-        if (commands.containsKey(command)) {
-            return false;
+    public void add(@NonNull Command... commands) {
+        for (Command command : commands) {
+            if (!this.commands.containsKey(command.name())) {
+                this.commands.put(command.name(), command);
+            }
         }
-        commands.put(command.name(), command);
-        return true;
-
     }
 
     public void invoke(String commandStr) {

@@ -1,8 +1,8 @@
 package itmo.p3108.model;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Builder(toBuilder = true)
 @Getter
