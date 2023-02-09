@@ -1,5 +1,8 @@
-package itmo.p3108.command;
+package itmo.p3108.util;
 
+import itmo.p3108.command.Command;
+import itmo.p3108.command.Information;
+import itmo.p3108.command.NoArgumentCommand;
 import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
 
@@ -33,7 +36,9 @@ public class Invoker {
             String[] strings = commandStr.trim().split(" ");
             if (commands.containsKey(strings[0].toLowerCase())) {
                 Command command = commands.get(strings[0].toLowerCase());
-
+                if (!(command instanceof Information) && Command.controller.isEmpty()) {
+                    throw new ValidationException("Команду " + command.name() + " невозможно выполнить,коллекция пустая");
+                }
                 if (command instanceof NoArgumentCommand) {
                     if (strings.length > 1) {
                         throw new ValidationException("Команда " + command.name() + " не имеет аргументов");

@@ -1,6 +1,6 @@
 package itmo.p3108.command;
 
-public class Help implements  NoArgumentCommand {
+public class Help implements  NoArgumentCommand,Information {
     private static  Help help ;
 
     private Help() {
