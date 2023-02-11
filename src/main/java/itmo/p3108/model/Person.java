@@ -1,19 +1,37 @@
 package itmo.p3108.model;
 
-import lombok.Builder;
-import lombok.Getter;
 
-@Builder(toBuilder = true)
-@Getter
+import itmo.p3108.adapter.LocalDateAdapter;
+import itmo.p3108.adapter.ZonedDateAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import lombok.Builder;
+import lombok.Data;
+
+@Builder
+@Data
+@XmlAccessorType(XmlAccessType.FIELD)
+
 public class Person {
+    @XmlElement
     private Long id;
+    @XmlElement
     private String name;
+    @XmlElement
     private Coordinates coordinates;
+    @XmlJavaTypeAdapter(ZonedDateAdapter.class)
     private java.time.ZonedDateTime creationDate;
+    @XmlElement
     private double height;
-    private java.util.Date birthday;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    private java.time.LocalDate birthday;
+    @XmlElement
     private Color eyeColor;
+    @XmlElement
     private Country nationality;
+    @XmlElement
     private Location location;
 
     @Override
@@ -30,4 +48,5 @@ public class Person {
                 ", location=" + location +
                 '}';
     }
+
 }

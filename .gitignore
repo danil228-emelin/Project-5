@@ -2,3 +2,5 @@ package-info.java
 out
 target
 /.idea/
+Main.java
+testWriter.xml
