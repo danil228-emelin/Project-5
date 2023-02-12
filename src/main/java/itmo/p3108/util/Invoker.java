@@ -1,5 +1,6 @@
 package itmo.p3108.util;
 
+import itmo.p3108.command.Update;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.command.type.CreationCommand;
 import itmo.p3108.command.type.InformationCommand;
@@ -43,12 +44,15 @@ public class Invoker {
         }
         Command command = commands.get(strings[0].toLowerCase());
 
-        if (command instanceof NoArgumentCommand) {
+        if (command instanceof NoArgumentCommand ) {
             if (strings.length > 1) {
+
                 throw new ValidationException("Команда " + command.name() + " не имеет аргументов");
             }
-            System.out.println(command.execute());
+            }else if(strings.length>2 || strings.length==1 ){
+            throw new ValidationException("Команда " + command.name() + " не может быть выполнена");
         }
+
         if (command instanceof InformationCommand || command instanceof CreationCommand) {
             System.out.println(command.execute());
             return;
@@ -58,6 +62,22 @@ public class Invoker {
 
         }
 
+        if (command instanceof Update) {
+
+            try {
+                Long l = Long.parseLong(strings[1]);
+                if (l <= 0) {
+                    throw new ValidationException("Ошибка:id-натуральное число");
+                }
+                ((Update) command).findPerson(l);
+                System.out.println(command.execute());
+                return;
+            } catch (NumberFormatException e) {
+                System.err.println("Ошибка:строка имела неверный формат");
+                e.printStackTrace();
+            }
+
+        }
     }
 }
 

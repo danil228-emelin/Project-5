@@ -1,11 +1,12 @@
 package itmo.p3108.command;
 
+import itmo.p3108.command.type.InformationCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
 
 import java.util.stream.Collectors;
 
-public class Show implements NoArgumentCommand {
+public class Show implements NoArgumentCommand, InformationCommand {
     private static Show show;
 
     private Show() {
@@ -20,9 +21,6 @@ public class Show implements NoArgumentCommand {
 
     @Override
     public String execute() {
-        if (controller.isEmpty()){
-            return "Элементов в коллекции нет";
-        }
         return controller.getPersonList().stream()
                 .map(Person::toString)
                 .collect(Collectors.joining(","));

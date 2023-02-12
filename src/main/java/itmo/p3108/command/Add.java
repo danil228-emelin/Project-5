@@ -2,7 +2,7 @@ package itmo.p3108.command;
 
 import itmo.p3108.command.type.CreationCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
-import itmo.p3108.command.util.PersonReadingBuilder;
+import itmo.p3108.model.PersonReadingBuilder;
 import itmo.p3108.model.Person;
 
 import java.time.ZonedDateTime;
@@ -10,10 +10,10 @@ import java.time.ZonedDateTime;
 public class Add implements CreationCommand, NoArgumentCommand {
 
     private static Add add;
-    private final PersonReadingBuilder receiver;
+    private final PersonReadingBuilder personReadingBuilder;
 
     private Add() {
-        receiver = PersonReadingBuilder.getInstance();
+        personReadingBuilder = PersonReadingBuilder.getInstance();
     }
 
     public static Add getInstance() {
@@ -28,15 +28,15 @@ public class Add implements CreationCommand, NoArgumentCommand {
     public String execute() {
         Person person = Person
                 .builder()
-                .name(receiver.createName())
-                .id(receiver.createId())
-                .height(receiver.createHight())
-                .eyeColor(receiver.createColor())
-                .nationality(receiver.createNationality())
-                .birthday(receiver.createBirthDay())
-                .coordinates(receiver.createCoordinates())
+                .name(personReadingBuilder.createName())
+                .id(personReadingBuilder.createId())
+                .height(personReadingBuilder.createHight())
+                .eyeColor(personReadingBuilder.createColor())
+                .nationality(personReadingBuilder.createNationality())
+                .birthday(personReadingBuilder.createBirthDay())
+                .coordinates(personReadingBuilder.createCoordinates())
                 .creationDate(ZonedDateTime.now())
-                .location(receiver.createLocation())
+                .location(personReadingBuilder.createLocation())
                 .build();
         controller.add(person);
 

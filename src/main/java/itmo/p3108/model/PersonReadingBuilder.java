@@ -1,10 +1,6 @@
-package itmo.p3108.command.util;
+package itmo.p3108.model;
 
 import itmo.p3108.adapter.LocalDateAdapter;
-import itmo.p3108.model.Color;
-import itmo.p3108.model.Coordinates;
-import itmo.p3108.model.Country;
-import itmo.p3108.model.Location;
 import itmo.p3108.util.UserReader;
 
 import java.time.LocalDate;
@@ -26,7 +22,7 @@ public final class PersonReadingBuilder {
         return createPerson;
     }
 
-    private String properRead(String message) {
+    public String properRead(String message) {
         return Objects.requireNonNull(UserReader.read(), message).trim();
     }
 

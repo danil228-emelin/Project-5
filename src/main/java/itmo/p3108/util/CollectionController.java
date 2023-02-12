@@ -1,9 +1,10 @@
 package itmo.p3108.util;
 
+import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.Person;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -45,5 +46,14 @@ public final class CollectionController {
         if (!personList.contains(person)) {
             personList.add(person);
         }
+    }
+
+    public Person getPersonById(Long id) {
+        for (Person person : personList) {
+            if (person.getId().equals(id)) {
+                return person;
+            }
+        }
+        throw new ValidationException("Ошибка:пользователя с таким id не существует ");
     }
 }
