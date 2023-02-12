@@ -1,5 +1,6 @@
 package itmo.p3108.command;
 
+import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
 import lombok.NonNull;
 import lombok.Setter;

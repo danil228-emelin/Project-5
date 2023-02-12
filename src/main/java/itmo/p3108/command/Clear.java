@@ -1,5 +1,7 @@
 package itmo.p3108.command;
 
+import itmo.p3108.command.type.NoArgumentCommand;
+
 public class Clear implements NoArgumentCommand {
     private static Clear clear;
 

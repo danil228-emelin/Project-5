@@ -1,10 +1,20 @@
 package itmo.p3108.adapter;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
+
+    private static LocalDateAdapter localDateAdapter;
+
+    public static LocalDateAdapter getInstance() {
+        if (localDateAdapter == null) {
+            localDateAdapter = new LocalDateAdapter();
+        }
+        return localDateAdapter;
+    }
 
     public DateTimeFormatter dateFormat() {
         return DateTimeFormatter.ofPattern("MM-dd-yyyy");

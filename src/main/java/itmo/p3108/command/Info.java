@@ -1,6 +1,9 @@
 package itmo.p3108.command;
 
-public class Info implements NoArgumentCommand, Informationable {
+import itmo.p3108.command.type.NoArgumentCommand;
+import itmo.p3108.command.type.InformationCommand;
+
+public class Info implements NoArgumentCommand, InformationCommand {
 private static Info info ;
 public static Info getInstance(){
     if (info == null) {

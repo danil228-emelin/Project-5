@@ -7,6 +7,14 @@ import java.time.format.DateTimeFormatter;
 
 public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
 
+    private static ZonedDateAdapter zonedDataAdapter;
+
+    public static ZonedDateAdapter getInstance() {
+        if (zonedDataAdapter== null) {
+            zonedDataAdapter = new ZonedDateAdapter();
+        }
+        return zonedDataAdapter;
+    }
     public DateTimeFormatter dateFormat() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
     }

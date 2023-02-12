@@ -1,7 +1,7 @@
 package itmo.p3108.parser;
 
-import itmo.p3108.CollectionController;
-import itmo.p3108.command.Command;
+import itmo.p3108.util.CollectionController;
+import itmo.p3108.command.type.Command;
 import itmo.p3108.model.*;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;

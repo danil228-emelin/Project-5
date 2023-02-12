@@ -1,4 +1,4 @@
-package itmo.p3108;
+package itmo.p3108.util;
 
 import itmo.p3108.model.Person;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 @XmlRootElement(name = "collection")
 public final class CollectionController {
     private static CollectionController controller;
@@ -24,8 +25,14 @@ public final class CollectionController {
         return controller;
     }
 
+    @XmlElement(name = "person")
+    public ArrayList<Person> getPersonList() {
+        return personList;
+    }
+
     public String info() {
-        return "Тип:ArrayList\n" + "Дата инициализации:\n"
+        return "Тип:ArrayList\n" + "Дата инициализации:" +
+                localDate + "\n"
                 + "Количество элементов:" + personList.size();
     }
 
@@ -33,10 +40,6 @@ public final class CollectionController {
         return personList.isEmpty();
     }
 
-    @XmlElement(name = "person")
-    public ArrayList<Person> getPersonList() {
-        return personList;
-    }
 
     public void add(Person person) {
         if (!personList.contains(person)) {
