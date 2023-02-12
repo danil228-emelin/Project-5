@@ -43,8 +43,11 @@ public class Invoker {
         }
         Command command = commands.get(strings[0].toLowerCase());
 
-        if (command instanceof NoArgumentCommand && strings.length > 1) {
-            throw new ValidationException("Команда " + command.name() + " не имеет аргументов");
+        if (command instanceof NoArgumentCommand) {
+            if (strings.length > 1) {
+                throw new ValidationException("Команда " + command.name() + " не имеет аргументов");
+            }
+            System.out.println(command.execute());
         }
         if (command instanceof InformationCommand || command instanceof CreationCommand) {
             System.out.println(command.execute());
@@ -54,7 +57,7 @@ public class Invoker {
             throw new ValidationException("Команду " + command.name() + " невозможно выполнить,коллекция пустая");
 
         }
-        System.out.println(command.execute());
+
     }
 }
 

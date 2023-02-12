@@ -1,8 +1,8 @@
 package itmo.p3108.util;
 
 import itmo.p3108.model.Person;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
