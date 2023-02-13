@@ -1,12 +1,11 @@
 package itmo.p3108.command;
 
-import itmo.p3108.command.type.InformationCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
 
 import java.util.stream.Collectors;
 
-public class Show implements NoArgumentCommand, InformationCommand {
+public class Show implements NoArgumentCommand {
     private static Show show;
 
     private Show() {

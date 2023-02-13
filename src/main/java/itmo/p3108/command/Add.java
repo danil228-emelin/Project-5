@@ -1,13 +1,14 @@
 package itmo.p3108.command;
 
-import itmo.p3108.command.type.CreationCommand;
+import itmo.p3108.command.type.Command;
+import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.PersonReadingBuilder;
 import itmo.p3108.model.Person;
 
 import java.time.ZonedDateTime;
 
-public class Add implements CreationCommand, NoArgumentCommand {
+public class Add implements NoArgumentCommand, IndependentCommand {
 
     private static Add add;
     private final PersonReadingBuilder personReadingBuilder;

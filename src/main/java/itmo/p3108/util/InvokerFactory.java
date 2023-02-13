@@ -23,7 +23,9 @@ public class InvokerFactory {
                 printDescending,
                 reorder,
                 Add.getInstance(),
-                Update.getInstance());
+                Update.getInstance(),
+                RemoveById.getInstance(),
+                Exit.getInstance());
         return invoker;
 
     }

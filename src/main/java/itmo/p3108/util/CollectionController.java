@@ -56,4 +56,13 @@ public final class CollectionController {
         }
         throw new ValidationException("Ошибка:пользователя с таким id не существует ");
     }
+
+    public boolean isPersonExist(Long id) {
+        for (Person person : personList) {
+            if (person.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

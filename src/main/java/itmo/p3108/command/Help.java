@@ -1,9 +1,9 @@
 package itmo.p3108.command;
 
+import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
-import itmo.p3108.command.type.InformationCommand;
 
-public class Help implements NoArgumentCommand, InformationCommand {
+public class Help implements NoArgumentCommand, IndependentCommand {
     private static  Help help ;
 
     private Help() {
