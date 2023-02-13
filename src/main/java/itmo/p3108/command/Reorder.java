@@ -11,7 +11,7 @@ public class Reorder implements NoArgumentCommand {
     private static Reorder reorder;
     @Setter
     @NonNull
-    private Comparator<Person> naturalComparatorOrder;
+    private Comparator<Person> naturalComparatorOrder=Comparator.comparing(Person::getBirthday).thenComparing(Person::getId);
 
     private Reorder() {
     }

@@ -1,6 +1,7 @@
 package itmo.p3108.util;
 
 import itmo.p3108.command.CountByHeight;
+import itmo.p3108.command.FilterStartsWithName;
 import itmo.p3108.command.RemoveById;
 import itmo.p3108.command.Update;
 import itmo.p3108.command.type.Command;
@@ -65,6 +66,23 @@ public class Invoker {
         if (command instanceof NoArgumentCommand) {
             System.out.println(command.execute());
         }
+
+        if (command instanceof FilterStartsWithName) {
+
+            try {
+
+                ((FilterStartsWithName) command).setSubstring(strings[1]);
+                System.out.println(command.execute());
+                return;
+            } catch (NumberFormatException e) {
+                System.err.println("Ошибка:строка имела неверный формат");
+                e.printStackTrace();
+            }
+
+        }
+
+
+
         if (command instanceof Update) {
 
             try {

@@ -1,11 +1,9 @@
 package itmo.p3108.parser;
 
-import itmo.p3108.util.CollectionController;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.model.*;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import itmo.p3108.util.CollectionController;
+import lombok.NonNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,6 +11,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,12 +26,14 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public final class Parser {
-    private Parser(){}
+    private Parser() {
+    }
+
     private static String information(Element element, String tegName) {
         return element.getElementsByTagName(tegName).item(0).getTextContent();
     }
 
-    public static void read(String path) {
+    public static void read(@NonNull String path) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
@@ -40,7 +43,12 @@ public final class Parser {
 
             DocumentBuilder db = dbf.newDocumentBuilder();
 
-            Document doc = db.parse(new File(path));
+            File file = new File(path);
+
+            if (file.length() == 0) {
+                return;
+            }
+            Document doc = db.parse(file);
 
             doc.getDocumentElement().normalize();
 
@@ -113,15 +121,20 @@ public final class Parser {
 
     }
 
-    public static void write(String path) throws JAXBException, FileNotFoundException {
+    public static void write(@NonNull String path) {
 
-        CollectionController controller = CollectionController.getInstance();
-        JAXBContext contextObj = JAXBContext.newInstance(CollectionController.class);
+        try {
+            CollectionController controller = CollectionController.getInstance();
+            JAXBContext contextObj = JAXBContext.newInstance(CollectionController.class);
 
-        Marshaller marshallerObj = contextObj.createMarshaller();
-        marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            Marshaller marshallerObj = contextObj.createMarshaller();
+            marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-        marshallerObj.marshal(controller, new FileOutputStream(path));
+            marshallerObj.marshal(controller, new FileOutputStream(path));
+        } catch (JAXBException | FileNotFoundException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
 
     }
 

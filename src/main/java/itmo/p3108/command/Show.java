@@ -22,7 +22,7 @@ public class Show implements NoArgumentCommand {
     public String execute() {
         return controller.getPersonList().stream()
                 .map(Person::toString)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining("\n"));
     }
 
     @Override
