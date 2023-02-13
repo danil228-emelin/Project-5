@@ -25,7 +25,8 @@ public class InvokerFactory {
                 Add.getInstance(),
                 Update.getInstance(),
                 RemoveById.getInstance(),
-                Exit.getInstance());
+                Exit.getInstance(),
+                CountByHeight.getInstance());
         return invoker;
 
     }

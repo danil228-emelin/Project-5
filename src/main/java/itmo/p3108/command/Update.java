@@ -1,6 +1,7 @@
 package itmo.p3108.command;
 
 import itmo.p3108.command.type.Command;
+import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.*;
 
 import java.time.LocalDate;
@@ -21,6 +22,9 @@ public class Update implements Command {
     }
 
     public Update findPerson(Long id) {
+        if (id <= 0) {
+            throw new ValidationException("Ошибка:id-натуральное число");
+        }
         person = controller.getPersonById(id);
         return this;
     }

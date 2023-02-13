@@ -30,6 +30,10 @@ public class RemoveById implements Command {
     }
 
     public RemoveById setId(Long id) {
+        if (id <= 0) {
+            throw new ValidationException("Ошибка:id-натуральное число");
+        }
+
         if (!controller.isPersonExist(id)) {
             throw new ValidationException("Ошибка:Человека с таким id не существует");
         }

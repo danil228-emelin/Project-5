@@ -1,5 +1,6 @@
 package itmo.p3108.util;
 
+import itmo.p3108.command.CountByHeight;
 import itmo.p3108.command.RemoveById;
 import itmo.p3108.command.Update;
 import itmo.p3108.command.type.Command;
@@ -49,8 +50,9 @@ public class Invoker {
 
                 throw new ValidationException("Команда " + command.name() + " не имеет аргументов");
             }
+
         } else if (strings.length > 2 || strings.length == 1) {
-            throw new ValidationException("Команда " + command.name() + " имеет один аргумент");
+            throw new ValidationException("Команда " + command.name() + " имеет один аргумент ");
         }
 
         if (command instanceof IndependentCommand) {
@@ -59,16 +61,15 @@ public class Invoker {
         }
         if (Command.controller.isEmpty()) {
             throw new ValidationException("Команду " + command.name() + " невозможно выполнить,коллекция пустая");
-
         }
-
+        if (command instanceof NoArgumentCommand) {
+            System.out.println(command.execute());
+        }
         if (command instanceof Update) {
 
             try {
                 Long l = Long.parseLong(strings[1]);
-                if (l <= 0) {
-                    throw new ValidationException("Ошибка:id-натуральное число");
-                }
+
                 ((Update) command).findPerson(l);
                 System.out.println(command.execute());
                 return;
@@ -83,9 +84,6 @@ public class Invoker {
 
             try {
                 Long l = Long.parseLong(strings[1]);
-                if (l <= 0) {
-                    throw new ValidationException("Ошибка:id-натуральное число");
-                }
                 ((RemoveById) command).setId(l);
                 System.out.println(command.execute());
                 return;
@@ -96,6 +94,19 @@ public class Invoker {
 
         }
 
+        if (command instanceof CountByHeight) {
+
+            try {
+                double l = Double.parseDouble(strings[1]);
+                ((CountByHeight) command).setHeight(l);
+                System.out.println(command.execute());
+                return;
+            } catch (NumberFormatException e) {
+                System.err.println("Ошибка:строка имела неверный формат");
+                e.printStackTrace();
+            }
+
+        }
     }
 
 }
