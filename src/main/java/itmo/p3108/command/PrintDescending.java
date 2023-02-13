@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class PrintDescending implements NoArgumentCommand {
     private static PrintDescending printDescending;
@@ -25,14 +26,13 @@ public class PrintDescending implements NoArgumentCommand {
 
     @Override
     public String execute() {
-        StringBuilder sb = new StringBuilder();
         Comparator<Person> reversed_comparator = naturalComparatorOrder.reversed();
-        controller
+       return controller
                 .getPersonList()
                 .stream()
                 .sorted(reversed_comparator)
-                .forEach(x -> sb.append(x.toString()).append(" "));
-        return sb.toString();
+               .map(Person::toString)
+               .collect(Collectors.joining(","));
     }
 
     @Override
