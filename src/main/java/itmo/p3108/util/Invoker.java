@@ -40,7 +40,7 @@ public class Invoker {
             if (commandStr.equals("")) {
                 return;
             }
-            System.out.println("Введите n,если хотите отменить операцию отменить операцию");
+            System.out.println("Введите n для отмены операции");
             String p = UserReader.read();
             if (p.equals("n")) {
                 return;
