@@ -17,21 +17,21 @@ public class FileWorker {
             }
             return stringBuilder.toString();
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            System.err.println(e.getMessage());
+            return "";
         }
     }
 
-    public static void write(String path, String... line) {
+    public static void write(String path, String... line) throws IOException {
         try (FileWriter fileWriter = new FileWriter(path, true)) {
             fileWriter.write("\n");
+            if (line.length == 0) {
+                return;
+            }
             for (String s : line) {
                 fileWriter.write(s);
                 fileWriter.write("\n");
             }
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 

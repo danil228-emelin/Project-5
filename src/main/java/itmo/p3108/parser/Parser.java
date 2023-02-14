@@ -1,6 +1,7 @@
 package itmo.p3108.parser;
 
 import itmo.p3108.command.type.Command;
+import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.*;
 import itmo.p3108.util.CollectionController;
 import lombok.NonNull;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 public final class Parser {
     private Parser() {
     }
@@ -44,9 +46,8 @@ public final class Parser {
             DocumentBuilder db = dbf.newDocumentBuilder();
 
             File file = new File(path);
-
             if (file.length() == 0) {
-                return;
+                throw new ValidationException("Файл " + path + " пустой, коллекция пустая.");
             }
             Document doc = db.parse(file);
 
@@ -119,25 +120,24 @@ public final class Parser {
             }
             PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            System.err.println("В файле указаны неккоректные данные. Коллекция пустая.");
+            //позволить сетить новый элемент.
+        } catch (ValidationException e) {
+            System.err.println(e.getMessage());
         }
 
     }
 
-    public static void write(@NonNull String path) {
+    public static void write(@NonNull String path) throws JAXBException, FileNotFoundException {
 
-        try {
-            CollectionController controller = CollectionController.getInstance();
-            JAXBContext contextObj = JAXBContext.newInstance(CollectionController.class);
+        CollectionController controller = CollectionController.getInstance();
+        JAXBContext contextObj = JAXBContext.newInstance(CollectionController.class);
 
-            Marshaller marshallerObj = contextObj.createMarshaller();
-            marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        Marshaller marshallerObj = contextObj.createMarshaller();
+        marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            marshallerObj.marshal(controller, new FileOutputStream(path));
-        } catch (JAXBException | FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
+        marshallerObj.marshal(controller, new FileOutputStream(path));
+
 
     }
 

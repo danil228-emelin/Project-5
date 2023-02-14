@@ -40,11 +40,6 @@ public class Invoker {
             if (commandStr.equals("")) {
                 return;
             }
-            System.out.println("Введите n для отмены операции");
-            String p = UserReader.read();
-            if (p.equals("n")) {
-                return;
-            }
             String[] strings;
             if (commandStr.contains("\"")) {
                 strings = commandStr.split("\"");
@@ -89,7 +84,6 @@ public class Invoker {
                     return;
                 } catch (NumberFormatException e) {
                     System.err.println("Ошибка:строка имела неверный формат");
-                    e.printStackTrace();
                 }
 
             }
@@ -118,7 +112,6 @@ public class Invoker {
                     return;
                 } catch (NumberFormatException e) {
                     System.err.println("Ошибка:строка имела неверный формат");
-                    e.printStackTrace();
                 }
 
             }

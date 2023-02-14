@@ -1,10 +1,14 @@
 package itmo.p3108.command.no_argument_command;
 
+import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.parser.Parser;
-import itmo.p3108.util.CreateFail;
+import itmo.p3108.util.CheckFail;
 
-public class Save implements NoArgumentCommand {
+import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
+
+public class Save implements IndependentCommand, NoArgumentCommand {
     private static Save save;
 
     private Save() {
@@ -19,8 +23,13 @@ public class Save implements NoArgumentCommand {
 
     @Override
     public String execute() {
-        Parser.write(CreateFail.getPath());
-        return "коллекция сохранена";
+        try {
+            Parser.write(CheckFail.getPath());
+            return "коллекция сохранена";
+        } catch (JAXBException | FileNotFoundException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
     }
 
     @Override
