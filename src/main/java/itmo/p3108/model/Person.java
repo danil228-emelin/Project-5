@@ -3,12 +3,13 @@ package itmo.p3108.model;
 
 import itmo.p3108.adapter.LocalDateAdapter;
 import itmo.p3108.adapter.ZonedDateAdapter;
+import lombok.Builder;
+import lombok.Data;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import lombok.Builder;
-import lombok.Data;
 
 @Builder
 @Data
@@ -39,14 +40,30 @@ public class Person {
         return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", creationDate=" + creationDate +
                 ", height=" + height +
                 ", birthday=" + birthday +
                 ", eyeColor=" + eyeColor +
                 ", nationality=" + nationality +
-                ", location=" + location +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Person) {
+            Person person = (Person) obj;
+            return
+                    this.name.equals(person.name) &&
+                            this.coordinates.equals(person.coordinates) &&
+                            this.height == person.height &&
+                            this.birthday.equals(person.birthday) &&
+                            this.eyeColor.equals(person.eyeColor) &&
+                            this.nationality.equals(person.nationality) &&
+                            this.location.equals(person.location);
+        }
+        return false;
+    }
 }
+

@@ -7,6 +7,8 @@ import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,13 @@ public class Invoker {
         }
 
         return invoker;
+    }
+
+    public void add(String s) {
+        if (executeScriptPaths.contains(s)) {
+            return;
+        }
+        executeScriptPaths.add(s);
     }
 
     public void add(@NonNull Command... commands) {
@@ -50,7 +59,7 @@ public class Invoker {
             }
             if (!commands.containsKey(strings[0].toLowerCase())) {
 
-                throw new ValidationException("Такой команды не существует");
+                throw new ValidationException("Такой команды не существует "+strings[0]);
             }
             Command command = commands.get(strings[0].toLowerCase());
 
@@ -71,9 +80,7 @@ public class Invoker {
             if (Command.controller.isEmpty()) {
                 throw new ValidationException("Команду " + command.name() + " невозможно выполнить,коллекция пустая");
             }
-            if (command instanceof NoArgumentCommand) {
-                System.out.println(command.execute());
-            }
+
 
             if (command instanceof FilterStartsWithName) {
 
@@ -130,15 +137,29 @@ public class Invoker {
             }
             if (command instanceof ExecuteScript) {
                 if (executeScriptPaths.contains(strings[1])) {
-                    throw new ValidationException("Пошел нахуй,рекурсии не будет");
+                    throw new ValidationException("Ошибка:Команда execute_script не может быть выполнена c фаилом "
+                            +"("+strings[1]+")"+ " уже был указан в качестве аргумента.Рекурсия запрещена");
                 }
-                executeScriptPaths.add(strings[1]);
-                ((ExecuteScript) command).setPath(strings[1]);
+                if (Files.exists(Path.of(strings[1]))) {
+                    executeScriptPaths.add(strings[1]);
+                    ((ExecuteScript) command).setPath(strings[1]);
+                    System.out.println(command.execute());
+                } else {
+                    throw new  ValidationException("Фаила " + strings[1] + " не существует");
+                }
+            }
+            if (command instanceof NoArgumentCommand) {
+                System.out.println(command.execute());
+            }
+
+            if (command instanceof CheckFail.SetPath) {
+                ((CheckFail.SetPath) command).setPath(strings[1]);
                 System.out.println(command.execute());
             }
         } catch (ValidationException e) {
             System.err.println(e.getMessage());
         }
+
     }
 }
 

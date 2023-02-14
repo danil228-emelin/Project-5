@@ -35,7 +35,7 @@ public class Help implements NoArgumentCommand, IndependentCommand {
                 "    count_by_height height : вывести количество элементов, значение поля height которых равно заданному\n" +
                 "    filter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки\n" +
                 "    print_descending : вывести элементы коллекции в порядке убывания\n"+
-                "    set_file_path path:устанавливает переменную окружения,в фаиле будут храниться элементы "
+                "    set_path path:устанавливает фаил ,в котором будут храниться элементы "
                 ;
     }
 

@@ -3,7 +3,7 @@ package itmo.p3108.model;
 import java.util.Arrays;
 
 public enum Country {
-    RUSSIA("russia"), FRANCE("france"), SPAIN("spain"), NORTH_KOREA("north_korea");
+    RUSSIA("1)Russia"), FRANCE("2)France"), SPAIN("3)Spain"), NORTH_KOREA("4)North_Korea");
     private String name;
 
     Country(String s) {
@@ -11,9 +11,11 @@ public enum Country {
     }
 
     public static Country newValue(String str) {
-        for (Country color : Country.values()) {
-            if (color.name().equalsIgnoreCase(str))
-                return color;
+
+        for (Country country : Country.values()) {
+            if (country.getName().startsWith(str)) {
+                return country;
+            }
         }
         return null;
     }

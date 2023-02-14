@@ -9,16 +9,13 @@ public class FileWorker {
     private FileWorker() {
     }
 
-    public static String read(String path) {
+    public static String read(String path) throws IOException {
         try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(path))) {
             StringBuilder stringBuilder = new StringBuilder();
             while (bufferedInputStream.available() > 0) {
                 stringBuilder.append((char) bufferedInputStream.read());
             }
             return stringBuilder.toString();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return "";
         }
     }
 

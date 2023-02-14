@@ -1,14 +1,19 @@
 package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
+import itmo.p3108.exception.ValidationException;
 import itmo.p3108.util.FileWorker;
 import itmo.p3108.util.Invoker;
-import lombok.Setter;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ExecuteScript implements Command {
     private static ExecuteScript executeScript;
-    @Setter
+
     private String path;
+
     private ExecuteScript() {
     }
 
@@ -20,23 +25,34 @@ public class ExecuteScript implements Command {
         return executeScript;
     }
 
+    public void setPath(String path) {
+        Path test = Path.of(path);
+        if (!Files.isReadable(test)) {
+            throw new ValidationException("Ошибка из фаила нельзя читать");
+        }
+        this.path = path;
+    }
+
     @Override
     public String execute() {
         Invoker invoker = Invoker.getInstance();
-        String[] commands = FileWorker.read(path).split("\n");
-        for (String command:commands){
-            invoker.invoke(command);
-            System.out.println();
-        }
 
-        return "Скрипт выполнен";
+        try {
+            String[] commands = FileWorker.read(path).split("\n");
+            for (String command : commands) {
+                invoker.invoke(command);
+            }
+            return "Скрипт " + path + " выполнен";
+        } catch (IOException e) {
+            System.err.println("Ошибка  при работе с фаилом");
+            return "Скрипт не выполнен";
+        }
     }
 
     @Override
     public String name() {
         return "execute_script";
     }
-
 
 
 }

@@ -1,14 +1,15 @@
 package itmo.p3108.util;
 
+import itmo.p3108.command.type.Command;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CheckFail {
     @Getter
-    @Setter
+
     private static String path;
 
     private CheckFail() {
@@ -30,11 +31,16 @@ public class CheckFail {
     }
 
 
-    private static boolean fileCheck() {
-        if (Files.notExists(Paths.get(path))) {
+    private static boolean fileCheck(String test) {
+        if (!test.matches("\\w+\\.xml")) {
+            System.err.println("Фаил имел неверный формат");
+            return false;
+        }
+        Path path = Paths.get(test);
+        if (Files.notExists(path)) {
             return true;
         }
-        if (Files.isWritable(Paths.get(path)) || Files.isReadable(Paths.get(path)))
+        if (Files.isWritable(path) && Files.isReadable(path))
             return true;
         else {
             System.err.println("Нет прав для записи или чтения:" + path);
@@ -43,24 +49,54 @@ public class CheckFail {
 
     }
 
+
     public static void execute() {
         path = System.getenv("COLLECTION_PATH");
-        path = (path == null) ? System.getProperty("COLLECTION_PATH") : path;
         if (path == null) {
-            System.err.println("Переменная окружения COLLECTION_PATH не указана");
+            System.err.println("Фаил для сохранения коллекции не указан");
             path = readFileName();
+        } else {
+            System.out.println("Фаил по умолчанию для хранения элементов " + path);
         }
         boolean isFileAlright = false;
         while (!isFileAlright) {
 
-            isFileAlright = fileCheck();
+            isFileAlright = fileCheck(path);
             if (!isFileAlright) {
                 path = readFileName();
-            } else {
-                System.setProperty("COLLECTION_PATH", path);
-                System.out.println("Переменная окружения задана:" + path);
             }
         }
+        System.out.println("Фаил успешно задан");
     }
-//set переменную окружения.
+
+    public static class SetPath implements Command {
+        private static SetPath setPath;
+        private String testPath;
+
+        public static SetPath getInstance() {
+            if (setPath == null) {
+                setPath = new SetPath();
+            }
+            return setPath;
+        }
+
+        public void setPath(String failPath) {
+            testPath = failPath;
+        }
+
+        @Override
+        public String execute() {
+            if (fileCheck(testPath)) {
+                path = testPath;
+                return "Фаил " + testPath + " успешно установлен";
+            }
+            System.err.println("Фаил " + testPath + " не может быть использован");
+            return "";
+
+        }
+
+        public String name() {
+            return "set_path";
+        }
+    }
 }

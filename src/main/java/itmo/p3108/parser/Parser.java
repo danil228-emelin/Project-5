@@ -110,10 +110,10 @@ public final class Parser {
                                     .build())
                             .build();
 
-
-                    Command.controller.add(person);
-                    max_id = Long.parseLong(id) > max_id ? Long.parseLong(id) : max_id;
-
+                    if (!Command.controller.getPersonList().contains(person)) {
+                        Command.controller.add(person);
+                        max_id = Long.parseLong(id) > max_id ? Long.parseLong(id) : max_id;
+                    }
                 }
 
 

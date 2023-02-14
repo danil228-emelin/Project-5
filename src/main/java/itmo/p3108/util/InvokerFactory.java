@@ -25,7 +25,8 @@ public class InvokerFactory {
                 AddIfMax.getInstance(),
                 RemoveGreater.getInstance(),
                 Save.getInstance(),
-                ExecuteScript.getInstance());
+                ExecuteScript.getInstance(),
+                CheckFail.SetPath.getInstance());
         return invoker;
 
     }

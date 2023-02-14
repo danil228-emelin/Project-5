@@ -4,11 +4,11 @@ package itmo.p3108.model;
 import java.util.Arrays;
 
 public enum Color {
-    GREEN("green"),
-    BLUE("blue"),
-    YELLOW("yellow"),
-    WHITE("white"),
-    BROWN("brown");
+    GREEN("1)green"),
+    BLUE("2)blue"),
+    YELLOW("3)yellow"),
+    WHITE("4)white"),
+    BROWN("5)brown");
     private String name;
 
     Color(String name) {
@@ -17,7 +17,7 @@ public enum Color {
 
     public static Color newValue(String str) {
         for (Color color : Color.values()) {
-            if (color.name().equalsIgnoreCase(str))
+            if (color.getName().startsWith(str))
                 return color;
         }
         return null;

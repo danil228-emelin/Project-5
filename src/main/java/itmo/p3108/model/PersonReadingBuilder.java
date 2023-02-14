@@ -16,7 +16,7 @@ public final class PersonReadingBuilder {
 
     public static void setId(Long id1) {
         if (id1 > 0) {
-            id = id1+1;
+            id = id1 + 1;
         }
     }
 
@@ -35,20 +35,17 @@ public final class PersonReadingBuilder {
         String name = "";
         while (name.equals("")) {
             System.out.println("Введите имя пользователя");
-            name = properRead("name must not be null");
-            if (name.equals("")) {
-                System.err.println("Ошибка:строка не может быть пустой");
-                continue;
-            }
-            if (name.length() > 40) {
+            String test = properRead("name must not be null");
+
+            if (test.length() > 40) {
                 System.err.println("Ошибка:строка слишком длинная");
-                name = "";
                 continue;
             }
-            if (!name.matches("\\w+-?\\w*")) {
-                System.err.println("Ошибка:имя содержит неверные символы");
-                name = "";
+            if (!test.matches("(\\w+-?\\w*)")) {
+                System.err.println("Ошибка:строка имела неверный формат");
+                continue;
             }
+            name = test;
         }
         return name;
     }
@@ -66,23 +63,18 @@ public final class PersonReadingBuilder {
             System.out.println("Введите рост пользователя");
             test = properRead("height must not be null");
 
-            if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
-                System.err.println("Ошибка:значение может быть либо дробным либо целым числом");
+            if (!test.matches("\\d+\\.?\\d*")) {
+                System.err.println("Ошибка:значение может быть либо положительным дробным либо целым числом");
                 continue;
             }
-
-            if (Double.parseDouble(test) <= 0) {
-                System.err.println("Ошибка:рост не может быть отрицательным либо равен нулю");
+            if (test.length() > 15) {
+                System.err.println("Ошибка:значение слишком большое");
                 continue;
             }
-
             height = Double.parseDouble(test);
-
-
         }
         return height;
     }
-
 
     public LocalDate createBirthDay() {
         String birthday = "";
@@ -92,23 +84,14 @@ public final class PersonReadingBuilder {
             String test = properRead("birthday must not be null");
 
             if (!test.matches("\\d{2}-\\d{2}-\\d{4}")) {
-                System.err.println("Ошибка:строка не совпадает с форматом");
+                System.err.println("Ошибка:строка имела неверный формат");
                 continue;
             }
             String[] strings = test.split("-");
 
-            if (Integer.parseInt(strings[0]) > 12) {
-                System.err.println("Ошибка:месяц не может быть больше 12");
-                continue;
-            }
-
-            if (Integer.parseInt(strings[1]) > 31) {
-                System.err.println("Ошибка:дата не может быть больше 31");
-                continue;
-            }
-
-            if (Integer.parseInt(strings[2]) > 2023 || Integer.parseInt(strings[2]) < 1930) {
-                System.err.println("Ошибка:вы либо должны родиться в будущем либо должны быть мертвы");
+            if (Integer.parseInt(strings[0]) > 12 || Integer.parseInt(strings[1]) > 31
+                    || Integer.parseInt(strings[2]) > 2024 || Integer.parseInt(strings[2]) < 1920) {
+                System.err.println("Ошибка:Некорректные значения");
                 continue;
             }
             birthday = test;
@@ -123,17 +106,14 @@ public final class PersonReadingBuilder {
         while (color == null) {
 
             System.out.println("Выберете цвета глаз пользователя");
-
+            System.out.println("Укажите цифру соответствующую цвету");
             System.out.println(Arrays.toString(Color.colors()));
-            String test = properRead("birthday must not be null");
-            if (test.equals("")) {
-                System.err.println("Ошибка:строка не может быть пустой");
+            String test = properRead("Color must not be null");
+            if (!test.matches("[1-5]")) {
+                System.err.println("Ошибка:строка имела неверный формат");
                 continue;
             }
             color = Color.newValue(test);
-            if (color == null) {
-                System.err.println("Ошибка:строка имела неверный формат");
-            }
         }
         return color;
     }
@@ -145,17 +125,15 @@ public final class PersonReadingBuilder {
         while (nationality == null) {
 
             System.out.println("Выберете гражданство пользователя");
+            System.out.println("Укажите цифру соответствующую гражданству");
 
             System.out.println(Arrays.toString(Country.countries()));
             String test = properRead("country must not be null");
-            if (test.equals("")) {
-                System.err.println("Ошибка:строка не может быть пустой");
+            if (!test.matches("[1-4]")) {
+                System.err.println("Ошибка:строка имела неверный формат");
                 continue;
             }
             nationality = Country.newValue(test);
-            if (nationality == null) {
-                System.err.println("Ошибка:строка имела неверный формат");
-            }
         }
         return nationality;
     }
@@ -178,16 +156,22 @@ public final class PersonReadingBuilder {
                 continue;
 
             }
+            if (test.length() > 15) {
+                System.err.println("Ошибка:значение слишком болшьое");
+            }
             x = test;
         }
         while (y.equals("")) {
             System.out.println("Введите значение y");
 
             String test = properRead("y must not be null");
-            if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
+            if (!test.matches("-?\\d+\\.?\\d*")) {
                 System.err.println("Ошибка:значение  y может быть только дробным или целым числом");
                 continue;
 
+            }
+            if (test.length() > 15) {
+                System.err.println("Ошибка:значение слишком болшьое");
             }
             y = test;
 
@@ -219,6 +203,10 @@ public final class PersonReadingBuilder {
                 continue;
 
             }
+            if (test.length() > 15) {
+                System.err.println("Ошибка:значение слишком болшьое");
+            }
+
             x = test;
         }
         while (y.equals("")) {
@@ -232,6 +220,9 @@ public final class PersonReadingBuilder {
                 continue;
 
             }
+            if (test.length() > 15) {
+                System.err.println("Ошибка:значение слишком болшьое");
+            }
             y = test;
         }
         while (z.equals("")) {
@@ -243,6 +234,9 @@ public final class PersonReadingBuilder {
                 System.err.println("Ошибка:z может быть только дробным или целым числом");
                 continue;
 
+            }
+            if (test.length() > 15) {
+                System.err.println("Ошибка:значение слишком болшьое");
             }
             z = test;
         }
