@@ -1,4 +1,4 @@
-package itmo.p3108.command;
+package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
@@ -120,7 +120,7 @@ public class Update implements Command {
 
     public Location createLocation() {
 
-        System.out.println("Изменить  локацию  пользователя или оставить " + person.getNationality());
+        System.out.println("Изменить  локацию  пользователя или оставить " + person.getLocation());
         System.out.println("Введите enter,чтобы ничего не менять");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");

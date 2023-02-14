@@ -1,6 +1,5 @@
 package itmo.p3108.util;
 
-import itmo.p3108.util.UserReader;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +18,7 @@ public class CreateFail {
         System.out.println(" Введите имя файла с расширеним .xml для работы с коллекцией или оставьте фаил по умолчанию(enter: " + path + ")");
         String test = UserReader.read();
         if (test.equals("")) {
+            System.out.println("Переменная окружения не изменена");
             return;
         }
         String oldPath = path;

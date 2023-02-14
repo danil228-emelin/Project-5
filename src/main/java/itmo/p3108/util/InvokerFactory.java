@@ -1,6 +1,7 @@
 package itmo.p3108.util;
 
-import itmo.p3108.command.*;
+import itmo.p3108.command.no_argument_command.*;
+import itmo.p3108.command.one_argument_command.*;
 
 public class InvokerFactory {
     private InvokerFactory() {
@@ -23,7 +24,8 @@ public class InvokerFactory {
                 FilterStartsWithName.getInstance(),
                 AddIfMax.getInstance(),
                 RemoveGreater.getInstance(),
-                Save.getInstance());
+                Save.getInstance(),
+                ExecuteScript.getInstance());
         return invoker;
 
     }

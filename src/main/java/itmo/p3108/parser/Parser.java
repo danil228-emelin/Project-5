@@ -38,7 +38,7 @@ public final class Parser {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
-
+            Long max_id = 0L;
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -111,10 +111,13 @@ public final class Parser {
 
 
                     Command.controller.add(person);
+                    max_id = Long.parseLong(id) > max_id ? Long.parseLong(id) : max_id;
+
                 }
 
-            }
 
+            }
+            PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }

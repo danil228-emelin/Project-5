@@ -14,6 +14,11 @@ public final class PersonReadingBuilder {
     private PersonReadingBuilder() {
     }
 
+    public static void setId(Long id1) {
+        if (id1 > 0) {
+            id = id1+1;
+        }
+    }
 
     public static PersonReadingBuilder getInstance() {
         if (createPerson == null) {
@@ -37,12 +42,12 @@ public final class PersonReadingBuilder {
             }
             if (name.length() > 40) {
                 System.err.println("Ошибка:строка слишком длинная");
-                name="";
+                name = "";
                 continue;
             }
             if (!name.matches("\\w+-?\\w*")) {
                 System.err.println("Ошибка:имя содержит неверные символы");
-                name="";
+                name = "";
             }
         }
         return name;

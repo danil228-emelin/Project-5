@@ -1,4 +1,4 @@
-package itmo.p3108.command;
+package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;

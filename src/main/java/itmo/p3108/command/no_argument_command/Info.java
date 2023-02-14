@@ -1,4 +1,4 @@
-package itmo.p3108.command;
+package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;

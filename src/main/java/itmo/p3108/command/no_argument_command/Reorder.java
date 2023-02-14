@@ -1,4 +1,4 @@
-package itmo.p3108.command;
+package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
@@ -11,7 +11,8 @@ public class Reorder implements NoArgumentCommand {
     private static Reorder reorder;
     @Setter
     @NonNull
-    private Comparator<Person> naturalComparatorOrder=Comparator.comparing(Person::getBirthday).thenComparing(Person::getId);
+    private Comparator<Person> naturalComparatorOrder = Comparator.comparing(Person::getId);
+    private boolean isReversed = false;
 
     private Reorder() {
     }
@@ -25,7 +26,13 @@ public class Reorder implements NoArgumentCommand {
 
     @Override
     public String execute() {
-        controller.getPersonList().sort(naturalComparatorOrder.reversed());
+        if (!isReversed) {
+            controller.getPersonList().sort(naturalComparatorOrder.reversed());
+            isReversed=true;
+        } else {
+            controller.getPersonList().sort(naturalComparatorOrder);
+            isReversed=false;
+        }
         return "Коллекция отсортирована в обратном порядке";
     }
 

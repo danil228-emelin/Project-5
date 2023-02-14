@@ -1,4 +1,4 @@
-package itmo.p3108.command;
+package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.model.Person;
@@ -30,7 +30,7 @@ public class FilterStartsWithName implements Command {
                         .stream()
                         .filter(x -> x.getName().startsWith(substring))
                         .map(Person::toString)
-                        .collect(Collectors.joining(","));
+                        .collect(Collectors.joining("\n"));
     }
 
     @Override
