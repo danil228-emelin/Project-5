@@ -34,6 +34,7 @@ import java.util.Optional;
  * parse elements from and to the xml file
  */
 public final class Parser {
+    private static final int TOTAL_NODES = 19;
     private static ArrayList<Optional<String>> optionals = new ArrayList<>();
 
     private Parser() {
@@ -62,11 +63,14 @@ public final class Parser {
             doc.getDocumentElement().normalize();
 
             NodeList personList = doc.getElementsByTagName("person");
-            if (doc.hasAttributes()) {
-                throw new ValidationException("wrong data format in file " + file.getPath() + " better to choose another xml.file");
-            }
+
             for (int temp = 0; temp < personList.getLength(); temp++) {
                 Node personNode = personList.item(temp);
+                if (personNode.getChildNodes().getLength() != TOTAL_NODES) {
+                    System.err.println("Error during parsing:element with index " + temp);
+                    System.err.println("Some attributes are absent ");
+                    continue;
+                }
                 if (personNode.getNodeType() == Node.ELEMENT_NODE) {
 
 
@@ -98,23 +102,25 @@ public final class Parser {
 
                     for (int i = 0; i < coordinateList.getLength(); i++) {
                         Element coordinateElem = (Element) coordinateList.item(i);
-                        xCoordinates = Optional.ofNullable(coordinateElem.getElementsByTagName("x").item(0).getTextContent());
-                        yCoordinates = Optional.ofNullable(coordinateElem.getElementsByTagName("y").item(0).getTextContent());
+                        xCoordinates = Optional.ofNullable(information(coordinateElem, "x"));
+                        yCoordinates = Optional.ofNullable(information(coordinateElem, "y"));
                     }
                     NodeList location = doc.getElementsByTagName("location");
 
                     for (int i = 0; i < location.getLength(); i++) {
                         Element coordinateElem = (Element) location.item(i);
-                        x = Optional.ofNullable(coordinateElem.getElementsByTagName("x").item(0).getTextContent());
-                        y = Optional.ofNullable(coordinateElem.getElementsByTagName("y").item(0).getTextContent());
-                        z = Optional.ofNullable(coordinateElem.getElementsByTagName("z").item(0).getTextContent());
-                        placeName = Optional.ofNullable(coordinateElem.getElementsByTagName("name").item(0).getTextContent());
+                        x = Optional.ofNullable(information(coordinateElem,"x"));
+                        y = Optional.ofNullable(information(coordinateElem,"y"));
+                        z = Optional.ofNullable(information(coordinateElem,"z"));
+                        placeName = Optional.ofNullable(information(coordinateElem,"name"));
                     }
-                    optionals.forEach(element -> {
-                        if (element.isEmpty()) {
-                            throw new ValidationException("One of the element is null,change or fix xml file");
-                        }
-                    });
+                    if (optionals.stream().parallel().anyMatch(Optional::isEmpty)) {
+                        System.err.println("Error during parsing:element with index " + temp);
+                        System.err.println("value of attribute is null,change or fix xml file");
+                        continue;
+                    }
+
+
                     if (
                             CheckData.checkName(name.get()) &&
                                     CheckData.checkColourReadingFile(eyeColour.get()) &&
@@ -131,10 +137,9 @@ public final class Parser {
                                     CheckData.checkCreationTime(createDate.get())
                     ) {
                     } else {
-                        throw new ValidationException("Fix or change xml file");
+                        System.err.println("Error during parsing:Fix or change xml file");
                     }
-                    {
-                    }
+
                     Person person = Person.builder()
                             .id(Long.parseLong(id.get()))
                             .name(name.get())
@@ -166,11 +171,11 @@ public final class Parser {
             }
             PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.err.println("Error:file" + " has incorrect data,collection is empty");
+            System.err.println("Error during parsing:file" + " has incorrect data,collection is empty");
         } catch (ValidationException e) {
             System.err.println(e.getMessage());
         } catch (NullPointerException | NoSuchElementException e) {
-            System.err.println("One of the element is absent,change or fix xml file");
+            System.err.println("Error during parsing:One of the element is null,change or fix xml file");
         }
 
     }
