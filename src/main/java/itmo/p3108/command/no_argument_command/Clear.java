@@ -26,7 +26,7 @@ public class Clear implements NoArgumentCommand {
 
     public String execute() {
         controller.getPersonList().clear();
-        return "Элементы коллекции удалены";
+        return "elements are deleted successfully";
     }
 
     @Override

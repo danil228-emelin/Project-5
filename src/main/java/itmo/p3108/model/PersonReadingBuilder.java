@@ -30,7 +30,6 @@ public final class PersonReadingBuilder {
     public String properRead(String message) {
         return Objects.requireNonNull(UserReader.read(), message).trim();
     }
-
     public String createName() {
         String name = "";
         while (name.equals("")) {
@@ -64,7 +63,7 @@ public final class PersonReadingBuilder {
             test = properRead("height must not be null");
 
             if (!test.matches("\\d+\\.?\\d*")) {
-                System.err.println("error:value is whole or fractional number");
+                System.err.println("error:value is positive whole or fractional number");
                 continue;
             }
             if (test.length() > 15) {
@@ -192,7 +191,7 @@ public final class PersonReadingBuilder {
 
 
         while (x.equals("")) {
-            System.out.println("enter coordinates ");
+            System.out.println("enter Location name and it's coordinates ");
 
             System.out.println("enter  x");
 

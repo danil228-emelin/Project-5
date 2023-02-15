@@ -48,7 +48,7 @@ public class Add implements NoArgumentCommand, IndependentCommand {
                 .build();
         controller.add(person);
 
-        return "Объект успешно создан";
+        return "object created successfully";
 
 
     }

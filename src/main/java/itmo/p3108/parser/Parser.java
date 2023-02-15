@@ -49,18 +49,23 @@ public final class Parser {
 
             File file = new File(path);
             if (file.length() == 0) {
-                throw new ValidationException("Файл " + path + " пустой, коллекция пустая.");
+                throw new ValidationException("error:Fail " + path + " is empty, collection empty as well");
             }
             Document doc = db.parse(file);
 
             doc.getDocumentElement().normalize();
 
             NodeList personList = doc.getElementsByTagName("person");
+            if (!doc.hasAttributes()) {
+                throw new ValidationException("wrong data format in file "+file.getPath()+" better to choose another xml.file");
+            }
             for (int temp = 0; temp < personList.getLength(); temp++) {
                 Node personNode = personList.item(temp);
                 if (personNode.getNodeType() == Node.ELEMENT_NODE) {
 
+
                     Element personElem = (Element) personNode;
+
                     String eyeColour = information(personElem, "eyeColor");
                     String id = information(personElem, "id");
                     String name = information(personElem, "name");
@@ -68,6 +73,7 @@ public final class Parser {
                     String createDate = information(personElem, "creationDate");
                     String birthday = information(personElem, "birthday");
                     String nationality = information(personElem, "nationality");
+
                     String xCoordinates = "";
                     String yCoordinates = "";
                     NodeList coordinateList = doc.getElementsByTagName("coordinates");
@@ -122,7 +128,7 @@ public final class Parser {
             }
             PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.err.println("file has incorrect data,collection is empty");
+            System.err.println("Error:file"+" has incorrect data,collection is empty");
         } catch (ValidationException e) {
             System.err.println(e.getMessage());
         }

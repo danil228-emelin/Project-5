@@ -28,7 +28,7 @@ public class Save implements IndependentCommand, NoArgumentCommand {
     public String execute() {
         try {
             Parser.write(CheckFail.getPath());
-            return "коллекция сохранена";
+            return "collection is saved successfully";
         } catch (JAXBException | FileNotFoundException e) {
             return e.getMessage();
         }

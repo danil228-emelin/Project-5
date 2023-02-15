@@ -26,7 +26,7 @@ public class Update implements Command {
 
     public Update findPerson(Long id) {
         if (id <= 0) {
-            throw new ValidationException("Ошибка:id-натуральное число");
+            throw new ValidationException("error:id must be greater than zero");
         }
         person = controller.getPersonById(id);
         return this;

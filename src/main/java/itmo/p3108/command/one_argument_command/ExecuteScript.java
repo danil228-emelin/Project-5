@@ -33,7 +33,7 @@ public class ExecuteScript implements Command {
     public void setPath(String path) {
         Path test = Path.of(path);
         if (!Files.isReadable(test)) {
-            throw new ValidationException("Ошибка из фаила нельзя читать");
+            throw new ValidationException("error:can't read from frile");
         }
         this.path = path;
     }
@@ -47,10 +47,10 @@ public class ExecuteScript implements Command {
             for (String command : commands) {
                 invoker.invoke(command);
             }
-            return "Скрипт " + path + " выполнен";
+            return "Script " + path + " executed successfully";
         } catch (IOException e) {
             System.err.println("file error");
-            return "Скрипт не выполнен";
+            return "Script doesn't execute ";
         }
     }
 

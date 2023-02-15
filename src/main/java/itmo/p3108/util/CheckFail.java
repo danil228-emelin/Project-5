@@ -24,7 +24,7 @@ public class CheckFail {
         while (s == null) {
             System.out.println("enter file name with .xml for saving objects");
             String test = UserReader.read();
-            if (!test.matches("\\w+.xml")) {
+            if (!test.matches("\\w+\\.xml")) {
                 System.err.println("error:wrong data format");
                 continue;
             }
@@ -74,7 +74,7 @@ public class CheckFail {
                 path = readFileName();
             }
         }
-        System.out.println("file is created");
+        System.out.println("file is set successfully");
     }
 
     /**

@@ -28,7 +28,7 @@ public class CountByHeight implements Command {
      */
     public CountByHeight setHeight(double height) {
         if (height <= 0) {
-            throw new ValidationException("Ошибка:рост должен быть натуральным числом");
+            throw new ValidationException("error:height must be more than 0");
         }
 
         this.height = height;

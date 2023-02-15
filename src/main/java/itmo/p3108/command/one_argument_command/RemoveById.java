@@ -24,7 +24,7 @@ public class RemoveById implements Command {
     @Override
     public String execute() {
         controller.getPersonList().removeIf(x -> controller.isPersonExist(id));
-        return "Элемент c id "+id+" удален";
+        return "element with  id "+id+" was deleted successfully";
     }
 
     @Override
@@ -37,11 +37,11 @@ public class RemoveById implements Command {
      */
     public RemoveById setId(Long id) {
         if (id <= 0) {
-            throw new ValidationException("Ошибка:id-натуральное число");
+            throw new ValidationException("error:id>0");
         }
 
         if (!controller.isPersonExist(id)) {
-            throw new ValidationException("Ошибка:Человека с таким id не существует");
+            throw new ValidationException("error:person wih such id doesn't exit");
         }
         this.id = id;
         return this;

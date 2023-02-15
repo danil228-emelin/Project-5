@@ -61,7 +61,7 @@ public final class CollectionController {
                 return person;
             }
         }
-        throw new ValidationException("Ошибка:пользователя с таким id не существует ");
+        throw new ValidationException("error:person with such id doesn't  exist");
     }
 
     public boolean isPersonExist(Long id) {
