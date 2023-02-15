@@ -3,6 +3,7 @@ package itmo.p3108.parser;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.*;
+import itmo.p3108.util.CheckData;
 import itmo.p3108.util.CollectionController;
 import lombok.NonNull;
 import org.w3c.dom.Document;
@@ -26,19 +27,22 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
  * parse elements from and to the xml file
  */
 public final class Parser {
+    private static ArrayList<Optional<String>> optionals = new ArrayList<>();
+
     private Parser() {
     }
 
     private static String information(Element element, String tegName) {
         return element.getElementsByTagName(tegName).item(0).getTextContent();
     }
-private static ArrayList<Optional<String>> optionals = new ArrayList<>();
+
     public static void read(@NonNull String path) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -82,33 +86,55 @@ private static ArrayList<Optional<String>> optionals = new ArrayList<>();
                     optionals.add(birthday);
                     Optional<String> nationality = Optional.ofNullable(information(personElem, "nationality"));
                     optionals.add(nationality);
-                    optionals.forEach(x->{
-                        if (x.isEmpty()) {
-                            throw new ValidationException("Error:one of the values empty,change or fix " + file.getPath());
-                        }});
-                    String xCoordinates = "";
-                    String yCoordinates = "";
+
+                    Optional<String> xCoordinates = Optional.empty();
+                    Optional<String> yCoordinates = Optional.empty();
                     NodeList coordinateList = doc.getElementsByTagName("coordinates");
+
+                    Optional<String> x = Optional.empty();
+                    Optional<String> y = Optional.empty();
+                    Optional<String> z = Optional.empty();
+                    Optional<String> placeName = Optional.empty();
 
                     for (int i = 0; i < coordinateList.getLength(); i++) {
                         Element coordinateElem = (Element) coordinateList.item(i);
-                        xCoordinates = coordinateElem.getElementsByTagName("x").item(0).getTextContent();
-                        yCoordinates = coordinateElem.getElementsByTagName("y").item(0).getTextContent();
+                        xCoordinates = Optional.ofNullable(coordinateElem.getElementsByTagName("x").item(0).getTextContent());
+                        yCoordinates = Optional.ofNullable(coordinateElem.getElementsByTagName("y").item(0).getTextContent());
                     }
                     NodeList location = doc.getElementsByTagName("location");
-                    String x = "";
-                    String y = "";
-                    String z = "";
-                    String placeName = "";
 
                     for (int i = 0; i < location.getLength(); i++) {
                         Element coordinateElem = (Element) location.item(i);
-                        x = coordinateElem.getElementsByTagName("x").item(0).getTextContent();
-                        y = coordinateElem.getElementsByTagName("y").item(0).getTextContent();
-                        z = coordinateElem.getElementsByTagName("z").item(0).getTextContent();
-                        placeName = coordinateElem.getElementsByTagName("name").item(0).getTextContent();
+                        x = Optional.ofNullable(coordinateElem.getElementsByTagName("x").item(0).getTextContent());
+                        y = Optional.ofNullable(coordinateElem.getElementsByTagName("y").item(0).getTextContent());
+                        z = Optional.ofNullable(coordinateElem.getElementsByTagName("z").item(0).getTextContent());
+                        placeName = Optional.ofNullable(coordinateElem.getElementsByTagName("name").item(0).getTextContent());
                     }
-
+                    optionals.forEach(element -> {
+                        if (element.isEmpty()) {
+                            throw new ValidationException("One of the element is null,change or fix xml file");
+                        }
+                    });
+                    if (
+                            CheckData.checkName(name.get()) &&
+                                    CheckData.checkColourReadingFile(eyeColour.get()) &&
+                                    CheckData.checkId(id.get()) &&
+                                    CheckData.checkHeight(height.get()) &&
+                                    CheckData.checkBirthday(birthday.get()) &&
+                                    CheckData.checkNationalityReadingFromFile(nationality.get()) &&
+                                    CheckData.checkCoordinateX(xCoordinates.get()) &&
+                                    CheckData.checkCoordinateY(yCoordinates.get()) &&
+                                    CheckData.checkLocationCoordinateY(y.get()) &&
+                                    CheckData.checkLocationCoordinateX(x.get()) &&
+                                    CheckData.checkLocationCoordinateZ(z.get()) &&
+                                    CheckData.checkName(placeName.get()) &&
+                                    CheckData.checkCreationTime(createDate.get())
+                    ) {
+                    } else {
+                        throw new ValidationException("Fix or change xml file");
+                    }
+                    {
+                    }
                     Person person = Person.builder()
                             .id(Long.parseLong(id.get()))
                             .name(name.get())
@@ -118,15 +144,15 @@ private static ArrayList<Optional<String>> optionals = new ArrayList<>();
                             .nationality(Country.valueOf(nationality.get()))
                             .birthday(LocalDate.parse(birthday.get(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
                             .coordinates(Coordinates.builder()
-                                    .x(Integer.parseInt(xCoordinates))
-                                    .y(Float.valueOf(yCoordinates))
+                                    .x(Integer.parseInt(xCoordinates.get()))
+                                    .y(Float.valueOf(yCoordinates.get()))
                                     .build())
                             .location(Location.builder()
-                                    .name(placeName)
-                                    .x(Double.parseDouble(x))
-                                    .y(Float.valueOf(y))
-                                    .z(Float.parseFloat(z))
-                                    .name(placeName)
+                                    .name(placeName.get())
+                                    .x(Double.parseDouble(x.get()))
+                                    .y(Float.valueOf(y.get()))
+                                    .z(Float.parseFloat(z.get()))
+                                    .name(placeName.get())
                                     .build())
                             .build();
 
@@ -143,8 +169,8 @@ private static ArrayList<Optional<String>> optionals = new ArrayList<>();
             System.err.println("Error:file" + " has incorrect data,collection is empty");
         } catch (ValidationException e) {
             System.err.println(e.getMessage());
-        }catch (NullPointerException e){
-            System.err.println("One of the element is empty,change or fix xml file");
+        } catch (NullPointerException | NoSuchElementException e) {
+            System.err.println("One of the element is absent,change or fix xml file");
         }
 
     }

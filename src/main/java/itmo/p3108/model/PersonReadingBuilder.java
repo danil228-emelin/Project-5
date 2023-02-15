@@ -1,6 +1,7 @@
 package itmo.p3108.model;
 
 import itmo.p3108.adapter.LocalDateAdapter;
+import itmo.p3108.util.CheckData;
 import itmo.p3108.util.UserReader;
 
 import java.time.LocalDate;
@@ -30,18 +31,13 @@ public final class PersonReadingBuilder {
     public String properRead(String message) {
         return Objects.requireNonNull(UserReader.read(), message).trim();
     }
+
     public String createName() {
         String name = "";
         while (name.equals("")) {
             System.out.println("enter name");
             String test = properRead("name must not be null");
-
-            if (test.length() > 40) {
-                System.err.println("error:too long line");
-                continue;
-            }
-            if (!test.matches("(\\w+-?\\w*)")) {
-                System.err.println("error:line has wrong format");
+            if (!CheckData.checkName(test)) {
                 continue;
             }
             name = test;
@@ -62,12 +58,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter height");
             test = properRead("height must not be null");
 
-            if (!test.matches("\\d+\\.?\\d*")) {
-                System.err.println("error:value is positive whole or fractional number");
-                continue;
-            }
-            if (test.length() > 15) {
-                System.err.println("error:value is too large");
+            if (!CheckData.checkHeight(test)) {
                 continue;
             }
             height = Double.parseDouble(test);
@@ -82,15 +73,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter birthday in format MM-dd-yyyy");
             String test = properRead("birthday must not be null");
 
-            if (!test.matches("\\d{2}-\\d{2}-\\d{4}")) {
-                System.err.println("error:line has wrong format");
-                continue;
-            }
-            String[] strings = test.split("-");
-
-            if (Integer.parseInt(strings[0]) > 12 || Integer.parseInt(strings[1]) > 31
-                    || Integer.parseInt(strings[2]) > 2024 || Integer.parseInt(strings[2]) < 1920) {
-                System.err.println("error:value is incorrect");
+            if (!CheckData.checkBirthday(test)) {
                 continue;
             }
             birthday = test;
@@ -108,8 +91,7 @@ public final class PersonReadingBuilder {
             System.out.println("wright corresponding number");
             System.out.println(Arrays.toString(Color.colors()));
             String test = properRead("Color must not be null");
-            if (!test.matches("[1-5]")) {
-                System.err.println("error:line has wrong format");
+            if (!CheckData.checkColourReadingConsole(test)) {
                 continue;
             }
             color = Color.newValue(test);
@@ -128,8 +110,7 @@ public final class PersonReadingBuilder {
 
             System.out.println(Arrays.toString(Country.countries()));
             String test = properRead("country must not be null");
-            if (!test.matches("[1-4]")) {
-                System.err.println("error:line has wrong format");
+            if (!CheckData.checkNationalityReadingFromConsole(test)) {
                 continue;
             }
             nationality = Country.newValue(test);
@@ -150,13 +131,8 @@ public final class PersonReadingBuilder {
 
             String test = properRead("x must not be null");
 
-            if (!test.matches("-?\\d+")) {
-                System.err.println("error:wrong format for x");
+            if (!CheckData.checkCoordinateX(test)) {
                 continue;
-
-            }
-            if (test.length() > 15) {
-                System.err.println("error:value is too large");
             }
             x = test;
         }
@@ -164,13 +140,8 @@ public final class PersonReadingBuilder {
             System.out.println("enter y");
 
             String test = properRead("y must not be null");
-            if (!test.matches("-?\\d+\\.?\\d*")) {
-                System.err.println("error:value is whole or fractional number");
+            if (!CheckData.checkCoordinateY(test)) {
                 continue;
-
-            }
-            if (test.length() > 15) {
-                System.err.println("error:value is too large");
             }
             y = test;
 
@@ -197,13 +168,8 @@ public final class PersonReadingBuilder {
 
             String test = properRead("x must not be null");
 
-            if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
-                System.err.println("error:wrong format");
+            if (!CheckData.checkLocationCoordinateX(test)) {
                 continue;
-
-            }
-            if (test.length() > 15) {
-                System.err.println("error:value is too large");
             }
 
             x = test;
@@ -214,13 +180,8 @@ public final class PersonReadingBuilder {
 
             String test = properRead("y must not be null");
 
-            if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
-                System.err.println("error:wrong format");
+            if (!CheckData.checkLocationCoordinateX(test)) {
                 continue;
-
-            }
-            if (test.length() > 15) {
-                System.err.println("error:value is too large");
             }
             y = test;
         }
@@ -229,22 +190,16 @@ public final class PersonReadingBuilder {
 
             String test = properRead("z must not be null");
 
-            if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
-                System.err.println("error:wrong format");
-                continue;
-
-            }
-            if (test.length() > 15) {
-                System.err.println("error:value is too large");
-            }
+           if(!CheckData.checkLocationCoordinateZ(test)){
+               continue;
+           }
             z = test;
         }
         while (name.equals("")) {
             System.out.println("enter location name");
             String test = properRead("location must not be null");
 
-            if (!test.matches("\\w+")) {
-                System.err.println("error:wrong format");
+            if(!CheckData.checkName(test)){
                 continue;
             }
             name = test;

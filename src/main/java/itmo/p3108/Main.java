@@ -1,7 +1,7 @@
 package itmo.p3108;
 
 import itmo.p3108.parser.Parser;
-import itmo.p3108.util.CheckFail;
+import itmo.p3108.util.CheckData;
 import itmo.p3108.util.Invoker;
 import itmo.p3108.util.InvokerFactory;
 import itmo.p3108.util.UserReader;
@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) {
 
 
-       CheckFail.execute();
-        Parser.read(CheckFail.getPath());
+       CheckData.execute();
+        Parser.read(CheckData.getPath());
 //
         Invoker invoker = InvokerFactory.createInvoker();
 

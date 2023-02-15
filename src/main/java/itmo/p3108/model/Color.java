@@ -22,6 +22,17 @@ public enum Color {
         }
         return null;
     }
+    public static boolean isPresent(String test) {
+        for (Color color : Color.values()) {
+            if (color.getName().substring(2).equals(test.toLowerCase())) {
+
+                return true;
+            }
+
+        }
+        return false;
+    }
+
 
     public static String[] colors() {
         return Arrays.stream(Color.values()).map(Color::getName).toArray(String[]::new);

@@ -3,7 +3,7 @@ package itmo.p3108.model;
 import java.util.Arrays;
 
 public enum Country {
-    RUSSIA("1)Russia"), FRANCE("2)France"), SPAIN("3)Spain"), NORTH_KOREA("4)North_Korea");
+    RUSSIA("1)russia"), FRANCE("2)france"), SPAIN("3)spain"), NORTH_KOREA("4)north_korea");
     private String name;
 
     Country(String s) {
@@ -22,6 +22,17 @@ public enum Country {
 
     public static String[] countries() {
         return Arrays.stream(Country.values()).map(Country::getName).toArray(String[]::new);
+    }
+
+    public static boolean isPresent(String test) {
+        for (Country country : Country.values()) {
+            if (country.getName().substring(2).equals(test.toLowerCase())) {
+
+                return true;
+            }
+
+        }
+        return false;
     }
 
     public String getName() {

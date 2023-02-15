@@ -76,8 +76,8 @@ public class Invoker {
             }
 
             if (command instanceof IndependentCommand ) {
-                if (command instanceof CheckFail.SetPath) {
-                    ((CheckFail.SetPath) command).setPath(strings[1]);
+                if (command instanceof CheckData.SetPath) {
+                    ((CheckData.SetPath) command).setPath(strings[1]);
                 }
                 System.out.println(command.execute());
                 return;

@@ -29,7 +29,7 @@ public class InvokerFactory {
                 RemoveGreater.getInstance(),
                 Save.getInstance(),
                 ExecuteScript.getInstance(),
-                CheckFail.SetPath.getInstance());
+                CheckData.SetPath.getInstance());
         return invoker;
 
     }

@@ -3,7 +3,7 @@ package itmo.p3108.command.no_argument_command;
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.parser.Parser;
-import itmo.p3108.util.CheckFail;
+import itmo.p3108.util.CheckData;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -27,7 +27,7 @@ public class Save implements IndependentCommand, NoArgumentCommand {
     @Override
     public String execute() {
         try {
-            Parser.write(CheckFail.getPath());
+            Parser.write(CheckData.getPath());
             return "collection is saved successfully";
         } catch (JAXBException | FileNotFoundException e) {
             return e.getMessage();
