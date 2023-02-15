@@ -42,6 +42,6 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
      */
     @Override
     public String marshal(LocalDate v) {
-        return "";
+        return v.format(dateFormat());
     }
 }

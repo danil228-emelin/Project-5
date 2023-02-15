@@ -2,6 +2,7 @@ package itmo.p3108.adapter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 /**
@@ -39,6 +40,6 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
      */
     @Override
     public String marshal(ZonedDateTime v) {
-        return "";
+        return v.format(dateFormat());
     }
 }

@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * parse elements from and to the xml file
@@ -36,7 +38,7 @@ public final class Parser {
     private static String information(Element element, String tegName) {
         return element.getElementsByTagName(tegName).item(0).getTextContent();
     }
-
+private static ArrayList<Optional<String>> optionals = new ArrayList<>();
     public static void read(@NonNull String path) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -56,8 +58,8 @@ public final class Parser {
             doc.getDocumentElement().normalize();
 
             NodeList personList = doc.getElementsByTagName("person");
-            if (!doc.hasAttributes()) {
-                throw new ValidationException("wrong data format in file "+file.getPath()+" better to choose another xml.file");
+            if (doc.hasAttributes()) {
+                throw new ValidationException("wrong data format in file " + file.getPath() + " better to choose another xml.file");
             }
             for (int temp = 0; temp < personList.getLength(); temp++) {
                 Node personNode = personList.item(temp);
@@ -66,14 +68,24 @@ public final class Parser {
 
                     Element personElem = (Element) personNode;
 
-                    String eyeColour = information(personElem, "eyeColor");
-                    String id = information(personElem, "id");
-                    String name = information(personElem, "name");
-                    String height = information(personElem, "height");
-                    String createDate = information(personElem, "creationDate");
-                    String birthday = information(personElem, "birthday");
-                    String nationality = information(personElem, "nationality");
+                    Optional<String> eyeColour = Optional.ofNullable(information(personElem, "eyeColor"));
 
+                    Optional<String> id = Optional.ofNullable(information(personElem, "id"));
+                    optionals.add(id);
+                    Optional<String> name = Optional.ofNullable(information(personElem, "name"));
+                    optionals.add(name);
+                    Optional<String> height = Optional.ofNullable(information(personElem, "height"));
+                    optionals.add(height);
+                    Optional<String> createDate = Optional.ofNullable(information(personElem, "creationDate"));
+                    optionals.add(createDate);
+                    Optional<String> birthday = Optional.ofNullable(information(personElem, "birthday"));
+                    optionals.add(birthday);
+                    Optional<String> nationality = Optional.ofNullable(information(personElem, "nationality"));
+                    optionals.add(nationality);
+                    optionals.forEach(x->{
+                        if (x.isEmpty()) {
+                            throw new ValidationException("Error:one of the values empty,change or fix " + file.getPath());
+                        }});
                     String xCoordinates = "";
                     String yCoordinates = "";
                     NodeList coordinateList = doc.getElementsByTagName("coordinates");
@@ -98,13 +110,13 @@ public final class Parser {
                     }
 
                     Person person = Person.builder()
-                            .id(Long.parseLong(id))
-                            .name(name)
-                            .height(Double.parseDouble(height))
-                            .eyeColor(Color.valueOf(eyeColour))
-                            .creationDate(ZonedDateTime.parse(createDate))
-                            .nationality(Country.valueOf(nationality))
-                            .birthday(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("MM-dd-yyyy")))
+                            .id(Long.parseLong(id.get()))
+                            .name(name.get())
+                            .height(Double.parseDouble(height.get()))
+                            .eyeColor(Color.valueOf(eyeColour.get()))
+                            .creationDate(ZonedDateTime.parse(createDate.get()))
+                            .nationality(Country.valueOf(nationality.get()))
+                            .birthday(LocalDate.parse(birthday.get(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
                             .coordinates(Coordinates.builder()
                                     .x(Integer.parseInt(xCoordinates))
                                     .y(Float.valueOf(yCoordinates))
@@ -120,7 +132,7 @@ public final class Parser {
 
                     if (!Command.controller.getPersonList().contains(person)) {
                         Command.controller.add(person);
-                        max_id = Long.parseLong(id) > max_id ? Long.parseLong(id) : max_id;
+                        max_id = Long.parseLong(id.get()) > max_id ? Long.parseLong(id.get()) : max_id;
                     }
                 }
 
@@ -128,9 +140,11 @@ public final class Parser {
             }
             PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.err.println("Error:file"+" has incorrect data,collection is empty");
+            System.err.println("Error:file" + " has incorrect data,collection is empty");
         } catch (ValidationException e) {
             System.err.println(e.getMessage());
+        }catch (NullPointerException e){
+            System.err.println("One of the element is empty,change or fix xml file");
         }
 
     }
