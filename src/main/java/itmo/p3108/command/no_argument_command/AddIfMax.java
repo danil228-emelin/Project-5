@@ -30,8 +30,8 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
         }
         return addIfMax;
     }
+
     /**
-     *
      * @return result of execution
      * {@link PersonReadingBuilder} is used to read from console
      */
@@ -58,7 +58,7 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
         Optional<Person> other =
                 controller
                         .getPersonList()
-                        .stream().max(comparator);
+                        .stream().parallel().max(comparator);
         if (other.isPresent() && comparator.compare(person, other.get()) > 0) {
             controller.add(person);
             return "element added successfully";

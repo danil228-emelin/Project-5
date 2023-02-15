@@ -6,3 +6,6 @@ Main.java
 testWriter.xml
 people.xml
 /collection.xml
+/src/main/java/itmo/p3108/Test.java
+/src/main/java/itmo/p3108/util/Test.java
+/src/main/java/itmo/p3108/util/TestXml.java

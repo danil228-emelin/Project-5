@@ -33,7 +33,6 @@ public class Invoker {
     }
 
 
-
     public void add(@NonNull Command... commands) {
         for (Command command : commands) {
             if (!this.commands.containsKey(command.name())) {
@@ -44,6 +43,7 @@ public class Invoker {
 
     /**
      * invoke try to do command
+     *
      * @param commandStr analyze for different conditions
      */
     public void invoke(String commandStr) {
@@ -61,21 +61,21 @@ public class Invoker {
             }
             if (!commands.containsKey(strings[0].toLowerCase())) {
 
-                throw new ValidationException("command doesn't exist "+strings[0]);
+                throw new ValidationException("Error during execution command doesn't exist " + strings[0]);
             }
             Command command = commands.get(strings[0].toLowerCase());
 
             if (command instanceof NoArgumentCommand) {
                 if (strings.length > 1) {
 
-                    throw new ValidationException("command " + command.name() + " doesn't have arguments");
+                    throw new ValidationException("Error during execution command " + command.name() + " doesn't have arguments");
                 }
 
             } else if (strings.length > 2 || strings.length == 1) {
-                throw new ValidationException("command " + command.name() + " has one argument ");
+                throw new ValidationException("Error during execution command " + command.name() + " has one argument ");
             }
 
-            if (command instanceof IndependentCommand ) {
+            if (command instanceof IndependentCommand) {
                 if (command instanceof CheckData.SetPath) {
                     ((CheckData.SetPath) command).setPath(strings[1]);
                 }
@@ -83,74 +83,50 @@ public class Invoker {
                 return;
             }
             if (Command.controller.isEmpty()) {
-                throw new ValidationException("command " + command.name() + " can't be executed,collection is empty");
+                throw new ValidationException("Error during execution command " + command.name() + " can't be executed,collection is empty");
             }
 
-
-            if (command instanceof FilterStartsWithName) {
-
-                try {
-
+            try {
+                if (command instanceof FilterStartsWithName) {
                     ((FilterStartsWithName) command).setSubstring(strings[1]);
                     System.out.println(command.execute());
                     return;
-                } catch (NumberFormatException e) {
-                    System.err.println("error:wrong format");
                 }
-
-            }
-
-
-            if (command instanceof Update) {
-
-                try {
+                if (command instanceof Update) {
                     Long l = Long.parseLong(strings[1]);
-
                     ((Update) command).findPerson(l);
                     System.out.println(command.execute());
                     return;
-                } catch (NumberFormatException e) {
-                    System.err.println("error:wrong format");
                 }
 
-            }
-
-            if (command instanceof RemoveById) {
-
-                try {
+                if (command instanceof RemoveById) {
                     Long l = Long.parseLong(strings[1]);
                     ((RemoveById) command).setId(l);
                     System.out.println(command.execute());
                     return;
-                } catch (NumberFormatException e) {
-                    System.err.println("error:wrong format");
                 }
 
-            }
-
-            if (command instanceof CountByHeight) {
-
-                try {
+                if (command instanceof CountByHeight) {
                     double l = Double.parseDouble(strings[1]);
                     ((CountByHeight) command).setHeight(l);
                     System.out.println(command.execute());
                     return;
-                } catch (NumberFormatException e) {
-                    System.err.println("error:wrong format");
                 }
 
+            } catch (NumberFormatException e) {
+                System.err.println("Error during execution command CountByHeight:number has wrong format ");
             }
             if (command instanceof ExecuteScript) {
                 if (executeScriptPaths.contains(strings[1])) {
-                    throw new ValidationException("error: execute_script can't be executed "
-                            +"("+strings[1]+")"+ ".Recursion is forbidden");
+                    throw new ValidationException("Error : execute_script can't be executed "
+                            + "(" + strings[1] + ")" + ".Recursion is forbidden");
                 }
                 if (Files.exists(Path.of(strings[1]))) {
                     executeScriptPaths.add(strings[1]);
                     ((ExecuteScript) command).setPath(strings[1]);
                     System.out.println(command.execute());
                 } else {
-                    throw new  ValidationException("file " + strings[1] + " doesn't exist");
+                    throw new ValidationException("Error during execution command "+command.name()+" :file " + strings[1] + " doesn't exist");
                 }
             }
             if (command instanceof NoArgumentCommand) {
