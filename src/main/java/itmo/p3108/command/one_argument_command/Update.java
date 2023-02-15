@@ -6,6 +6,9 @@ import itmo.p3108.model.*;
 
 import java.time.LocalDate;
 
+/**
+ * update exist element
+ */
 public class Update implements Command {
 
     private static Update update;
@@ -31,8 +34,8 @@ public class Update implements Command {
 
     public String createName() {
 
-        System.out.println("Изменить имя пользователя или оставить " + person.getName());
-        System.out.println("Введите enter,чтобы ничего не менять");
+        System.out.println("change person name or don't chang " + person.getName());
+        System.out.println("Press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
@@ -46,8 +49,8 @@ public class Update implements Command {
 
     public Coordinates createCoordinates() {
 
-        System.out.println("Изменить координаты  пользователя или оставить " + person.getCoordinates());
-        System.out.println("Введите enter,чтобы ничего не менять");
+        System.out.println("change coordinates  or don't change " + person.getCoordinates());
+        System.out.println("press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
@@ -60,8 +63,8 @@ public class Update implements Command {
 
     public double createHeight() {
 
-        System.out.println("Изменить рост  пользователя или оставить " + person.getHeight());
-        System.out.println("Введите enter,чтобы ничего не менять");
+        System.out.println("change height or don't change " + person.getHeight());
+        System.out.println("press enter-don't change");
 
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
@@ -75,8 +78,8 @@ public class Update implements Command {
 
     public LocalDate createBirthDay() {
 
-        System.out.println("Изменить день рождение  пользователя или оставить " + person.getBirthday());
-        System.out.println("Введите enter,чтобы ничего не менять");
+        System.out.println("change birthday or don't change " + person.getBirthday());
+        System.out.println("press enter-don't change");
 
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
@@ -90,8 +93,8 @@ public class Update implements Command {
 
     public Color createColor() {
 
-        System.out.println("Изменить  цвет глаз  пользователя или оставить " + person.getEyeColor());
-        System.out.println("Введите enter,чтобы ничего не менять");
+        System.out.println("change colour or don't change " + person.getEyeColor());
+        System.out.println("press enter-don't change");
 
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
@@ -106,8 +109,8 @@ public class Update implements Command {
 
     public Country createNationality() {
 
-        System.out.println("Изменить  гражданство  пользователя или оставить " + person.getNationality());
-        System.out.println("Введите enter,чтобы ничего не менять");
+        System.out.println("change nationality or don't change " + person.getNationality());
+        System.out.println("press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
@@ -120,8 +123,8 @@ public class Update implements Command {
 
     public Location createLocation() {
 
-        System.out.println("Изменить  локацию  пользователя или оставить " + person.getLocation());
-        System.out.println("Введите enter,чтобы ничего не менять");
+        System.out.println("change location or don't change " + person.getLocation());
+        System.out.println("press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
@@ -144,7 +147,7 @@ public class Update implements Command {
         person.setNationality(createNationality());
         person.setLocation(createLocation());
 
-        return "Элемент обновлен";
+        return "element is updated";
     }
 
     @Override

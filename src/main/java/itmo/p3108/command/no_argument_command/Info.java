@@ -3,6 +3,9 @@ package itmo.p3108.command.no_argument_command;
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 
+/**
+ * put out major information of collection
+ */
 public class Info implements NoArgumentCommand, IndependentCommand {
     private static Info info;
 
@@ -17,6 +20,7 @@ public class Info implements NoArgumentCommand, IndependentCommand {
     }
 
     @Override
+
     public String execute() {
         return controller.info();
     }

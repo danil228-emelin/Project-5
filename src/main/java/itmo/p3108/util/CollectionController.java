@@ -8,6 +8,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * contain array list
+ */
 @XmlRootElement(name = "collection")
 public final class CollectionController {
     private static CollectionController controller;
@@ -26,6 +29,10 @@ public final class CollectionController {
         return controller;
     }
 
+    /**
+     *
+     *return person list
+     */
     @XmlElement(name = "person")
     public ArrayList<Person> getPersonList() {
         return personList;

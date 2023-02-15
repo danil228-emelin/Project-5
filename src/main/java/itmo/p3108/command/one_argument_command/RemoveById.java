@@ -3,6 +3,9 @@ package itmo.p3108.command.one_argument_command;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 
+/**
+ * remove element with certain id
+ */
 public class RemoveById implements Command {
     private static RemoveById remove;
     private Long id;
@@ -29,6 +32,9 @@ public class RemoveById implements Command {
         return "remove_by_id";
     }
 
+    /**
+     * set id
+     */
     public RemoveById setId(Long id) {
         if (id <= 0) {
             throw new ValidationException("Ошибка:id-натуральное число");

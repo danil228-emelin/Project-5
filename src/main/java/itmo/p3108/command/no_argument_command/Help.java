@@ -3,6 +3,9 @@ package itmo.p3108.command.no_argument_command;
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 
+/**
+ * put out information about commands
+ */
 public class Help implements NoArgumentCommand, IndependentCommand {
     private static  Help help ;
 

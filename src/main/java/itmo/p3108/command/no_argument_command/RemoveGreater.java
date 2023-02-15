@@ -11,6 +11,9 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * remove elements witch greater than created element
+ */
 public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
     private static RemoveGreater removeGreater;
     @Setter
@@ -47,7 +50,7 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
         int size = arrayList.size();
         arrayList.removeIf(x -> {
                     if (comparator.compare(x, person) > 0) {
-                        System.out.println(x.getName() + " удален ");
+                        System.out.println(x.getName() + " removed ");
                         return true;
                     }
                     return false;

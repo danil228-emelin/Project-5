@@ -3,6 +3,9 @@ package itmo.p3108.util;
 import itmo.p3108.command.no_argument_command.*;
 import itmo.p3108.command.one_argument_command.*;
 
+/**
+ * Factory for invoker,add commands
+ */
 public class InvokerFactory {
     private InvokerFactory() {
     }

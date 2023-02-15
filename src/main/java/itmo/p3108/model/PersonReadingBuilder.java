@@ -34,15 +34,15 @@ public final class PersonReadingBuilder {
     public String createName() {
         String name = "";
         while (name.equals("")) {
-            System.out.println("Введите имя пользователя");
+            System.out.println("enter name");
             String test = properRead("name must not be null");
 
             if (test.length() > 40) {
-                System.err.println("Ошибка:строка слишком длинная");
+                System.err.println("error:too long line");
                 continue;
             }
             if (!test.matches("(\\w+-?\\w*)")) {
-                System.err.println("Ошибка:строка имела неверный формат");
+                System.err.println("error:line has wrong format");
                 continue;
             }
             name = test;
@@ -60,15 +60,15 @@ public final class PersonReadingBuilder {
         while (height < 0) {
             String test = "";
 
-            System.out.println("Введите рост пользователя");
+            System.out.println("enter height");
             test = properRead("height must not be null");
 
             if (!test.matches("\\d+\\.?\\d*")) {
-                System.err.println("Ошибка:значение может быть либо положительным дробным либо целым числом");
+                System.err.println("error:value is whole or fractional number");
                 continue;
             }
             if (test.length() > 15) {
-                System.err.println("Ошибка:значение слишком большое");
+                System.err.println("error:value is too large");
                 continue;
             }
             height = Double.parseDouble(test);
@@ -80,18 +80,18 @@ public final class PersonReadingBuilder {
         String birthday = "";
         while (birthday.equals("")) {
             birthday = "";
-            System.out.println("Введите дату рождение в формате MM-dd-yyyy");
+            System.out.println("enter birthday in format MM-dd-yyyy");
             String test = properRead("birthday must not be null");
 
             if (!test.matches("\\d{2}-\\d{2}-\\d{4}")) {
-                System.err.println("Ошибка:строка имела неверный формат");
+                System.err.println("error:line has wrong format");
                 continue;
             }
             String[] strings = test.split("-");
 
             if (Integer.parseInt(strings[0]) > 12 || Integer.parseInt(strings[1]) > 31
                     || Integer.parseInt(strings[2]) > 2024 || Integer.parseInt(strings[2]) < 1920) {
-                System.err.println("Ошибка:Некорректные значения");
+                System.err.println("error:value is incorrect");
                 continue;
             }
             birthday = test;
@@ -105,12 +105,12 @@ public final class PersonReadingBuilder {
 
         while (color == null) {
 
-            System.out.println("Выберете цвета глаз пользователя");
-            System.out.println("Укажите цифру соответствующую цвету");
+            System.out.println("choose colour");
+            System.out.println("wright corresponding number");
             System.out.println(Arrays.toString(Color.colors()));
             String test = properRead("Color must not be null");
             if (!test.matches("[1-5]")) {
-                System.err.println("Ошибка:строка имела неверный формат");
+                System.err.println("error:line has wrong format");
                 continue;
             }
             color = Color.newValue(test);
@@ -124,13 +124,13 @@ public final class PersonReadingBuilder {
 
         while (nationality == null) {
 
-            System.out.println("Выберете гражданство пользователя");
-            System.out.println("Укажите цифру соответствующую гражданству");
+            System.out.println("choose nationality");
+            System.out.println("wright corresponding number");
 
             System.out.println(Arrays.toString(Country.countries()));
             String test = properRead("country must not be null");
             if (!test.matches("[1-4]")) {
-                System.err.println("Ошибка:строка имела неверный формат");
+                System.err.println("error:line has wrong format");
                 continue;
             }
             nationality = Country.newValue(test);
@@ -145,33 +145,33 @@ public final class PersonReadingBuilder {
 
         while (x.equals("")) {
 
-            System.out.println("Введените координаты пользователя ");
+            System.out.println("enter coordinates ");
 
-            System.out.println("Введите значение x");
+            System.out.println("enter x");
 
             String test = properRead("x must not be null");
 
             if (!test.matches("-?\\d+")) {
-                System.err.println("Ошибка:значение  x должно содержать только целое  значение");
+                System.err.println("error:wrong format for x");
                 continue;
 
             }
             if (test.length() > 15) {
-                System.err.println("Ошибка:значение слишком болшьое");
+                System.err.println("error:value is too large");
             }
             x = test;
         }
         while (y.equals("")) {
-            System.out.println("Введите значение y");
+            System.out.println("enter y");
 
             String test = properRead("y must not be null");
             if (!test.matches("-?\\d+\\.?\\d*")) {
-                System.err.println("Ошибка:значение  y может быть только дробным или целым числом");
+                System.err.println("error:value is whole or fractional number");
                 continue;
 
             }
             if (test.length() > 15) {
-                System.err.println("Ошибка:значение слишком болшьое");
+                System.err.println("error:value is too large");
             }
             y = test;
 
@@ -192,60 +192,60 @@ public final class PersonReadingBuilder {
 
 
         while (x.equals("")) {
-            System.out.println("Введените координаты локации пользователя ");
+            System.out.println("enter coordinates ");
 
-            System.out.println("Введите значение x");
+            System.out.println("enter  x");
 
             String test = properRead("x must not be null");
 
             if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
-                System.err.println("Ошибка:x может быть только целым или дробным числом");
+                System.err.println("error:wrong format");
                 continue;
 
             }
             if (test.length() > 15) {
-                System.err.println("Ошибка:значение слишком болшьое");
+                System.err.println("error:value is too large");
             }
 
             x = test;
         }
         while (y.equals("")) {
 
-            System.out.println("Введите значение y");
+            System.out.println("enter  y");
 
             String test = properRead("y must not be null");
 
             if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
-                System.err.println("Ошибка:y может быть только дробным или целым числом");
+                System.err.println("error:wrong format");
                 continue;
 
             }
             if (test.length() > 15) {
-                System.err.println("Ошибка:значение слишком болшьое");
+                System.err.println("error:value is too large");
             }
             y = test;
         }
         while (z.equals("")) {
-            System.out.println("Введите значение z");
+            System.out.println("enter  z");
 
             String test = properRead("z must not be null");
 
             if (!test.matches("-?\\d+\\.?\\d+") && !test.matches("-?\\d+")) {
-                System.err.println("Ошибка:z может быть только дробным или целым числом");
+                System.err.println("error:wrong format");
                 continue;
 
             }
             if (test.length() > 15) {
-                System.err.println("Ошибка:значение слишком болшьое");
+                System.err.println("error:value is too large");
             }
             z = test;
         }
         while (name.equals("")) {
-            System.out.println("Введите название локации");
+            System.out.println("enter location name");
             String test = properRead("location must not be null");
 
             if (!test.matches("\\w+")) {
-                System.err.println("Ошибка:имя содержит неверные символы");
+                System.err.println("error:wrong format");
                 continue;
             }
             name = test;

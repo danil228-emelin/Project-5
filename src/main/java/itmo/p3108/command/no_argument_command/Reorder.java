@@ -7,6 +7,10 @@ import lombok.Setter;
 
 import java.util.Comparator;
 
+/**
+ * reorder collection
+ * provided with default comparator
+ */
 public class Reorder implements NoArgumentCommand {
     private static Reorder reorder;
     @Setter

@@ -2,6 +2,9 @@ package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
 
+/**
+ *clear collection
+ */
 public class Clear implements NoArgumentCommand {
     private static Clear clear;
 
@@ -16,7 +19,11 @@ public class Clear implements NoArgumentCommand {
         return clear;
     }
 
+    /**
+     * call clear function
+     */
     @Override
+
     public String execute() {
         controller.getPersonList().clear();
         return "Элементы коллекции удалены";

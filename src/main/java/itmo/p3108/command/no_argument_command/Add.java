@@ -7,6 +7,9 @@ import itmo.p3108.model.Person;
 
 import java.time.ZonedDateTime;
 
+/**
+ * Add element in collection
+ */
 public class Add implements NoArgumentCommand, IndependentCommand {
 
     private static Add add;
@@ -24,6 +27,11 @@ public class Add implements NoArgumentCommand, IndependentCommand {
     }
 
 
+    /**
+     *
+     * @return result of execution
+     * {@link PersonReadingBuilder} is used to read from console
+     */
     @Override
     public String execute() {
         Person person = Person

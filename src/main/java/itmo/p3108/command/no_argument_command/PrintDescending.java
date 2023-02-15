@@ -8,6 +8,10 @@ import lombok.Setter;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
+/**
+ * print in descending order
+ * provided with default comparator
+ */
 public class PrintDescending implements NoArgumentCommand {
     private static PrintDescending printDescending;
     @Setter

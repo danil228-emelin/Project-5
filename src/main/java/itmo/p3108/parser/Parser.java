@@ -26,7 +26,9 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * parse elements from and to the xml file
+ */
 public final class Parser {
     private Parser() {
     }
@@ -120,8 +122,7 @@ public final class Parser {
             }
             PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.err.println("В файле указаны неккоректные данные. Коллекция пустая.");
-            //позволить сетить новый элемент.
+            System.err.println("file has incorrect data,collection is empty");
         } catch (ValidationException e) {
             System.err.println(e.getMessage());
         }

@@ -3,6 +3,9 @@ package itmo.p3108.util;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Response for proper reading from console
+ */
 final public class UserReader {
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -14,7 +17,7 @@ final public class UserReader {
         try {
             return scanner.nextLine();
         } catch (NoSuchElementException e) {
-            System.out.println("Досрочный выход из программы");
+            System.out.println("exit from program");
             System.exit(-1);
             return "";
         }

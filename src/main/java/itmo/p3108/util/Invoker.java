@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * invoke commands
+ */
 public class Invoker {
     private static Invoker invoker;
     private final HashMap<String, Command> commands = new HashMap<>();
@@ -29,12 +32,7 @@ public class Invoker {
         return invoker;
     }
 
-    public void add(String s) {
-        if (executeScriptPaths.contains(s)) {
-            return;
-        }
-        executeScriptPaths.add(s);
-    }
+
 
     public void add(@NonNull Command... commands) {
         for (Command command : commands) {
@@ -44,6 +42,10 @@ public class Invoker {
         }
     }
 
+    /**
+     * invoke try to do command
+     * @param commandStr analyze for different conditions
+     */
     public void invoke(String commandStr) {
         try {
             if (commandStr.equals("")) {
@@ -59,26 +61,29 @@ public class Invoker {
             }
             if (!commands.containsKey(strings[0].toLowerCase())) {
 
-                throw new ValidationException("Такой команды не существует "+strings[0]);
+                throw new ValidationException("command doesn't exist "+strings[0]);
             }
             Command command = commands.get(strings[0].toLowerCase());
 
             if (command instanceof NoArgumentCommand) {
                 if (strings.length > 1) {
 
-                    throw new ValidationException("Команда " + command.name() + " не имеет аргументов");
+                    throw new ValidationException("command " + command.name() + " doesn't have arguments");
                 }
 
             } else if (strings.length > 2 || strings.length == 1) {
-                throw new ValidationException("Команда " + command.name() + " имеет один аргумент ");
+                throw new ValidationException("command " + command.name() + " has one argument ");
             }
 
-            if (command instanceof IndependentCommand) {
+            if (command instanceof IndependentCommand ) {
+                if (command instanceof CheckFail.SetPath) {
+                    ((CheckFail.SetPath) command).setPath(strings[1]);
+                }
                 System.out.println(command.execute());
                 return;
             }
             if (Command.controller.isEmpty()) {
-                throw new ValidationException("Команду " + command.name() + " невозможно выполнить,коллекция пустая");
+                throw new ValidationException("command " + command.name() + " can't be executed,collection is empty");
             }
 
 
@@ -90,7 +95,7 @@ public class Invoker {
                     System.out.println(command.execute());
                     return;
                 } catch (NumberFormatException e) {
-                    System.err.println("Ошибка:строка имела неверный формат");
+                    System.err.println("error:wrong format");
                 }
 
             }
@@ -105,7 +110,7 @@ public class Invoker {
                     System.out.println(command.execute());
                     return;
                 } catch (NumberFormatException e) {
-                    System.err.println("Ошибка:строка имела неверный формат");
+                    System.err.println("error:wrong format");
                 }
 
             }
@@ -118,7 +123,7 @@ public class Invoker {
                     System.out.println(command.execute());
                     return;
                 } catch (NumberFormatException e) {
-                    System.err.println("Ошибка:строка имела неверный формат");
+                    System.err.println("error:wrong format");
                 }
 
             }
@@ -131,31 +136,28 @@ public class Invoker {
                     System.out.println(command.execute());
                     return;
                 } catch (NumberFormatException e) {
-                    System.err.println("Ошибка:строка имела неверный формат");
+                    System.err.println("error:wrong format");
                 }
 
             }
             if (command instanceof ExecuteScript) {
                 if (executeScriptPaths.contains(strings[1])) {
-                    throw new ValidationException("Ошибка:Команда execute_script не может быть выполнена c фаилом "
-                            +"("+strings[1]+")"+ " уже был указан в качестве аргумента.Рекурсия запрещена");
+                    throw new ValidationException("error: execute_script can't be executed "
+                            +"("+strings[1]+")"+ ".Recursion is forbidden");
                 }
                 if (Files.exists(Path.of(strings[1]))) {
                     executeScriptPaths.add(strings[1]);
                     ((ExecuteScript) command).setPath(strings[1]);
                     System.out.println(command.execute());
                 } else {
-                    throw new  ValidationException("Фаила " + strings[1] + " не существует");
+                    throw new  ValidationException("file " + strings[1] + " doesn't exist");
                 }
             }
             if (command instanceof NoArgumentCommand) {
                 System.out.println(command.execute());
             }
 
-            if (command instanceof CheckFail.SetPath) {
-                ((CheckFail.SetPath) command).setPath(strings[1]);
-                System.out.println(command.execute());
-            }
+
         } catch (ValidationException e) {
             System.err.println(e.getMessage());
         }

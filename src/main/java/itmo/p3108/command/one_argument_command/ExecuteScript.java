@@ -8,7 +8,9 @@ import itmo.p3108.util.Invoker;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+/**
+ * execute scripts
+ */
 public class ExecuteScript implements Command {
     private static ExecuteScript executeScript;
 
@@ -24,7 +26,10 @@ public class ExecuteScript implements Command {
         }
         return executeScript;
     }
-
+    /**
+     * set path ,call before execute method
+     *
+     */
     public void setPath(String path) {
         Path test = Path.of(path);
         if (!Files.isReadable(test)) {
@@ -44,7 +49,7 @@ public class ExecuteScript implements Command {
             }
             return "Скрипт " + path + " выполнен";
         } catch (IOException e) {
-            System.err.println("Ошибка  при работе с фаилом");
+            System.err.println("file error");
             return "Скрипт не выполнен";
         }
     }

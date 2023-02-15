@@ -1,12 +1,16 @@
 package itmo.p3108.util;
 
 import itmo.p3108.command.type.Command;
+import itmo.p3108.command.type.IndependentCommand;
 import lombok.Getter;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * set path  file for serialization
+ */
 public class CheckFail {
     @Getter
 
@@ -18,10 +22,10 @@ public class CheckFail {
     private static String readFileName() {
         String s = null;
         while (s == null) {
-            System.out.println("Введите имя фаила  с расширеним  .xml для сохранения элементов");
+            System.out.println("enter file name with .xml for saving objects");
             String test = UserReader.read();
             if (!test.matches("\\w+.xml")) {
-                System.err.println("Ошибка:Строка имела неверный формат");
+                System.err.println("error:wrong data format");
                 continue;
             }
             s = test;
@@ -30,10 +34,12 @@ public class CheckFail {
 
     }
 
-
+    /**
+     * check whether the file exist,has right for reading and writing,has right format
+     */
     private static boolean fileCheck(String test) {
-        if (!test.matches("\\w+\\.xml")) {
-            System.err.println("Фаил имел неверный формат");
+        if (!test.matches("[^~!/._].+\\.xml")) {
+            System.err.println("file has incorrect name");
             return false;
         }
         Path path = Paths.get(test);
@@ -43,20 +49,22 @@ public class CheckFail {
         if (Files.isWritable(path) && Files.isReadable(path))
             return true;
         else {
-            System.err.println("Нет прав для записи или чтения:" + path);
+            System.err.println("no rights for writing and reading:" + path);
             return false;
         }
 
     }
 
-
+    /**
+     * Set initial xml file  for serialization
+     */
     public static void execute() {
         path = System.getenv("COLLECTION_PATH");
         if (path == null) {
-            System.err.println("Фаил для сохранения коллекции не указан");
+            System.err.println("file for collection saving isn't specified");
             path = readFileName();
         } else {
-            System.out.println("Фаил по умолчанию для хранения элементов " + path);
+            System.out.println("default file " + path);
         }
         boolean isFileAlright = false;
         while (!isFileAlright) {
@@ -66,10 +74,13 @@ public class CheckFail {
                 path = readFileName();
             }
         }
-        System.out.println("Фаил успешно задан");
+        System.out.println("file is created");
     }
 
-    public static class SetPath implements Command {
+    /**
+     * set new xml file
+     */
+    public static class SetPath implements Command,IndependentCommand {
         private static SetPath setPath;
         private String testPath;
 
@@ -88,9 +99,9 @@ public class CheckFail {
         public String execute() {
             if (fileCheck(testPath)) {
                 path = testPath;
-                return "Фаил " + testPath + " успешно установлен";
+                return "file " + testPath + " is set";
             }
-            System.err.println("Фаил " + testPath + " не может быть использован");
+            System.err.println("file " + testPath + " can't be set");
             return "";
 
         }

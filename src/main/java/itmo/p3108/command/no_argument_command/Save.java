@@ -8,6 +8,9 @@ import itmo.p3108.util.CheckFail;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 
+/**
+ * save elements of collection in xml file
+ */
 public class Save implements IndependentCommand, NoArgumentCommand {
     private static Save save;
 

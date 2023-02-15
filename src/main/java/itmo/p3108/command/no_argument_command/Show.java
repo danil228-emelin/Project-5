@@ -5,6 +5,9 @@ import itmo.p3108.model.Person;
 
 import java.util.stream.Collectors;
 
+/**
+ * print the elements of collection in order
+ */
 public class Show implements NoArgumentCommand {
     private static Show show;
 

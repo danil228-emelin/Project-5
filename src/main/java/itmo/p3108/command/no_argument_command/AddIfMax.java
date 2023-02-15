@@ -11,6 +11,10 @@ import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
 
+/**
+ * Add element in collection if it is bigger than the max element in collection
+ * If collection is empty add element
+ */
 public class AddIfMax implements NoArgumentCommand, IndependentCommand {
     private static AddIfMax addIfMax;
     @Setter
@@ -19,13 +23,18 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
 
     private AddIfMax() {
     }
-    public static AddIfMax getInstance(){
+
+    public static AddIfMax getInstance() {
         if (addIfMax == null) {
-            addIfMax =new AddIfMax();
+            addIfMax = new AddIfMax();
         }
         return addIfMax;
     }
-
+    /**
+     *
+     * @return result of execution
+     * {@link PersonReadingBuilder} is used to read from console
+     */
     @Override
     public String execute() {
 
@@ -42,6 +51,10 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                 .creationDate(ZonedDateTime.now())
                 .location(personReadingBuilder.createLocation())
                 .build();
+        if (controller.getPersonList().size() == 0) {
+            controller.add(person);
+            return "Элемент добавлен";
+        }
         Optional<Person> other =
                 controller
                         .getPersonList()

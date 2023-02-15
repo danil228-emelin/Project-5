@@ -5,7 +5,10 @@ import itmo.p3108.model.Person;
 import lombok.NonNull;
 
 import java.util.stream.Collectors;
-
+/**
+ * print all elements,which name start with argument
+ *
+ */
 public class FilterStartsWithName implements Command {
 
     private static FilterStartsWithName filterStartsWithName;
@@ -38,6 +41,9 @@ public class FilterStartsWithName implements Command {
         return "filter_starts_with_name";
     }
 
+    /**
+     * set the argument
+     */
     public void setSubstring(@NonNull String substring) {
         this.substring = substring.toLowerCase();
     }

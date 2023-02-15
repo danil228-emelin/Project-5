@@ -6,6 +6,9 @@ import itmo.p3108.util.Invoker;
 import itmo.p3108.util.InvokerFactory;
 import itmo.p3108.util.UserReader;
 
+/**
+ * main class
+ */
 public class Main {
     public static void main(String[] args) {
 

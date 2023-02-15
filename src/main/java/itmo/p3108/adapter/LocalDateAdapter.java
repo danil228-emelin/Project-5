@@ -1,9 +1,6 @@
 package itmo.p3108.adapter;
 
-import itmo.p3108.parser.Parser;
-
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -21,25 +18,30 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
         return localDateAdapter;
     }
 
+    /**
+     * @return Create certain Date format
+     */
     public DateTimeFormatter dateFormat() {
         return DateTimeFormatter.ofPattern("MM-dd-yyyy");
     }
 
 
-    @Override
     /**
+     *create LocalDate object from string matched date format
      *
      */
+    @Override
     public LocalDate unmarshal(String v) {
         DateTimeFormatter formatter = dateFormat();
         return LocalDate.parse(v, formatter);
     }
 
-    @Override
+
     /**
-     * marshal Local Date
+     * unnecessary method
      */
+    @Override
     public String marshal(LocalDate v) {
-        return v.format(dateFormat());
+        return "";
     }
 }

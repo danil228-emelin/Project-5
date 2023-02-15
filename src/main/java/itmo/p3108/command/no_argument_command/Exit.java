@@ -3,6 +3,9 @@ package itmo.p3108.command.no_argument_command;
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 
+/**
+ * exit without saving collection
+ */
 public class Exit implements IndependentCommand,NoArgumentCommand {
     private static Exit exit;
     public static Exit getInstance(){
