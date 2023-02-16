@@ -30,7 +30,7 @@ public class Save implements IndependentCommand, NoArgumentCommand {
             Parser.write(CheckData.getPath());
             return "collection is saved successfully";
         } catch (JAXBException | FileNotFoundException e) {
-            return "Error during saving elements,check set xml file";
+            return "Error during saving elements,check or set new   file";
         }
     }
 

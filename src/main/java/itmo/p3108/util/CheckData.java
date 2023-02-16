@@ -24,9 +24,9 @@ public class CheckData {
     private static String readFileName() {
         String s = null;
         while (s == null) {
-            System.out.println("enter file name with .xml for saving objects");
+            System.out.println("enter file name  for saving objects");
             String test = UserReader.read();
-            if (!test.matches("[^~!/._].+\\.xml")) {
+            if (!test.matches("[^~!/._].+")) {
                 System.err.println("error:wrong data format");
                 continue;
             }
@@ -40,7 +40,7 @@ public class CheckData {
      * check whether the file exist,has right for reading and writing,has right format
      */
     private static boolean fileCheck(String test) {
-        if (!test.matches("[^~!/._].+\\.xml")) {
+        if (!test.matches("[^~!/._].+")) {
             System.err.println("file has incorrect name");
             return false;
         }
@@ -58,7 +58,7 @@ public class CheckData {
     }
 
     /**
-     * Set initial xml file  for serialization
+     * Set initial  file  for serialization
      */
     public static void execute() {
         path = System.getenv("COLLECTION_PATH");
