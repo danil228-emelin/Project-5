@@ -4,6 +4,7 @@ import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
 
@@ -11,6 +12,7 @@ import java.util.Comparator;
  * reorder collection
  * provided with default comparator
  */
+@Slf4j
 public class Reorder implements NoArgumentCommand {
     private static Reorder reorder;
     @Setter
@@ -24,6 +26,7 @@ public class Reorder implements NoArgumentCommand {
     public static Reorder getInstance() {
         if (reorder == null) {
             reorder = new Reorder();
+            log.info("Reorder initialized");
         }
         return reorder;
     }
@@ -37,6 +40,8 @@ public class Reorder implements NoArgumentCommand {
             controller.getPersonList().sort(naturalComparatorOrder);
             isReversed=false;
         }
+        log.info("Command reorder collection reordered successfully");
+
         return "collection reordered successfully";
     }
 

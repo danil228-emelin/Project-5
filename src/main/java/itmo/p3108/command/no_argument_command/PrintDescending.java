@@ -4,6 +4,7 @@ import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
  * print in descending order
  * provided with default comparator
  */
+@Slf4j
 public class PrintDescending implements NoArgumentCommand {
     private static PrintDescending printDescending;
     @Setter
@@ -24,6 +26,7 @@ public class PrintDescending implements NoArgumentCommand {
     public static PrintDescending getInstance() {
         if (printDescending == null) {
             printDescending = new PrintDescending();
+        log.info("PrintDescending initialized");
         }
         return printDescending;
     }
@@ -31,12 +34,14 @@ public class PrintDescending implements NoArgumentCommand {
     @Override
     public String execute() {
         Comparator<Person> reversed_comparator = naturalComparatorOrder.reversed();
-       return controller
+        log.info("Command printDescending print collection");
+        return controller
                 .getPersonList()
                 .stream()
                 .sorted(reversed_comparator)
+               .parallel()
                .map(Person::toString)
-               .collect(Collectors.joining(","));
+               .collect(Collectors.joining("\n"));
     }
 
     @Override

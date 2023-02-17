@@ -5,13 +5,14 @@ import itmo.p3108.util.CheckData;
 import itmo.p3108.util.Invoker;
 import itmo.p3108.util.InvokerFactory;
 import itmo.p3108.util.UserReader;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * main class
  */
+@Slf4j
 public class Main {
     public static void main(String[] args) {
-
 
        CheckData.execute();
         Parser.read(CheckData.getPath());

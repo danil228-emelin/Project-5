@@ -4,6 +4,7 @@ import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.util.FileWorker;
 import itmo.p3108.util.Invoker;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +12,7 @@ import java.nio.file.Path;
 /**
  * execute scripts
  */
+@Slf4j
 public class ExecuteScript implements Command {
     private static ExecuteScript executeScript;
 
@@ -22,7 +24,7 @@ public class ExecuteScript implements Command {
     public static ExecuteScript getInstance() {
         if (executeScript == null) {
             executeScript = new ExecuteScript();
-
+            log.info("ExecuteScript initialized");
         }
         return executeScript;
     }
@@ -32,8 +34,10 @@ public class ExecuteScript implements Command {
      */
     public void setPath(String path) {
         Path test = Path.of(path);
-        if (!Files.isReadable(test)) {
-            throw new ValidationException("error:can't read from frile");
+        if (!Files.isReadable(test) || !Files.isWritable(test) ) {
+            log.info("ExecuteScript error during setting path:can't read and write from file");
+
+            throw new ValidationException("error:can't read and write from file");
         }
         this.path = path;
     }
@@ -47,10 +51,12 @@ public class ExecuteScript implements Command {
             for (String command : commands) {
                 invoker.invoke(command);
             }
+            log.info("ExecuteScript script "+path+" executed successfully");
             return "Script " + path + " executed successfully";
         } catch (IOException e) {
+            log.error("Execute Script:Script doesn't exist ");
             System.err.println("file error");
-            return "Script doesn't execute ";
+            return "Script doesn't exist ";
         }
     }
 

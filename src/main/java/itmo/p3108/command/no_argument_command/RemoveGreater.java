@@ -6,6 +6,7 @@ import itmo.p3108.model.Person;
 import itmo.p3108.model.PersonReadingBuilder;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Comparator;
 /**
  * remove elements witch greater than created element
  */
+@Slf4j
 public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
     private static RemoveGreater removeGreater;
     @Setter
@@ -26,6 +28,7 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
     public static RemoveGreater getInstance() {
         if (removeGreater == null) {
             removeGreater = new RemoveGreater();
+            log.info("RemoveGreater Initialized");
         }
         return removeGreater;
     }
@@ -50,6 +53,7 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
         int size = arrayList.size();
         arrayList.removeIf(x -> {
                     if (comparator.compare(x, person) > 0) {
+                       log.info("command RemoveGreater remove "+ x.getName());
                         System.out.println(x.getName() + " removed ");
                         return true;
                     }
@@ -57,8 +61,12 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
                 }
         );
         if (size != arrayList.size()) {
+            log.info("command RemoveGreater deleted all suitable elements ");
+
             return "All suitable elements are deleted successfully ";
         }
+        log.info("command RemoveGreater deleted nothing ");
+
         return "Nothing was deleted";
     }
 

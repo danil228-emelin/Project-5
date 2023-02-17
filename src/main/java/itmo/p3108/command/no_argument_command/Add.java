@@ -4,12 +4,14 @@ import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.PersonReadingBuilder;
 import itmo.p3108.model.Person;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
 
 /**
  * Add element in collection
  */
+@Slf4j
 public class Add implements NoArgumentCommand, IndependentCommand {
 
     private static Add add;
@@ -22,6 +24,7 @@ public class Add implements NoArgumentCommand, IndependentCommand {
     public static Add getInstance() {
         if (add == null) {
             add = new Add();
+            log.info("Command Add initialized");
         }
         return add;
     }
@@ -47,6 +50,7 @@ public class Add implements NoArgumentCommand, IndependentCommand {
                 .location(personReadingBuilder.createLocation())
                 .build();
         controller.add(person);
+        log.info("Command Add created object successfully");
 
         return "object created successfully";
 

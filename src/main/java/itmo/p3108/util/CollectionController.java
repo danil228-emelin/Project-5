@@ -2,6 +2,7 @@ package itmo.p3108.util;
 
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.Person;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 /**
  * contain array list
  */
+@Slf4j
 @XmlRootElement(name = "collection")
 public final class CollectionController {
     private static CollectionController controller;
@@ -25,6 +27,7 @@ public final class CollectionController {
     public static CollectionController getInstance() {
         if (controller == null) {
             controller = new CollectionController();
+            log.info("CollectionController initialized");
         }
         return controller;
     }

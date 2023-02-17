@@ -6,6 +6,7 @@ import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * invoke commands
  */
+@Slf4j
 public class Invoker {
     private static Invoker invoker;
     private final HashMap<String, Command> commands = new HashMap<>();
@@ -60,18 +62,19 @@ public class Invoker {
                 strings = commandStr.trim().split("\\s+");
             }
             if (!commands.containsKey(strings[0].toLowerCase())) {
-
+                log.error("Error during execution command doesn't exist " + strings[0]);
                 throw new ValidationException("Error during execution command doesn't exist " + strings[0]);
             }
             Command command = commands.get(strings[0].toLowerCase());
 
             if (command instanceof NoArgumentCommand) {
                 if (strings.length > 1) {
-
+                    log.error("Error during execution command " + command.name() + " doesn't have arguments");
                     throw new ValidationException("Error during execution command " + command.name() + " doesn't have arguments");
                 }
 
             } else if (strings.length > 2 || strings.length == 1) {
+                log.error("Error during execution command " + command.name() + " has one argument ");
                 throw new ValidationException("Error during execution command " + command.name() + " has one argument ");
             }
 
@@ -83,6 +86,8 @@ public class Invoker {
                 return;
             }
             if (Command.controller.isEmpty()) {
+                log.error("Error during execution command " + command.name() + " can't be executed,collection is empty");
+
                 throw new ValidationException("Error during execution command " + command.name() + " can't be executed,collection is empty");
             }
 
@@ -114,10 +119,13 @@ public class Invoker {
                 }
 
             } catch (NumberFormatException e) {
+                log.error("Error during execution command CountByHeight:number has wrong format ");
                 System.err.println("Error during execution command CountByHeight:number has wrong format ");
             }
             if (command instanceof ExecuteScript) {
                 if (executeScriptPaths.contains(strings[1])) {
+                    log.error("Error : execute_script can't be executed "
+                            + "(" + strings[1] + ")" + ".Recursion is forbidden");
                     throw new ValidationException("Error : execute_script can't be executed "
                             + "(" + strings[1] + ")" + ".Recursion is forbidden");
                 }
@@ -126,7 +134,8 @@ public class Invoker {
                     ((ExecuteScript) command).setPath(strings[1]);
                     System.out.println(command.execute());
                 } else {
-                    throw new ValidationException("Error during execution command "+command.name()+" :file " + strings[1] + " doesn't exist");
+                    log.error("Error during execution command " + command.name() + " :file " + strings[1] + " doesn't exist");
+                    throw new ValidationException("Error during execution command " + command.name() + " :file " + strings[1] + " doesn't exist");
                 }
             }
             if (command instanceof NoArgumentCommand) {
@@ -135,6 +144,7 @@ public class Invoker {
 
 
         } catch (ValidationException e) {
+            log.error(e.getMessage());
             System.err.println(e.getMessage());
         }
 

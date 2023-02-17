@@ -3,12 +3,14 @@ package itmo.p3108.command.one_argument_command;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 
 /**
  * update exist element
  */
+@Slf4j
 public class Update implements Command {
 
     private static Update update;
@@ -20,12 +22,15 @@ public class Update implements Command {
     public static Update getInstance() {
         if (update == null) {
             update = new Update();
+            log.info("Update initialized");
         }
         return update;
     }
 
     public Update findPerson(Long id) {
         if (id <= 0) {
+            log.error("Update error:id must be greater than zero ");
+
             throw new ValidationException("error:id must be greater than zero");
         }
         person = controller.getPersonById(id);
@@ -146,7 +151,7 @@ public class Update implements Command {
         person.setEyeColor(createColor());
         person.setNationality(createNationality());
         person.setLocation(createLocation());
-
+        log.info("Update:element with id "+person.getId() +" is updated");
         return "element is updated";
     }
 

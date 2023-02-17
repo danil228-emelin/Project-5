@@ -1,10 +1,12 @@
 package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *clear collection
  */
+@Slf4j
 public class Clear implements NoArgumentCommand {
     private static Clear clear;
 
@@ -15,6 +17,7 @@ public class Clear implements NoArgumentCommand {
 
         if (clear == null) {
             clear = new Clear();
+            log.info("Clear initialized");
         }
         return clear;
     }
@@ -26,6 +29,8 @@ public class Clear implements NoArgumentCommand {
 
     public String execute() {
         controller.getPersonList().clear();
+        log.info("Command Clear deleted element successfully ");
+
         return "elements are deleted successfully";
     }
 

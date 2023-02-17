@@ -6,6 +6,7 @@ import itmo.p3108.model.*;
 import itmo.p3108.util.CheckData;
 import itmo.p3108.util.CollectionController;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,6 +34,7 @@ import java.util.Optional;
 /**
  * parse elements from and to the xml file
  */
+@Slf4j
 public final class Parser {
     private static final int TOTAL_NODES = 19;
     private static ArrayList<Optional<String>> optionals = new ArrayList<>();
@@ -56,7 +58,8 @@ public final class Parser {
 
             File file = new File(path);
             if (file.length() == 0) {
-                throw new ValidationException("error:Fail " + path + " is empty, collection empty as well");
+               log.warn("Fail " + path + " is empty, collection empty as well");
+                throw new ValidationException("Fail " + path + " is empty, collection empty as well");
             }
             Document doc = db.parse(file);
 
@@ -67,6 +70,7 @@ public final class Parser {
             for (int temp = 0; temp < personList.getLength(); temp++) {
                 Node personNode = personList.item(temp);
                 if (personNode.getChildNodes().getLength() != TOTAL_NODES) {
+                    log.error("Error during parsing:element with index " + temp);
                     System.err.println("Error during parsing:element with index " + temp);
                     System.err.println("Some attributes are absent ");
                     continue;
@@ -115,6 +119,7 @@ public final class Parser {
                         placeName = Optional.ofNullable(information(coordinateElem,"name"));
                     }
                     if (optionals.stream().parallel().anyMatch(Optional::isEmpty)) {
+                        log.error("Error during parsing:element with index " + temp+" value of attribute is null,change or fix xml file");
                         System.err.println("Error during parsing:element with index " + temp);
                         System.err.println("value of attribute is null,change or fix xml file");
                         continue;
@@ -137,7 +142,8 @@ public final class Parser {
                                     CheckData.checkCreationTime(createDate.get())
                     ) {
                     } else {
-                        System.err.println("Error during parsing:Fix or change xml file");
+                        log.error("Error during parsing:some attributes was in incorrect format");
+                        System.err.println("Error during parsing:some attributes was in incorrect format");
                     }
 
                     Person person = Person.builder()
@@ -171,10 +177,13 @@ public final class Parser {
             }
             PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.err.println("Error during parsing:file" + " has incorrect data,collection is empty");
+            log.error("Error during parsing:file has incorrect data,collection is empty");
+            System.err.println("Error during parsing:file has incorrect data,collection is empty");
         } catch (ValidationException e) {
+            log.error(e.getMessage());
             System.err.println(e.getMessage());
         } catch (NullPointerException | NoSuchElementException e) {
+            log.error("Error during parsing:One of the element is null,change or fix xml file");
             System.err.println("Error during parsing:One of the element is null,change or fix xml file");
         }
 

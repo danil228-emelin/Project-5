@@ -2,10 +2,12 @@ package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * put out information about commands
  */
+@Slf4j
 public class Help implements NoArgumentCommand, IndependentCommand {
     private static  Help help ;
 
@@ -15,12 +17,14 @@ public class Help implements NoArgumentCommand, IndependentCommand {
     public static Help getInstance() {
        if (help ==null){
           help = new Help();
+      log.info("Help initialized");
        }
         return help;
     }
 
     @Override
     public String execute() {
+        log.info("Command help print information");
 
         return "    help : вывести справку по доступным командам\n" +
                 "    info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +

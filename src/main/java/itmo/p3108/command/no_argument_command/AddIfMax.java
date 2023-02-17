@@ -6,6 +6,7 @@ import itmo.p3108.model.Person;
 import itmo.p3108.model.PersonReadingBuilder;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import java.util.Optional;
  * Add element in collection if it is bigger than the max element in collection
  * If collection is empty add element
  */
+@Slf4j
 public class AddIfMax implements NoArgumentCommand, IndependentCommand {
     private static AddIfMax addIfMax;
     @Setter
@@ -27,7 +29,8 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
     public static AddIfMax getInstance() {
         if (addIfMax == null) {
             addIfMax = new AddIfMax();
-        }
+            log.info("Command AddIf initialized");
+         }
         return addIfMax;
     }
 
@@ -53,6 +56,8 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                 .build();
         if (controller.getPersonList().size() == 0) {
             controller.add(person);
+            log.info("Command AddIf added successfully");
+
             return "element added successfully";
         }
         Optional<Person> other =
@@ -61,9 +66,13 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                         .stream().parallel().max(comparator);
         if (other.isPresent() && comparator.compare(person, other.get()) > 0) {
             controller.add(person);
+            log.info("Command AddIf:elements added successfully");
+
             return "element added successfully";
         }
-        return "element wasn't  added ";
+        log.info("Command AddIf :elements didn't successfully");
+
+        return "Command AddIf:element wasn't  added ";
     }
 
     @Override
