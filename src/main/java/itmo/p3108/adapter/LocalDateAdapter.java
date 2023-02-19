@@ -37,7 +37,7 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     @Override
     public LocalDate unmarshal(String v) {
         DateTimeFormatter formatter = dateFormat();
-        log.info("Local Adapter unmarshal time from xml format");
+        log.info("Local Adapter  unmarshal  LocalDate time from xml format");
 
         return LocalDate.parse(v, formatter);
 
@@ -49,7 +49,7 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
      */
     @Override
     public String marshal(LocalDate v) {
-        log.info("Local Adapter marshal time in  xml format");
+        log.info("Local Adapter marshal  LocalDate time in  xml format");
         return v.format(dateFormat());
     }
 }

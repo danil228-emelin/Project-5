@@ -50,9 +50,9 @@ public class Add implements NoArgumentCommand, IndependentCommand {
                 .location(personReadingBuilder.createLocation())
                 .build();
         controller.add(person);
-        log.info("Command Add created object successfully");
+        log.info("Command Add:  object created  ");
 
-        return "object created successfully";
+        return "object created ";
 
 
     }

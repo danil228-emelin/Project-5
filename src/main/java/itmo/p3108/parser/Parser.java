@@ -72,7 +72,7 @@ public final class Parser {
                 if (personNode.getChildNodes().getLength() != TOTAL_NODES) {
                     log.error("Error during parsing:element with index " + temp);
                     System.err.println("Error during parsing:element with index " + temp);
-                    System.err.println("Some attributes are absent ");
+                    System.err.println("Some attributes are absent,change or fix xml file");
                     continue;
                 }
                 if (personNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -121,7 +121,7 @@ public final class Parser {
                     if (optionals.stream().parallel().anyMatch(Optional::isEmpty)) {
                         log.error("Error during parsing:element with index " + temp+" value of attribute is null,change or fix xml file");
                         System.err.println("Error during parsing:element with index " + temp);
-                        System.err.println("value of attribute is null,change or fix xml file");
+                        System.err.println("value of attribute is null,change or fix xml file change or fix xml file");
                         continue;
                     }
 
@@ -142,8 +142,8 @@ public final class Parser {
                                     CheckData.checkCreationTime(createDate.get())
                     ) {
                     } else {
-                        log.error("Error during parsing:some attributes was in incorrect format");
-                        System.err.println("Error during parsing:some attributes was in incorrect format");
+                        log.error("Error during parsing:some attributes was in incorrect format,change or fix xml file");
+                        System.err.println("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                     }
 
                     Person person = Person.builder()
@@ -177,7 +177,7 @@ public final class Parser {
             }
             PersonReadingBuilder.setId(max_id);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            log.error("Error during parsing:file has incorrect data,collection is empty");
+            log.error("Error during parsing:file has incorrect data,collection is empty,change or fix xml file");
             System.err.println("Error during parsing:file has incorrect data,collection is empty");
         } catch (ValidationException e) {
             log.error(e.getMessage());

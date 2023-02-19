@@ -26,10 +26,10 @@ public class RemoveById implements Command {
 
     @Override
     public String execute() {
-        controller.getPersonList().removeIf(x -> controller.isPersonExist(id));
-        log.info("RemoveById:element with  id "+id+" was deleted successfully");
+        controller.getPersonList().removeIf(x -> x.getId().equals(id));
+        log.info("RemoveById:element with  id " + id + " was deleted ");
 
-        return "element with  id "+id+" was deleted successfully";
+        return "element with  id " + id + " was deleted ";
     }
 
     @Override
@@ -47,9 +47,9 @@ public class RemoveById implements Command {
         }
 
         if (!controller.isPersonExist(id)) {
-            log.error(" RemoveById error :person with such "+id +"doesn't exit");
+            log.error(" RemoveById error :element with such " + id + "doesn't exit");
 
-            throw new ValidationException("error:person with such id doesn't exit");
+            throw new ValidationException("RemoveById error:person with such id doesn't exit");
         }
         this.id = id;
         return this;

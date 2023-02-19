@@ -30,8 +30,8 @@ public class Save implements IndependentCommand, NoArgumentCommand {
     public String execute() {
         try {
             Parser.write(CheckData.getPath());
-            log.info("Command save collection is saved successfully");
-            return "collection is saved successfully";
+            log.info("Command save:collection is saved");
+            return "collection is saved";
         } catch (JAXBException | FileNotFoundException e) {
            log.error("Error during saving elements,check or set new  file");
             return "Error during saving elements,check or set new  file";

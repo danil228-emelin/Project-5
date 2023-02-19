@@ -62,8 +62,7 @@ public class Invoker {
                 strings = commandStr.trim().split("\\s+");
             }
             if (!commands.containsKey(strings[0].toLowerCase())) {
-                log.error("Error during execution command doesn't exist " + strings[0]);
-                throw new ValidationException("Error during execution command doesn't exist " + strings[0]);
+                throw new ValidationException("Error during execution command doesn't exist \n use help command");
             }
             Command command = commands.get(strings[0].toLowerCase());
 
@@ -86,9 +85,9 @@ public class Invoker {
                 return;
             }
             if (Command.controller.isEmpty()) {
-                log.error("Error during execution command " + command.name() + " can't be executed,collection is empty");
+                log.error("Collection is empty");
 
-                throw new ValidationException("Error during execution command " + command.name() + " can't be executed,collection is empty");
+                throw new ValidationException("Collection is empty");
             }
 
             try {
@@ -134,8 +133,8 @@ public class Invoker {
                     ((ExecuteScript) command).setPath(strings[1]);
                     System.out.println(command.execute());
                 } else {
-                    log.error("Error during execution command " + command.name() + " :file " + strings[1] + " doesn't exist");
-                    throw new ValidationException("Error during execution command " + command.name() + " :file " + strings[1] + " doesn't exist");
+                    log.error("Error during execution command :file " + strings[1] + " doesn't exist");
+                    throw new ValidationException("Error during execution command :file " + strings[1] + " doesn't exist");
                 }
             }
             if (command instanceof NoArgumentCommand) {

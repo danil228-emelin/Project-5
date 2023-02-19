@@ -39,7 +39,7 @@ public class Update implements Command {
 
     public String createName() {
 
-        System.out.println("change person name or don't chang " + person.getName());
+        System.out.println("person name " + person.getName());
         System.out.println("Press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
@@ -54,7 +54,7 @@ public class Update implements Command {
 
     public Coordinates createCoordinates() {
 
-        System.out.println("change coordinates  or don't change " + person.getCoordinates());
+        System.out.println(" change coordinates  " + person.getCoordinates());
         System.out.println("press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
@@ -68,7 +68,7 @@ public class Update implements Command {
 
     public double createHeight() {
 
-        System.out.println("change height or don't change " + person.getHeight());
+        System.out.println(" height  " + person.getHeight());
         System.out.println("press enter-don't change");
 
         while (true) {
@@ -83,7 +83,7 @@ public class Update implements Command {
 
     public LocalDate createBirthDay() {
 
-        System.out.println("change birthday or don't change " + person.getBirthday());
+        System.out.println(" birthday  " + person.getBirthday());
         System.out.println("press enter-don't change");
 
         while (true) {
@@ -98,7 +98,7 @@ public class Update implements Command {
 
     public Color createColor() {
 
-        System.out.println("change colour or don't change " + person.getEyeColor());
+        System.out.println(" colour  " + person.getEyeColor());
         System.out.println("press enter-don't change");
 
         while (true) {
@@ -114,7 +114,7 @@ public class Update implements Command {
 
     public Country createNationality() {
 
-        System.out.println("change nationality or don't change " + person.getNationality());
+        System.out.println(" nationality  " + person.getNationality());
         System.out.println("press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
@@ -128,7 +128,7 @@ public class Update implements Command {
 
     public Location createLocation() {
 
-        System.out.println("change location or don't change " + person.getLocation());
+        System.out.println(" location  " + person.getLocation());
         System.out.println("press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");

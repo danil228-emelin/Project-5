@@ -51,12 +51,12 @@ public class ExecuteScript implements Command {
             for (String command : commands) {
                 invoker.invoke(command);
             }
-            log.info("ExecuteScript script "+path+" executed successfully");
-            return "Script " + path + " executed successfully";
+            log.info("ExecuteScript script "+path+" executed ");
+            return "Script " + path + " executed ";
         } catch (IOException e) {
-            log.error("Execute Script:Script doesn't exist ");
-            System.err.println("file error");
-            return "Script doesn't exist ";
+            log.error("Execute Script:fail doesn't exist ");
+            System.err.println("Execute script:file error");
+            return "fail doesn't exist ";
         }
     }
 

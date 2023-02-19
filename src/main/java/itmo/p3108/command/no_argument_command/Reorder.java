@@ -40,9 +40,9 @@ public class Reorder implements NoArgumentCommand {
             controller.getPersonList().sort(naturalComparatorOrder);
             isReversed=false;
         }
-        log.info("Command reorder collection reordered successfully");
+        log.info("Command reorder:collection reordered ");
 
-        return "collection reordered successfully";
+        return "collection reordered ";
     }
 
     @Override

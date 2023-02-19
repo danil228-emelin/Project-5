@@ -88,7 +88,7 @@ public final class PersonReadingBuilder {
         while (color == null) {
 
             System.out.println("choose colour");
-            System.out.println("wright corresponding number");
+            System.out.println("choose one number");
             System.out.println(Arrays.toString(Color.colors()));
             String test = properRead("Color must not be null");
             if (!CheckData.checkColourReadingConsole(test)) {
@@ -106,7 +106,7 @@ public final class PersonReadingBuilder {
         while (nationality == null) {
 
             System.out.println("choose nationality");
-            System.out.println("wright corresponding number");
+            System.out.println("choose one  number");
 
             System.out.println(Arrays.toString(Country.countries()));
             String test = properRead("country must not be null");

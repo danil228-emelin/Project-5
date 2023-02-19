@@ -28,7 +28,7 @@ public class Show implements NoArgumentCommand {
 
     @Override
     public String execute() {
-        log.info("command Show print elements ");
+        log.info("command Show:print elements ");
 
         return controller.getPersonList().stream()
                 .map(Person::toString)

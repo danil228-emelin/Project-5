@@ -18,7 +18,7 @@ public class PrintDescending implements NoArgumentCommand {
     private static PrintDescending printDescending;
     @Setter
     @NonNull
-    private Comparator<Person> naturalComparatorOrder=(Comparator.comparing(Person::getName).thenComparing(Person::getId));
+    private Comparator<Person> naturalComparatorOrder=(Comparator.comparing(Person::getId));
 
     private PrintDescending() {
     }

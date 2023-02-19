@@ -56,9 +56,9 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                 .build();
         if (controller.getPersonList().size() == 0) {
             controller.add(person);
-            log.info("Command AddIf added successfully");
+            log.info("Command AddIf: new element  added ");
 
-            return "element added successfully";
+            return "element added ";
         }
         Optional<Person> other =
                 controller
@@ -66,11 +66,11 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                         .stream().parallel().max(comparator);
         if (other.isPresent() && comparator.compare(person, other.get()) > 0) {
             controller.add(person);
-            log.info("Command AddIf:elements added successfully");
+            log.info("Command AddIf:elements added ");
 
-            return "element added successfully";
+            return "element added ";
         }
-        log.info("Command AddIf :elements didn't successfully");
+        log.info("Command AddIf :elements weren't  added");
 
         return "Command AddIf:element wasn't  added ";
     }

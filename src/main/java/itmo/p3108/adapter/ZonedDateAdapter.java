@@ -27,7 +27,7 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
      * @return create certain Date format
      */
     public DateTimeFormatter dateFormat() {
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        return DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss Z");
     }
 
     /**
@@ -36,7 +36,7 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
     @Override
     public ZonedDateTime unmarshal(String v) {
         DateTimeFormatter formatter = dateFormat();
-        log.info("Local Adapter unmarshal time from xml format");
+        log.info("Local Adapter unmarshal ZoneDateTime time from xml format");
         return ZonedDateTime.parse(v, formatter);
     }
 
@@ -46,7 +46,7 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
     @Override
     public String marshal(ZonedDateTime v) {
 
-        log.info("Local Adapter marshal time from xml format");
+        log.info("Local Adapter marshal ZoneDateTime time from xml format");
 
         return v.format(dateFormat());
     }

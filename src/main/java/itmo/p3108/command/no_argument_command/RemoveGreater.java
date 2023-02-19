@@ -63,7 +63,7 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
         if (size != arrayList.size()) {
             log.info("command RemoveGreater deleted all suitable elements ");
 
-            return "All suitable elements are deleted successfully ";
+            return "All suitable elements are deleted  ";
         }
         log.info("command RemoveGreater deleted nothing ");
 
