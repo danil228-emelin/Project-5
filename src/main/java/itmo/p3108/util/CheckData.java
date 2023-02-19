@@ -87,7 +87,7 @@ public class CheckData {
 
 
         System.out.println("file is set successfully");
-        System.out.println(" to change path use set_path \\'Path\\'");
+        System.out.println(" to change path use set_path 'Path' ");
 
     }
 
@@ -118,21 +118,35 @@ public class CheckData {
     }
 
     public static boolean checkBirthday(String test) {
-        if (!test.matches("\\d{2}-\\d{2}-\\d{4}")) {
+        if (!test.matches("[0-9][1-9]-[0-9][1-9]-[1-9]\\d{3}")) {
             System.err.println("error:during birthday setting line has wrong format");
             log.error("error:during birthday setting line has wrong format");
             return false;
         }
         String[] strings = test.split("-");
 
-        if (Integer.parseInt(strings[0]) > 12 || Integer.parseInt(strings[1]) > 31
-                || Integer.parseInt(strings[2]) > 2024 || Integer.parseInt(strings[2]) < 1920) {
+        if (Integer.parseInt(strings[0]) > 12) {
             System.err.println("error:during birthday setting value is incorrect");
             System.err.println("month can't be greater than 12");
+            log.error("error:during birthday setting value is incorrect");
+            return false;
+        }
+
+        if ( Integer.parseInt(strings[1]) > 31) {
+            System.err.println("error:during birthday setting value is incorrect");
+            System.err.println("day can't be greater than 31");
+            log.error("error:during birthday setting value is incorrect");
+            return false;
+        }
+
+
+        if (Integer.parseInt(strings[2]) > 2024 || Integer.parseInt(strings[2]) < 1920) {
+            System.err.println("error:during birthday setting value is incorrect");
             System.err.println("year can't be greater than 2023 and less than 1920");
             log.error("error:during birthday setting value is incorrect");
             return false;
         }
+
         return true;
     }
 
@@ -238,6 +252,15 @@ public class CheckData {
 
             return false;
         }
+        Long  id = Long.parseLong(test);
+        if (Command.controller.isPersonExist(id)) {
+            System.err.println("error:id has wrong format");
+            System.err.println("person with  id "+id+" already exist");
+            log.error("error:id has wrong format");
+
+            return false;
+        }
+
         return true;
     }
 

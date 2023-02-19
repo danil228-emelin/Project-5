@@ -27,7 +27,7 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
      * @return create certain Date format
      */
     public DateTimeFormatter dateFormat() {
-        return DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss Z");
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
     }
 
     /**

@@ -144,6 +144,7 @@ public final class Parser {
                     } else {
                         log.error("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                         System.err.println("Error during parsing:some attributes was in incorrect format,change or fix xml file");
+                        continue;
                     }
 
                     Person person = Person.builder()
@@ -167,7 +168,7 @@ public final class Parser {
                                     .build())
                             .build();
 
-                    if (!Command.controller.getPersonList().contains(person)) {
+                    if (!Command.controller.isPersonExist(person.getId())) {
                         Command.controller.add(person);
                         max_id = Long.parseLong(id.get()) > max_id ? Long.parseLong(id.get()) : max_id;
                     }

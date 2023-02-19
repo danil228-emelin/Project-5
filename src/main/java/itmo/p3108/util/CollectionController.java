@@ -33,8 +33,7 @@ public final class CollectionController {
     }
 
     /**
-     *
-     *return person list
+     * return person list
      */
     @XmlElement(name = "person")
     public ArrayList<Person> getPersonList() {
@@ -53,7 +52,7 @@ public final class CollectionController {
 
 
     public void add(Person person) {
-        if (!personList.contains(person)) {
+        {
             personList.add(person);
         }
     }

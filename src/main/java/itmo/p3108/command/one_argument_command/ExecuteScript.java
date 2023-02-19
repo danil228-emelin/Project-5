@@ -35,9 +35,9 @@ public class ExecuteScript implements Command {
     public void setPath(String path) {
         Path test = Path.of(path);
         if (!Files.isReadable(test) || !Files.isWritable(test) ) {
-            log.info("ExecuteScript error during setting path:can't read and write from file");
+            log.info("ExecuteScript error during setting path:can't read and write  file");
 
-            throw new ValidationException("error:can't read and write from file");
+            throw new ValidationException("error:can't read and write file");
         }
         this.path = path;
     }
@@ -52,11 +52,11 @@ public class ExecuteScript implements Command {
                 invoker.invoke(command);
             }
             log.info("ExecuteScript script "+path+" executed ");
-            return "Script " + path + " executed ";
+            return "";
         } catch (IOException e) {
-            log.error("Execute Script:fail doesn't exist ");
+            log.error("Execute Script:fail error ");
             System.err.println("Execute script:file error");
-            return "fail doesn't exist ";
+            return "";
         }
     }
 
