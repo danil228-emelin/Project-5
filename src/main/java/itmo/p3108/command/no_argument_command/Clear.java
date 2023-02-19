@@ -1,6 +1,7 @@
 package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
+import itmo.p3108.model.PersonReadingBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,6 +30,7 @@ public class Clear implements NoArgumentCommand {
 
     public String execute() {
         controller.getPersonList().clear();
+        PersonReadingBuilder.setId(1L);
         log.info("Command Clear deleted elements  ");
 
         return "elements are deleted ";

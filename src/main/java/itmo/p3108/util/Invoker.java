@@ -131,6 +131,7 @@ public Collection<Command> commands(){
                     executeScriptPaths.add(strings[1]);
                     ((ExecuteScript) command).setPath(strings[1]);
                     System.out.println(command.execute());
+                    return;
                 } else {
                     log.error("Error during execution command :file " + strings[1] + " doesn't exist");
                     throw new ValidationException("Error during execution command :file " + strings[1] + " doesn't exist");
@@ -142,6 +143,7 @@ public Collection<Command> commands(){
 
             if (Command.controller.isEmpty()) {
                 log.error("Collection is empty");
+                System.out.println("Collection is empty");
             }
         } catch (ValidationException e) {
             log.error(e.getMessage());

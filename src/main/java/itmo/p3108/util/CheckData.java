@@ -44,7 +44,7 @@ public class CheckData {
      * check whether the file exist,has right for reading and writing,has right format
      */
     private static boolean fileCheck(String test) {
-        if (!test.matches("[^~!/_]+")) {
+        if (!test.matches("[^!_]+")) {
             log.error("error during  file check  : name has wrong  format");
             System.err.println("file has incorrect name");
             return false;
