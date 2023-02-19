@@ -36,6 +36,11 @@ public class Show implements NoArgumentCommand {
     }
 
     @Override
+    public String description() {
+        return "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении";
+    }
+
+    @Override
     public String name() {
         return "show";
     }

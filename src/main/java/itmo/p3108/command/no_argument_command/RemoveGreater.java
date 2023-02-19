@@ -71,6 +71,12 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
     }
 
     @Override
+    public String description() {
+               return  "remove_greater {element} : удалить из коллекции все элементы, больше, чем заданный";
+
+    }
+
+    @Override
     public String name() {
         return "remove_greater";
     }

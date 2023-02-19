@@ -2,21 +2,21 @@ package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * exit without saving collection
  */
 @Slf4j
-public class Exit implements IndependentCommand,NoArgumentCommand {
+public class Exit implements IndependentCommand, NoArgumentCommand {
     private static Exit exit;
-    public static Exit getInstance(){
-      if(exit==null){
-          exit = new Exit();
-        log.info("Exit initialized");
-      }
-    return exit;
+
+    public static Exit getInstance() {
+        if (exit == null) {
+            exit = new Exit();
+            log.info("Exit initialized");
+        }
+        return exit;
     }
 
     @Override
@@ -27,6 +27,11 @@ public class Exit implements IndependentCommand,NoArgumentCommand {
         System.exit(0);
 
         return "";
+    }
+
+    @Override
+    public String description() {
+        return "exit : завершить программу (без сохранения в файл)";
     }
 
     @Override

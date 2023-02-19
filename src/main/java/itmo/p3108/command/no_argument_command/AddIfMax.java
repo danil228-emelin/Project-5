@@ -30,7 +30,7 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
         if (addIfMax == null) {
             addIfMax = new AddIfMax();
             log.info("Command AddIf initialized");
-         }
+        }
         return addIfMax;
     }
 
@@ -73,6 +73,11 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
         log.info("Command AddIf :elements weren't  added");
 
         return "Command AddIf:element wasn't  added ";
+    }
+
+    @Override
+    public String description() {
+        return "add_if_max {element} : добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции";
     }
 
     @Override

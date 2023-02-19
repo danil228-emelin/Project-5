@@ -156,6 +156,11 @@ public class Update implements Command {
     }
 
     @Override
+    public String description() {
+        return "update id:обновить элемент с заданным id";
+    }
+
+    @Override
     public String name() {
         return "update";
     }

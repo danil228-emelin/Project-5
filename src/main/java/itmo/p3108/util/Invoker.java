@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,10 +22,12 @@ import java.util.List;
 public class Invoker {
     private static Invoker invoker;
     private final HashMap<String, Command> commands = new HashMap<>();
+
     private List<String> executeScriptPaths = new ArrayList<>();
 
     private Invoker() {
     }
+
 
     public static Invoker getInstance() {
         if (invoker == null) {
@@ -34,7 +37,9 @@ public class Invoker {
         return invoker;
     }
 
-
+public Collection<Command> commands(){
+       return commands.values();
+}
     public void add(@NonNull Command... commands) {
         for (Command command : commands) {
             if (!this.commands.containsKey(command.name())) {
@@ -83,11 +88,6 @@ public class Invoker {
                 }
                 System.out.println(command.execute());
                 return;
-            }
-            if (Command.controller.isEmpty()) {
-                log.error("Collection is empty");
-
-                throw new ValidationException("Collection is empty");
             }
 
             try {
@@ -141,7 +141,11 @@ public class Invoker {
                 System.out.println(command.execute());
             }
 
+            if (Command.controller.isEmpty()) {
+                log.error("Collection is empty");
 
+                throw new ValidationException("Collection is empty");
+            }
         } catch (ValidationException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());

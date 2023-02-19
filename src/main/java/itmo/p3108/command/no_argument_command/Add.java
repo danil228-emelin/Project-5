@@ -2,8 +2,8 @@ package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
-import itmo.p3108.model.PersonReadingBuilder;
 import itmo.p3108.model.Person;
+import itmo.p3108.model.PersonReadingBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
@@ -31,7 +31,6 @@ public class Add implements NoArgumentCommand, IndependentCommand {
 
 
     /**
-     *
      * @return result of execution
      * {@link PersonReadingBuilder} is used to read from console
      */
@@ -55,6 +54,11 @@ public class Add implements NoArgumentCommand, IndependentCommand {
         return "object created ";
 
 
+    }
+
+    @Override
+    public String description() {
+        return "add {element} : добавить новый элемент в коллекцию";
     }
 
 

@@ -6,9 +6,9 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
+
 /**
  * print all elements,which name start with argument
- *
  */
 @Slf4j
 public class FilterStartsWithName implements Command {
@@ -40,6 +40,11 @@ public class FilterStartsWithName implements Command {
                         .parallel()
                         .map(Person::toString)
                         .collect(Collectors.joining("\n"));
+    }
+
+    @Override
+    public String description() {
+        return "filter_start_with_name name:выводит элементы чье имя начинается с name";
     }
 
     @Override

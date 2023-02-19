@@ -33,9 +33,14 @@ public class Save implements IndependentCommand, NoArgumentCommand {
             log.info("Command save:collection is saved");
             return "collection is saved";
         } catch (JAXBException | FileNotFoundException e) {
-           log.error("Error during saving elements,check or set new  file");
+            log.error("Error during saving elements,check or set new  file");
             return "Error during saving elements,check or set new  file";
         }
+    }
+
+    @Override
+    public String description() {
+        return "save : сохранить коллекцию в файл";
     }
 
     @Override

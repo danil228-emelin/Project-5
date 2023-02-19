@@ -27,6 +27,13 @@ public class CountByHeight implements Command {
         return Long.toString(controller.getPersonList().stream().parallel().filter(x -> x.getHeight() == height).count());
     }
 
+    @Override
+    public String description() {
+        return
+                "count_by_height height:посчитать количество элементов с заданным возростом";
+
+    }
+
     /**
      * set height,call before execute method
      *

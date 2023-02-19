@@ -4,7 +4,7 @@ import itmo.p3108.command.type.NoArgumentCommand;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- *clear collection
+ * clear collection
  */
 @Slf4j
 public class Clear implements NoArgumentCommand {
@@ -32,6 +32,11 @@ public class Clear implements NoArgumentCommand {
         log.info("Command Clear deleted elements  ");
 
         return "elements are deleted ";
+    }
+
+    @Override
+    public String description() {
+        return "    clear : очистить коллекцию";
     }
 
     @Override

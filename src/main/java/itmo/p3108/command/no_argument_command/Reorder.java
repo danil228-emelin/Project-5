@@ -46,6 +46,11 @@ public class Reorder implements NoArgumentCommand {
     }
 
     @Override
+    public String description() {
+        return  "reorder:сортировать коллекцию в обратном порядке";
+    }
+
+    @Override
     public String name() {
         return "reorder";
     }

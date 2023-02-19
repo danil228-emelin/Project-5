@@ -50,14 +50,20 @@ public class ExecuteScript implements Command {
             String[] commands = FileWorker.read(path).split("\n");
             for (String command : commands) {
                 invoker.invoke(command);
+
             }
-            log.info("ExecuteScript script "+path+" executed ");
-            return "";
+            log.info("Script "+path+" executed ");
+            return "ExecuteScript script "+path+" executed ";
         } catch (IOException e) {
             log.error("Execute Script:fail error ");
             System.err.println("Execute script:file error");
             return "";
         }
+    }
+
+    @Override
+    public String description() {
+        return "считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме";
     }
 
     @Override

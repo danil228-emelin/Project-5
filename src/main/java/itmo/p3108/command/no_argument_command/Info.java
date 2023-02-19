@@ -32,6 +32,12 @@ public class Info implements NoArgumentCommand, IndependentCommand {
     }
 
     @Override
+    public String description() {
+        return
+                "    info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)";
+    }
+
+    @Override
     public String name() {
         return "info";
     }

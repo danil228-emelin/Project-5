@@ -45,6 +45,11 @@ public class PrintDescending implements NoArgumentCommand {
     }
 
     @Override
+    public String description() {
+        return "print_descending : вывести элементы коллекции в порядке возрастания";
+    }
+
+    @Override
     public String name() {
         return "print_descending";
     }
