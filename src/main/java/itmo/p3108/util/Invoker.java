@@ -123,8 +123,9 @@ public Collection<Command> commands(){
                 if (executeScriptPaths.contains(strings[1])) {
                     log.error("Error : execute_script can't be executed "
                             + "(" + strings[1] + ")" + ".Recursion is forbidden");
-                    throw new ValidationException("Error : execute_script can't be executed "
+                    System.err.println("Error : execute_script can't be executed "
                             + "(" + strings[1] + ")" + ".Recursion is forbidden");
+                    return;
                 }
                 if (Files.exists(Path.of(strings[1]))) {
                     executeScriptPaths.add(strings[1]);

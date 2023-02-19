@@ -6,23 +6,36 @@ import itmo.p3108.model.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Analyzer {
-    private Analyzer() {
+public class AnalyzerExecuteScript {
+    private AnalyzerExecuteScript() {
     }
 
     public static void analyze(String... commands) {
         Invoker invoker = Invoker.getInstance();
 
-        String command = commands[0];
+        for (int i = 0; i < commands.length; i++) {
 
-        if (command.equals("add")) {
-            String[] arguments = commands[1].trim().split(",");
-            if (arguments.length != 12) {
-                System.err.println("Error add:next line must be parameters");
-                System.err.println("Some attributes  missed");
-                System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name");
-                return;
+            String command = commands[i].trim();
+            if (!command.startsWith("add")) {
+                invoker.invoke(command);
+                continue;
             }
+
+            if (i == commands.length - 1) {
+
+                System.err.println("Error add:next line empty ,but it  must have arguments");
+                System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name");
+
+                continue;
+            }
+            if (commands[i + 1].trim().split(",").length != 12) {
+                System.err.println("Error add:some attributes are missed in argument line " + i);
+                System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name");
+
+                continue;
+            }
+            String[] arguments = commands[1].trim().split(",");
+
             if (
                     CheckData.checkId(arguments[0]) &&
                             CheckData.checkName(arguments[1]) &&
@@ -54,11 +67,8 @@ public class Analyzer {
                 Command.controller.add(person);
             }
 
-        } else {
-            invoker.invoke(command);
         }
 
+
     }
-
-
 }

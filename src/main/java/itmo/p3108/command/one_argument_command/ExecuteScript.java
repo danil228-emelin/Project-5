@@ -2,7 +2,7 @@ package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
-import itmo.p3108.util.Analyzer;
+import itmo.p3108.util.AnalyzerExecuteScript;
 import itmo.p3108.util.FileWorker;
 import itmo.p3108.util.Invoker;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 /**
  * execute scripts
@@ -50,21 +51,8 @@ public class ExecuteScript implements Command {
 
         try {
             String[] commands = FileWorker.read(path).split("\n");
-            for (int i = 0; i < commands.length - 1; i++) {
 
-                String command = commands[i].trim().toLowerCase();
-                if (command.startsWith("add")) {
-                    if (i == commands.length - 1 || commands[i + 1].trim().equals("")) {
-                        System.err.println("Error during adding execution:next line must be parameters");
-                        System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday,eyeColor,nationality,location.x,location.y,location.z,location.name");
-                        continue;
-                    }
-                    Analyzer.analyze(command, commands[i + 1]);
-                    commands[i + 1] = "";
-                } else {
-                    Analyzer.analyze(command);
-                }
-            }
+            AnalyzerExecuteScript.analyze(commands);
             log.info("Script " + path + " executed ");
             return "ExecuteScript script " + path + " executed ";
         } catch (IOException e) {
