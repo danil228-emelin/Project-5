@@ -142,8 +142,6 @@ public Collection<Command> commands(){
 
             if (Command.controller.isEmpty()) {
                 log.error("Collection is empty");
-
-                throw new ValidationException("Collection is empty");
             }
         } catch (ValidationException e) {
             log.error(e.getMessage());
