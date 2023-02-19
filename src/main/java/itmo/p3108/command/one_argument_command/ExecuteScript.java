@@ -2,6 +2,7 @@ package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
+import itmo.p3108.util.Analyzer;
 import itmo.p3108.util.FileWorker;
 import itmo.p3108.util.Invoker;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 /**
  * execute scripts
  */
@@ -28,13 +30,13 @@ public class ExecuteScript implements Command {
         }
         return executeScript;
     }
+
     /**
      * set path ,call before execute method
-     *
      */
     public void setPath(String path) {
         Path test = Path.of(path);
-        if (!Files.isReadable(test) || !Files.isWritable(test) ) {
+        if (!Files.isReadable(test) || !Files.isWritable(test)) {
             log.info("ExecuteScript error during setting path:can't read and write  file");
 
             throw new ValidationException("error:can't read and write file");
@@ -48,12 +50,23 @@ public class ExecuteScript implements Command {
 
         try {
             String[] commands = FileWorker.read(path).split("\n");
-            for (String command : commands) {
-                invoker.invoke(command);
+            for (int i = 0; i < commands.length - 1; i++) {
 
+                String command = commands[i].trim().toLowerCase();
+                if (command.startsWith("add")) {
+                    if (i == commands.length - 1 || commands[i + 1].trim().equals("")) {
+                        System.err.println("Error during adding execution:next line must be parameters");
+                        System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday,eyeColor,nationality,location.x,location.y,location.z,location.name");
+                        continue;
+                    }
+                    Analyzer.analyze(command, commands[i + 1]);
+                    commands[i + 1] = "";
+                } else {
+                    Analyzer.analyze(command);
+                }
             }
-            log.info("Script "+path+" executed ");
-            return "ExecuteScript script "+path+" executed ";
+            log.info("Script " + path + " executed ");
+            return "ExecuteScript script " + path + " executed ";
         } catch (IOException e) {
             log.error("Execute Script:fail error ");
             System.err.println("Execute script:file error");

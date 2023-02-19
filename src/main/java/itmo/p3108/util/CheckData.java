@@ -348,6 +348,11 @@ public class CheckData {
 
         }
 
+        @Override
+        public String description() {
+            return "set_path path:set new file for saving collection";
+        }
+
         public String name() {
             return "set_path";
         }
