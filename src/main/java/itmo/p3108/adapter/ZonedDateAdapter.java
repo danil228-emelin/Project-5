@@ -41,7 +41,7 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
     }
 
     /**
-     * unnecessary method
+     * marshal time to formatted string
      */
     @Override
     public String marshal(ZonedDateTime v) {

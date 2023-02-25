@@ -38,14 +38,10 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     public LocalDate unmarshal(String v) {
         DateTimeFormatter formatter = dateFormat();
         log.info("Local Adapter  unmarshal  LocalDate time from xml format");
-
         return LocalDate.parse(v, formatter);
-
     }
-
-
     /**
-     * unnecessary method
+     * marshal local date to formatted string
      */
     @Override
     public String marshal(LocalDate v) {
