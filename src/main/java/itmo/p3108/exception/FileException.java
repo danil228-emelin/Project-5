@@ -1,0 +1,9 @@
+package itmo.p3108.exception;
+
+public class FileException extends RuntimeException {
+
+    public FileException(String message) {
+        super(message);
+    }
+
+}
