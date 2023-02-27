@@ -14,12 +14,13 @@ public class AnalyzerExecuteScript {
     public static void analyze(String... commands) {
 
         Invoker invoker = Invoker.getInstance();
+        var i = 0;
+        while (i < commands.length) {
 
-        for (int i = 0; i < commands.length; i++) {
-
-            String command = commands[i].trim();
-            if (!command.startsWith("add")) {
+            String command = commands[i].trim().toLowerCase();
+            if (!command.equals("add")) {
                 invoker.invoke(command);
+                i++;
                 continue;
             }
 
@@ -27,35 +28,37 @@ public class AnalyzerExecuteScript {
 
                 System.err.println("Error add:next line empty ,but it  must have arguments");
                 System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name");
-
+                i++;
                 continue;
             }
-            if (commands[i + 1].trim().split(",").length != 12) {
-                System.err.println("Error add:some attributes are missed in argument line " + i);
+            String addArguments = commands[i + 1];
+            if (addArguments.trim().split(",").length != 12) {
+                System.err.printf("Error add:some attributes are missed in argument line %d%n", i);
                 System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name");
-
+                i += 2;
                 continue;
             }
-            String[] arguments = commands[1].trim().split(",");
+
+            String[] arguments = addArguments.trim().split(",");
             CheckData checkData = new CheckData();
             if (checkData.checkArguments(Arrays.stream(arguments).toList())) {
                 Person person = Person.builder()
-                        .id(Long.parseLong(arguments[0]))
-                        .name(arguments[1])
-                        .coordinates(Coordinates.builder().x(Integer.parseInt(arguments[2])).y(Float.valueOf(arguments[3])).build())
-                        .height(Double.parseDouble(arguments[4]))
-                        .birthday(LocalDate.parse(arguments[5], DateTimeFormatter.ofPattern("MM-dd-yyyy")))
-                        .eyeColor(Color.newValue(arguments[6]))
-                        .nationality(Country.newValue(arguments[7]))
+                        .id(Long.parseLong(arguments[0].trim()))
+                        .name(arguments[1].trim())
+                        .coordinates(Coordinates.builder().x(Integer.parseInt(arguments[2].trim())).y(Float.valueOf(arguments[3].trim())).build())
+                        .height(Double.parseDouble(arguments[4].trim()))
+                        .birthday(LocalDate.parse(arguments[5].trim(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
+                        .eyeColor(Color.newValue(arguments[6].trim()))
+                        .nationality(Country.newValue(arguments[7].trim()))
                         .location(Location.builder()
-                                .x(Double.parseDouble(arguments[8]))
-                                .y(Float.valueOf(arguments[9]))
-                                .z(Float.parseFloat(arguments[10]))
-                                .name(arguments[11]).build())
+                                .x(Double.parseDouble(arguments[8].trim()))
+                                .y(Float.valueOf(arguments[9].trim()))
+                                .z(Float.parseFloat(arguments[10].trim()))
+                                .name(arguments[11].trim()).build())
                         .build();
-                Command.controller.add(person);
+                Command.controller.getPersonList().add(person);
             }
-
+            i += 2;
         }
 
 

@@ -27,7 +27,7 @@ public class FileValidator {
             return true;
         else {
             log.error(String.format("Permission error:no rights for writing and reading:%s", path));
-            System.err.printf("Permission error:no rights for writing and reading:%s%n", path);
+            System.err.printf("Permission error:no rights for writing and reading:%s", path);
             return false;
         }
 
@@ -57,7 +57,7 @@ public class FileValidator {
     public String findFile() {
         if (path == null) {
             System.err.println("file for collection saving isn't specified");
-            log.error("file for collection saving isn't specified");
+            log.error("file isn't specified");
             path = readFileName();
         } else {
             System.out.println("default file " + System.getenv("COLLECTION_PATH"));

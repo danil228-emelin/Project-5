@@ -1,10 +1,9 @@
-package itmo.p3108.command.one_argument_command;
+package itmo.p3108.command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.FileException;
 import itmo.p3108.util.AnalyzerExecuteScript;
 import itmo.p3108.util.FileWorker;
-import itmo.p3108.util.Invoker;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +35,6 @@ public class ExecuteScript implements Command {
 
     @Override
     public String execute() {
-        Invoker invoker = Invoker.getInstance();
 
         try {
             String[] commands = FileWorker.read(path).split("\n");

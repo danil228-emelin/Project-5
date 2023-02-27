@@ -50,13 +50,7 @@ public final class CollectionController {
         return personList.isEmpty();
     }
 
-
-    public void add(Person person) {
-        {
-            personList.add(person);
-        }
-    }
-
+    
     public Person getPersonById(Long id) {
         for (Person person : personList) {
             if (person.getId().equals(id)) {

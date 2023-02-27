@@ -1,4 +1,4 @@
-package itmo.p3108.command.one_argument_command;
+package itmo.p3108.command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
@@ -124,6 +124,7 @@ public class Update implements Command {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
             if (s.equals("")) {
+
                 return person.getLocation();
             }
             return PersonReadingBuilder.getInstance().createLocation();

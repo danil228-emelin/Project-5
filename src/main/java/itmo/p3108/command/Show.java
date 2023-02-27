@@ -1,4 +1,4 @@
-package itmo.p3108.command.no_argument_command;
+package itmo.p3108.command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@SuppressWarnings("unused")
 public class Show implements NoArgumentCommand {
 
     @Override

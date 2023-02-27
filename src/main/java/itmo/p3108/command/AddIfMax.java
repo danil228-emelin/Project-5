@@ -1,4 +1,4 @@
-package itmo.p3108.command.no_argument_command;
+package itmo.p3108.command;
 
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
@@ -46,7 +46,7 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                 .location(personReadingBuilder.createLocation())
                 .build();
         if (controller.getPersonList().size() == 0) {
-            controller.add(person);
+            controller.getPersonList().add(person);
             log.info("Command AddIf: new element  added ");
 
             return "element added ";
@@ -56,7 +56,7 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                         .getPersonList()
                         .stream().parallel().max(comparator);
         if (other.isPresent() && comparator.compare(person, other.get()) > 0) {
-            controller.add(person);
+            controller.getPersonList().add(person);
             log.info("Command AddIf:elements added ");
 
             return "element added ";

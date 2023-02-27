@@ -20,12 +20,19 @@ import java.util.Set;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class CheckData {
+    @SuppressWarnings("all")
     private final String CREATION_TIME_FORMAT = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z";
+    @SuppressWarnings("all")
     private final String BIRTHDAY_FORMAT = "[0-9][1-9]-[0-9][1-9]-[1-9]\\d{3}";
+    @SuppressWarnings("all")
     private final String INT_NUMBER_FORMAT = "-?\\d+";
+    @SuppressWarnings("all")
     private final String POSITIVE_NUMBER_FORMAT = "\\d+";
+    @SuppressWarnings("all")
     private final String FLOAT_NUMBER_FORMAT = "-?\\d+\\.?\\d*";
+    @SuppressWarnings("all")
     private final String POSITIVE_FLOAT_NUMBER_FORMAT = "\\d+\\.?\\d*";
+    @SuppressWarnings("all")
     private final String NAME_FORMAT = "(\\w+-?\\w*)";
 
     @Checking
@@ -218,8 +225,11 @@ public class CheckData {
 
     public boolean checkArguments(@NonNull Collection<String> collection) {
         Set<Method> set = Reflection.findAllCommandsWithAnnotation("itmo.p3108.util", Checking.class);
+        if (set == null) {
+            return false;
+        }
         CheckData checkData = new CheckData();
-        Boolean oneArgumentChecking = false;
+        boolean oneArgumentChecking = false;
         for (String data : collection) {
             for (Method methodChecking : set) {
                 try {
@@ -234,7 +244,8 @@ public class CheckData {
                     } else {
                         throw new ValidationException("Error during checking:one attribute has wrong format");
                     }
-                } catch (Exception ignored) {
+                } catch (Exception exception) {
+                    log.error(exception.getMessage());
                 }
 
             }

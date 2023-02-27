@@ -1,4 +1,4 @@
-package itmo.p3108.command.no_argument_command;
+package itmo.p3108.command;
 
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@SuppressWarnings("unused")
 public class Add implements NoArgumentCommand, IndependentCommand {
     private final PersonReadingBuilder personReadingBuilder = PersonReadingBuilder.getInstance();
 
@@ -36,7 +37,7 @@ public class Add implements NoArgumentCommand, IndependentCommand {
                 .creationDate(ZonedDateTime.now())
                 .location(personReadingBuilder.createLocation())
                 .build();
-        controller.add(person);
+        controller.getPersonList().add(person);
         log.info("Command Add:  object created  ");
 
         return "object created ";

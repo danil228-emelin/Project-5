@@ -1,4 +1,4 @@
-package itmo.p3108.command.one_argument_command;
+package itmo.p3108.command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.model.Person;
