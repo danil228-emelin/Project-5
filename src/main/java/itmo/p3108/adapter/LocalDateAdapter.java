@@ -14,7 +14,6 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     private static LocalDateAdapter localDateAdapter;
 
-
     public static LocalDateAdapter getInstance() {
         if (localDateAdapter == null) {
             localDateAdapter = new LocalDateAdapter();

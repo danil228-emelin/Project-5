@@ -55,14 +55,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", height=" + height +
-                ", birthday=" + birthday +
-                ", eyeColor=" + eyeColor +
-                ", nationality=" + nationality +
-                '}';
+        return String.format("{id=%d, name=%s, height=%.3f, birthday=%s, eyeColor=%s, nationality=%s}",
+                id, name, height, birthday, eyeColor, nationality);
+
     }
 }
 

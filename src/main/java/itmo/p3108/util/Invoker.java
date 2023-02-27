@@ -4,6 +4,7 @@ import itmo.p3108.command.FlyWeightCommand;
 import itmo.p3108.command.one_argument_command.*;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.command.type.NoArgumentCommand;
+import itmo.p3108.exception.FileException;
 import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -70,13 +71,13 @@ public class Invoker {
 
             if (command instanceof NoArgumentCommand) {
                 if (strings.length > 1) {
-                    log.error("Error during execution command " + command.name() + " doesn't have arguments");
-                    throw new ValidationException("Error during execution command " + command.name() + " doesn't have arguments");
+                    log.error(String.format("Error during execution command  %s   doesn't have arguments", command.name()));
+                    throw new ValidationException(String.format("Error during execution command %s doesn't have arguments", command.name()));
                 }
 
             } else if (strings.length > 2 || strings.length == 1) {
-                log.error("Error during execution command " + command.name() + " has one argument ");
-                throw new ValidationException("Error during execution command " + command.name() + " has one argument ");
+                log.error(String.format("Error during execution command %s has one argument ", command.name()));
+                throw new ValidationException(String.format("Error during execution command %s has one argument ", command.name()));
             }
 
 
@@ -125,8 +126,9 @@ public class Invoker {
                     System.out.println(command.execute());
                     return;
                 } else {
+
                     log.error("Error during execution command :file " + strings[1] + " doesn't exist");
-                    throw new ValidationException("Error during execution command :file " + strings[1] + " doesn't exist");
+                    throw new FileException("Error during execution command :file " + strings[1] + " doesn't exist");
                 }
             }
             if (command instanceof NoArgumentCommand) {
@@ -137,7 +139,7 @@ public class Invoker {
                 log.error("Collection is empty");
                 System.out.println("Collection is empty");
             }
-        } catch (ValidationException e) {
+        } catch (ValidationException | FileException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());
         }

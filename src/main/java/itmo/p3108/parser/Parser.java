@@ -1,10 +1,13 @@
 package itmo.p3108.parser;
 
 import itmo.p3108.command.type.Command;
+import itmo.p3108.exception.FileException;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.*;
 import itmo.p3108.util.CheckData;
 import itmo.p3108.util.CollectionController;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
@@ -29,18 +32,15 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 /**
  * parse elements from and to the xml file
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Parser {
-    private static final int TOTAL_NODES = 19;
-    private static final ArrayList<Optional<String>> optionals = new ArrayList<>();
+    private static final ArrayList<String> ARGUMENTS = new ArrayList<>();
 
-    private Parser() {
-    }
 
     private static String information(Element element, String tegName) {
         return element.getElementsByTagName(tegName).item(0).getTextContent();
@@ -58,8 +58,8 @@ public final class Parser {
 
             File file = new File(path);
             if (file.length() == 0) {
-                log.warn("Fail " + path + " is empty, collection empty as well");
-                throw new ValidationException("Fail " + path + " is empty, collection empty as well");
+                log.warn(String.format("Fail %s is empty, collection empty as well", path));
+                throw new FileException("Fail " + path + " is empty, collection empty as well");
             }
             Document doc = db.parse(file);
 
@@ -69,75 +69,74 @@ public final class Parser {
 
             for (int temp = 0; temp < personList.getLength(); temp++) {
                 Node personNode = personList.item(temp);
-                if (personNode.getChildNodes().getLength() != TOTAL_NODES) {
-                    log.error("Error during parsing:element with index " + temp);
-                    System.err.println("Error during parsing:element with index " + temp);
-                    System.err.println("Some attributes are absent,change or fix xml file");
-                    continue;
-                }
+
                 if (personNode.getNodeType() == Node.ELEMENT_NODE) {
 
 
                     Element personElem = (Element) personNode;
 
-                    Optional<String> eyeColour = Optional.ofNullable(information(personElem, "eyeColor"));
+                    String eyeColour = (information(personElem, "eyeColor"));
 
-                    Optional<String> id = Optional.ofNullable(information(personElem, "id"));
-                    optionals.add(id);
-                    Optional<String> name = Optional.ofNullable(information(personElem, "name"));
-                    optionals.add(name);
-                    Optional<String> height = Optional.ofNullable(information(personElem, "height"));
-                    optionals.add(height);
-                    Optional<String> createDate = Optional.ofNullable(information(personElem, "creationDate"));
-                    optionals.add(createDate);
-                    Optional<String> birthday = Optional.ofNullable(information(personElem, "birthday"));
-                    optionals.add(birthday);
-                    Optional<String> nationality = Optional.ofNullable(information(personElem, "nationality"));
-                    optionals.add(nationality);
+                    String id = (information(personElem, "id"));
+                    ARGUMENTS.add(id);
+                    String name = (information(personElem, "name"));
+                    ARGUMENTS.add(name);
+                    String height = (information(personElem, "height"));
+                    ARGUMENTS.add(height);
+                    String createDate = (information(personElem, "creationDate"));
+                    ARGUMENTS.add(createDate);
+                    String birthday = (information(personElem, "birthday"));
+                    ARGUMENTS.add(birthday);
+                    String nationality = (information(personElem, "nationality"));
+                    ARGUMENTS.add(nationality);
 
-                    Optional<String> xCoordinates = Optional.empty();
-                    Optional<String> yCoordinates = Optional.empty();
+                    String xCoordinates = "";
+                    String yCoordinates = "";
                     NodeList coordinateList = doc.getElementsByTagName("coordinates");
 
-                    Optional<String> x = Optional.empty();
-                    Optional<String> y = Optional.empty();
-                    Optional<String> z = Optional.empty();
-                    Optional<String> placeName = Optional.empty();
+                    String x = "";
+                    String y = "";
+                    String z = "";
+                    String placeName = "";
 
                     for (int i = 0; i < coordinateList.getLength(); i++) {
                         Element coordinateElem = (Element) coordinateList.item(i);
-                        xCoordinates = Optional.ofNullable(information(coordinateElem, "x"));
-                        yCoordinates = Optional.ofNullable(information(coordinateElem, "y"));
+                        xCoordinates = (information(coordinateElem, "x"));
+                        yCoordinates = (information(coordinateElem, "y"));
                     }
                     NodeList location = doc.getElementsByTagName("location");
 
                     for (int i = 0; i < location.getLength(); i++) {
                         Element coordinateElem = (Element) location.item(i);
-                        x = Optional.ofNullable(information(coordinateElem, "x"));
-                        y = Optional.ofNullable(information(coordinateElem, "y"));
-                        z = Optional.ofNullable(information(coordinateElem, "z"));
-                        placeName = Optional.ofNullable(information(coordinateElem, "name"));
-                    }
-                    if (optionals.stream().parallel().anyMatch(Optional::isEmpty)) {
-                        log.error("Error during parsing:element with index " + temp + " value of attribute is null,change or fix xml file");
-                        System.err.println("Error during parsing:element with index " + temp);
-                        System.err.println("value of attribute is null,change or fix xml file change or fix xml file");
-                        continue;
+                        x = (information(coordinateElem, "x"));
+                        y = (information(coordinateElem, "y"));
+                        z = (information(coordinateElem, "z"));
+                        placeName = (information(coordinateElem, "name"));
                     }
 
                     CheckData checkData = new CheckData();
-                    if (checkData.checkName(name.get()) && checkData.checkColourReadingFile(eyeColour.get()) && checkData.checkId(id.get()) && checkData.checkHeight(height.get()) && checkData.checkBirthday(birthday.get()) && checkData.checkNationalityReadingFromFile(nationality.get()) && checkData.checkCoordinateX(xCoordinates.get()) && checkData.checkCoordinateY(yCoordinates.get()) && checkData.checkLocationCoordinateY(y.get()) && checkData.checkLocationCoordinateX(x.get()) && checkData.checkLocationCoordinateZ(z.get()) && checkData.checkName(placeName.get()) && checkData.checkCreationTime(createDate.get())) {
-                    } else {
+                    if (!checkData.checkArguments(ARGUMENTS)) {
                         log.error("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                         System.err.println("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                         continue;
                     }
 
-                    Person person = Person.builder().id(Long.parseLong(id.get())).name(name.get()).height(Double.parseDouble(height.get())).eyeColor(Color.valueOf(eyeColour.get())).creationDate(ZonedDateTime.parse(createDate.get())).nationality(Country.valueOf(nationality.get())).birthday(LocalDate.parse(birthday.get(), DateTimeFormatter.ofPattern("MM-dd-yyyy"))).coordinates(Coordinates.builder().x(Integer.parseInt(xCoordinates.get())).y(Float.valueOf(yCoordinates.get())).build()).location(Location.builder().name(placeName.get()).x(Double.parseDouble(x.get())).y(Float.valueOf(y.get())).z(Float.parseFloat(z.get())).name(placeName.get()).build()).build();
+                    Person person = Person
+                            .builder()
+                            .id(Long.parseLong(id))
+                            .name(name)
+                            .height(Double.parseDouble(height))
+                            .eyeColor(Color.valueOf(eyeColour))
+                            .creationDate(ZonedDateTime.parse(createDate))
+                            .nationality(Country.valueOf(nationality))
+                            .birthday(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("MM-dd-yyyy")))
+                            .coordinates(Coordinates.builder().x(Integer.parseInt(xCoordinates)).y(Float.valueOf(yCoordinates))
+                                    .build()).location(Location.builder().name(placeName).x(Double.parseDouble(x))
+                                    .y(Float.valueOf(y)).z(Float.parseFloat(z)).name(placeName).build()).build();
 
                     if (!Command.controller.isPersonExist(person.getId())) {
                         Command.controller.add(person);
-                        max_id = Long.parseLong(id.get()) > max_id ? Long.parseLong(id.get()) : max_id;
+                        max_id = Long.parseLong(id) > max_id ? Long.parseLong(id) : max_id;
                     }
                 }
 

@@ -1,11 +1,18 @@
 package itmo.p3108.util;
 
 import itmo.p3108.command.type.Command;
+import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.Color;
 import itmo.p3108.model.Country;
+import itmo.p3108.util.annotation.Checking;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * set path  file for serialization
@@ -21,62 +28,57 @@ public class CheckData {
     private final String POSITIVE_FLOAT_NUMBER_FORMAT = "\\d+\\.?\\d*";
     private final String NAME_FORMAT = "(\\w+-?\\w*)";
 
+    @Checking
     public boolean checkNationalityReadingFromFile(String test) {
 
         if (!Country.isPresent(test)) {
-            System.err.println("error:during nationality setting line has wrong format");
             log.error("error:during nationality setting line has wrong format");
-            return false;
+            throw new ValidationException("error:during nationality setting line has wrong format");
         }
         return true;
     }
 
     public boolean checkColourReadingConsole(String test) {
         if (!test.matches("[1-5]")) {
-            System.err.println("error:during colour setting line has wrong format");
             log.error("error:during colour setting line has wrong format");
-            return false;
+            throw new ValidationException("error:during colour setting line has wrong format");
         }
         return true;
     }
 
+    @Checking
     public boolean checkColourReadingFile(String test) {
         if (!Color.isPresent(test)) {
-            System.err.println("error:during colour setting line has wrong format");
             log.error("error:during colour setting line has wrong format");
-            return false;
+            throw new ValidationException("error:during colour setting line has wrong format");
         }
         return true;
     }
+
+    @Checking
 
     public boolean checkBirthday(String test) {
         if (!test.matches(BIRTHDAY_FORMAT)) {
-            System.err.println("error:during birthday setting line has wrong format");
             log.error("error:during birthday setting line has wrong format");
-            return false;
+            throw new ValidationException("error:during birthday setting line has wrong format");
         }
         String[] strings = test.split("-");
 
         if (Integer.parseInt(strings[0]) > 12) {
-            System.err.println("error:during birthday setting value is incorrect");
-            System.err.println("month can't be greater than 12");
             log.error("error:during birthday setting value is incorrect");
-            return false;
+
+            throw new ValidationException("error:during birthday setting value is incorrect\n month can't be greater than 12");
         }
 
         if (Integer.parseInt(strings[1]) > 31) {
-            System.err.println("error:during birthday setting value is incorrect");
-            System.err.println("day can't be greater than 31");
             log.error("error:during birthday setting value is incorrect");
-            return false;
+            throw new ValidationException("error:during birthday setting value is incorrect\n day can't be greater than 31");
         }
 
 
         if (Integer.parseInt(strings[2]) > 2024 || Integer.parseInt(strings[2]) < 1920) {
-            System.err.println("error:during birthday setting value is incorrect");
-            System.err.println("year can't be greater than 2023 and less than 1920");
             log.error("error:during birthday setting value is incorrect");
-            return false;
+            throw new ValidationException("error:during birthday setting value is incorrect \n year can't be greater than 2023 and less than 1920");
         }
 
         return true;
@@ -84,146 +86,118 @@ public class CheckData {
 
     public boolean checkNationalityReadingFromConsole(String test) {
         if (!test.matches("[1-4]")) {
-            System.err.println("error:during nationality setting line has wrong format");
             log.error("error:during nationality setting line has wrong format");
-            return false;
+            throw new ValidationException("error:during nationality setting line has wrong format");
         }
         return true;
     }
 
+    @Checking
     public boolean checkCoordinateX(String test) {
         if (!test.matches(INT_NUMBER_FORMAT)) {
-            System.err.println("error:during coordinate x setting, wrong format");
-            System.err.println("x is integer");
             log.error("error:during coordinate x setting, wrong format");
-            return false;
+            throw new ValidationException("error:during coordinate x setting, wrong format \n x is integer");
 
         }
         if (test.length() > 15) {
-            System.err.println("error:during coordinate x setting,value is too large");
             log.error("error:during coordinate x setting,value is too large");
-            return false;
+            throw new ValidationException("error:during coordinate x setting,value is too large");
         }
         return true;
     }
 
+    @Checking
     public boolean checkCoordinateY(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
-            System.err.println("error:during coordinate y setting");
             log.error("error:during coordinate y setting");
-            System.err.println("value is whole or fractional number");
-
-            return false;
-
+            throw new ValidationException("error:during coordinate y setting \n value is whole or fractional number");
         }
         if (test.length() > 15) {
-            System.err.println("error:during coordinate y setting");
-            System.err.println("value is too large");
             log.error("error:during coordinate y setting value is too large");
-
-            return false;
+            throw new ValidationException("error:during coordinate y setting \n value is too large");
         }
         return true;
     }
 
+    @Checking
     public boolean checkLocationCoordinateX(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
-            System.err.println("error:during location coordinate x setting");
-            System.err.println("value is whole or fractional number");
-
             log.error("error:during location coordinate x setting,wrong format");
-
-            return false;
-
+            throw new ValidationException("error:during location coordinate x setting \n value is whole or fractional number");
         }
         if (test.length() > 15) {
-            System.err.println("error:during location coordinate x setting");
-            System.err.println("value is too large");
             log.error("error:during location coordinate x setting value is too large");
-
-            return false;
+            throw new ValidationException("error:during location coordinate x setting \n value is too large");
         }
         return true;
     }
 
+    @Checking
     public boolean checkLocationCoordinateY(String test) {
 
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
-            System.err.println("error:during location coordinate y setting");
-            System.err.println("value is whole or fractional number");
             log.error("error:during location coordinate y setting wrong format");
 
-            return false;
+            throw new ValidationException("error:during location coordinate y setting \n value is whole or fractional number");
         }
         if (test.length() > 15) {
-            System.err.println("error:during location coordinate y setting");
-            System.err.println("value is too large");
             log.error("error:during location coordinate y setting value is too large");
 
-            return false;
+            throw new ValidationException("error:during location coordinate y setting \n value is too large");
         }
         return true;
     }
 
+    @Checking
     public boolean checkId(String test) {
         if (!test.matches(POSITIVE_NUMBER_FORMAT)) {
-            System.err.println("error:id has wrong format");
-            System.err.println("id is natural number");
             log.error("error:id has wrong format");
 
-            return false;
+            throw new ValidationException("error:id has wrong format \n id is natural number");
+
         }
         Long id = Long.parseLong(test);
         if (Command.controller.isPersonExist(id)) {
-            System.err.println("error:id has wrong format");
-            System.err.println("person with  id " + id + " already exist");
             log.error("error:id has wrong format");
 
-            return false;
+            throw new ValidationException("error:id has wrong format \n person with   already exist");
         }
 
         return true;
     }
 
+    @Checking
     public boolean checkLocationCoordinateZ(String test) {
 
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
-            System.err.println("error:during location coordinate z setting");
             log.error("error: error:during location coordinate z setting");
-            System.err.println("value is whole or fractional number");
-
-            return false;
+            throw new ValidationException("error:during location coordinate z setting \n value is whole or fractional number");
         }
         if (test.length() > 15) {
-            System.err.println("error:during location coordinate z setting");
             log.error("error: error:during location coordinate z setting,value is too large");
-            System.err.println("value is too large");
-            return false;
+            throw new ValidationException("error:during location coordinate z setting \n value is too large");
         }
         return true;
     }
 
+    @Checking
     public boolean checkHeight(String test) {
         if (!test.matches(POSITIVE_FLOAT_NUMBER_FORMAT)) {
-            System.err.println("error:during height setting");
             log.error("error:during height setting");
-            System.err.println("value is positive whole or fractional number");
-            return false;
+            throw new ValidationException("error:during height setting \n value is positive whole or fractional number");
         }
         if (test.length() > 15) {
-            System.err.println("error:during height setting");
             log.error("error:during height setting");
-            System.err.println("value is too large");
-            return false;
+            throw new ValidationException("error:during height setting value is too large");
         }
         return true;
     }
 
+    @Checking
     public boolean checkCreationTime(String test) {
 
         if (!test.matches(CREATION_TIME_FORMAT)) {
-            System.err.println("error:creation time has wrong format");
-            return false;
+            throw new ValidationException("error:creation time has wrong format");
         }
         return true;
     }
@@ -231,17 +205,42 @@ public class CheckData {
     public boolean checkName(String test) {
 
         if (test.length() > 40) {
-            System.err.println("error during name setting:too long line");
-            System.err.println("maximum is 40 letters");
             log.error("error during name setting:too long line");
-            return false;
+            throw new ValidationException("error during name setting:too long line \n maximum is 40 letters");
         }
         if (!test.matches(NAME_FORMAT)) {
-            System.err.println("error during name setting:line has wrong format");
-            System.err.println("use only digits,letters,and dash for double name");
             log.error("error during name setting:line has wrong format ");
-            return false;
+
+            throw new ValidationException("error during name setting:line has wrong format \n use only digits,letters,and dash for double name");
         }
         return true;
     }
+
+    public boolean checkArguments(@NonNull Collection<String> collection) {
+        Set<Method> set = Reflection.findAllCommandsWithAnnotation("itmo.p3108.util", Checking.class);
+        CheckData checkData = new CheckData();
+        Boolean oneArgumentChecking = false;
+        for (String data : collection) {
+            for (Method methodChecking : set) {
+                try {
+
+                    Object result = methodChecking.invoke(checkData, data);
+                    if (result instanceof Boolean resultChecking && resultChecking) {
+                        oneArgumentChecking = true;
+                        break;
+                    }
+                    if (oneArgumentChecking) {
+                        oneArgumentChecking = false;
+                    } else {
+                        throw new ValidationException("Error during checking:one attribute has wrong format");
+                    }
+                } catch (Exception ignored) {
+                }
+
+            }
+        }
+        return true;
+    }
+
+
 }

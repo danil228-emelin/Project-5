@@ -1,7 +1,7 @@
 package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
-import itmo.p3108.exception.ValidationException;
+import itmo.p3108.exception.FileException;
 import itmo.p3108.util.AnalyzerExecuteScript;
 import itmo.p3108.util.FileWorker;
 import itmo.p3108.util.Invoker;
@@ -29,7 +29,7 @@ public class ExecuteScript implements Command {
         if (!Files.isReadable(test) || !Files.isWritable(test)) {
             log.info("ExecuteScript error during setting path:can't read and write  file");
 
-            throw new ValidationException("error:can't read and write file");
+            throw new FileException("error:can't read and write file");
         }
         this.path = path;
     }
@@ -42,8 +42,8 @@ public class ExecuteScript implements Command {
             String[] commands = FileWorker.read(path).split("\n");
 
             AnalyzerExecuteScript.analyze(commands);
-            log.info("Script " + path + " executed ");
-            return "ExecuteScript script " + path + " executed ";
+            log.info(String.format("Script %s executed ", path));
+            return String.format("Script %s executed ", path);
         } catch (IOException e) {
             log.error("Execute Script:fail error ");
             System.err.println("Execute script:file error");

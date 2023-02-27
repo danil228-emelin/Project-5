@@ -9,12 +9,12 @@ import java.nio.file.Paths;
 
 @Slf4j
 public class FileValidator {
-
+    private final String FILE_NAME_FORMAT = "[^!_]+";
     @Getter
     private String path = System.getenv("COLLECTION_PATH");
 
     private boolean fileCheck(String test) {
-        if (!test.matches("[^!_]+")) {
+        if (!test.matches(FILE_NAME_FORMAT)) {
             log.error("error during  file check  : name has wrong  format");
             System.err.println("file has incorrect name");
             return false;
@@ -26,8 +26,8 @@ public class FileValidator {
         if (Files.isWritable(path) && Files.isReadable(path))
             return true;
         else {
-            log.error("Permission error:no rights for writing and reading:" + path);
-            System.err.println("Permission error:no rights for writing and reading:" + path);
+            log.error(String.format("Permission error:no rights for writing and reading:%s", path));
+            System.err.printf("Permission error:no rights for writing and reading:%s%n", path);
             return false;
         }
 
@@ -39,7 +39,7 @@ public class FileValidator {
             System.out.println("enter file name  for saving objects");
             System.out.println("file can't start with \"^,~,!,/,.,_\"");
             String test = UserReader.read();
-            if (!test.matches("[^~!/._]+")) {
+            if (!test.matches(FILE_NAME_FORMAT)) {
                 log.error("error during read file name :wrong data format");
                 System.err.println("error:wrong data format");
                 continue;
@@ -72,7 +72,6 @@ public class FileValidator {
         }
         log.info("file is set");
         System.out.println("file is set successfully");
-        System.out.println(" to change path use set_path 'Path' ");
         return path;
     }
 }

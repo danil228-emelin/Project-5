@@ -18,9 +18,6 @@ public class Coordinates {
 
     @Override
     public String toString() {
-        return "Coordinates{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return String.format("Coordinates{x=%d, y= %f}", x, y);
     }
 }

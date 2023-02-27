@@ -5,6 +5,7 @@ import itmo.p3108.model.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class AnalyzerExecuteScript {
     private AnalyzerExecuteScript() {
@@ -37,20 +38,7 @@ public class AnalyzerExecuteScript {
             }
             String[] arguments = commands[1].trim().split(",");
             CheckData checkData = new CheckData();
-            if (
-                    checkData.checkId(arguments[0]) &&
-                            checkData.checkName(arguments[1]) &&
-                            checkData.checkCoordinateX(arguments[2]) &&
-                            checkData.checkCoordinateY(arguments[3]) &&
-                            checkData.checkHeight(arguments[4]) &&
-                            checkData.checkBirthday(arguments[5]) &&
-                            checkData.checkColourReadingConsole(arguments[6]) &&
-                            checkData.checkNationalityReadingFromConsole(arguments[7]) &&
-                            checkData.checkLocationCoordinateX(arguments[8]) &&
-                            checkData.checkLocationCoordinateY(arguments[9]) &&
-                            checkData.checkLocationCoordinateZ(arguments[10]) &&
-                            checkData.checkName(arguments[11])
-            ) {
+            if (checkData.checkArguments(Arrays.stream(arguments).toList())) {
                 Person person = Person.builder()
                         .id(Long.parseLong(arguments[0]))
                         .name(arguments[1])

@@ -15,9 +15,7 @@ public class Main {
         FileValidator fileValidator = new FileValidator();
         String path = fileValidator.findFile();
         Parser.read(path);
-
         Invoker invoker = Invoker.getInstance();
-
         while (true) {
             invoker.invoke(UserReader.read());
         }

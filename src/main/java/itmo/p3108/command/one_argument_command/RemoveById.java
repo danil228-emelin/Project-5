@@ -17,7 +17,7 @@ public class RemoveById implements Command {
     @Override
     public String execute() {
         controller.getPersonList().removeIf(x -> x.getId().equals(id));
-        log.info("RemoveById:element with  id " + id + " was deleted ");
+        log.info(String.format("RemoveById:element with id %d  was deleted", id));
 
         return "element with  id " + id + " was deleted ";
     }
@@ -42,7 +42,7 @@ public class RemoveById implements Command {
         }
 
         if (!controller.isPersonExist(id)) {
-            log.error(" RemoveById error :element with such " + id + "doesn't exit");
+            log.error(String.format(" RemoveById error :element with such %d doesn't exit", id));
 
             throw new ValidationException("RemoveById error:person with such id doesn't exit");
         }

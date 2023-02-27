@@ -4,17 +4,16 @@ import itmo.p3108.command.type.Command;
 import itmo.p3108.util.Reflection;
 
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
 public class FlyWeightCommand {
     private static final FlyWeightCommand FLY_WEIGHT_COMMAND = new FlyWeightCommand();
-    private final HashMap<String, Command> COMMAND_MAP = new HashMap<>();
+    private final HashMap<String, Command> COMMAND_MAP = new HashMap<String, Command>();
 
     private FlyWeightCommand() {
-        Set<Class<?>> set = Reflection.findAllCommands(Paths.get("itmo.p3108.command"));
+        Set<Class<?>> set = Reflection.findAllCommands("itmo.p3108.command");
         for (Class<?> commandClass : set) {
 
             try {

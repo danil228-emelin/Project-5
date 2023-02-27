@@ -27,7 +27,7 @@ public class Clear implements NoArgumentCommand {
 
     @Override
     public String description() {
-        return "    clear : очистить коллекцию";
+        return "clear : очистить коллекцию";
     }
 
     @Override

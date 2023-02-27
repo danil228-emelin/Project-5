@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 
 /**
@@ -41,19 +42,10 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
                 .location(personReadingBuilder.createLocation())
                 .build();
         ArrayList<Person> arrayList = controller.getPersonList();
-        int size = arrayList.size();
-        arrayList.removeIf(x -> {
-                    if (comparator.compare(x, person) > 0) {
-                        log.info("command RemoveGreater remove " + x.getName());
-                        System.out.println(x.getName() + " removed ");
-                        return true;
-                    }
-                    return false;
-                }
-        );
-        if (size != arrayList.size()) {
-            log.info("command RemoveGreater deleted all suitable elements ");
+        Collection<Person> collection = arrayList.stream().filter(x -> comparator.compare(x, person) > 0).toList();
 
+        if (arrayList.removeAll(collection)) {
+            log.info("command RemoveGreater deleted all suitable elements ");
             return "All suitable elements are deleted  ";
         }
         log.info("command RemoveGreater deleted nothing ");
