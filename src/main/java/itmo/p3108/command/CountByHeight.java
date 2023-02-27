@@ -7,14 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * count elements with certain height
+ * Command CountByHeight,count elements with certain height,
+ * don't work if collection is empty.
+ * Has one parameter height
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class CountByHeight implements Command {
     private double height;
 
-
+    /**
+     * @return number of elements,who has certain hight
+     */
     @Override
     public String execute() {
         log.info("CountBtHeight printing");

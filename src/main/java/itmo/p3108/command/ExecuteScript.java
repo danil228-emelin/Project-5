@@ -13,7 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * execute scripts
+ * Command execute script.
+ * Execute script. Has one argument (path) for script.
+ * If fail doesn't exist or program can't read from -error occur
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -33,6 +35,9 @@ public class ExecuteScript implements Command {
         this.path = path;
     }
 
+    /**
+     * @return the result of command
+     */
     @Override
     public String execute() {
 

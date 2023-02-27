@@ -7,7 +7,11 @@ import itmo.p3108.util.UserReader;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * main class
+ * Entry point of program
+ * Before working with user,
+ * FileValidator check whether the xml file for serialization and deserialization
+ * Parser try to download elements from xml file
+ * Invoker using getInstance download all existing commands.
  */
 @Slf4j
 public class Main {

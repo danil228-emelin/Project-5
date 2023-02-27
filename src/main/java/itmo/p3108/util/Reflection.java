@@ -11,10 +11,17 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Class Reflection,provide Reflections class functionality
+ */
 public class Reflection {
     private Reflection() {
     }
 
+    /**
+     * @param packageName source package
+     * @return find all commands in certain package
+     */
     public static Set<Class<?>> findAllCommands(String packageName) {
         try {
 
@@ -31,6 +38,11 @@ public class Reflection {
         return null;
     }
 
+    /**
+     * @param pathToCheckedClass source package
+     * @param annotation         certain annotation to find
+     * @return commands which has certain annotation
+     */
     public static Set<Method> findAllCommandsWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
         try {
 

@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Response for proper reading from console
+ * Class UserReader  response for proper reading from console
  */
 final public class UserReader {
     private static final Scanner scanner = new Scanner(System.in);

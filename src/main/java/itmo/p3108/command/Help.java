@@ -11,12 +11,15 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.stream.Collectors;
 
 /**
- * put out information about commands
+ * Command Help,put out information about commands
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SuppressWarnings("unused")
 public class Help implements NoArgumentCommand, IndependentCommand {
+    /**
+     * @return information about commands
+     */
     @Override
     public String execute() {
         log.info("Command help print information");

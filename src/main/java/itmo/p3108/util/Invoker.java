@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * invoke commands
+ * Class invoker,invoke and analyze commands
  */
 @Slf4j
 public class Invoker {
@@ -25,8 +25,7 @@ public class Invoker {
     private final List<String> executeScriptPaths = new ArrayList<>();
 
     private Invoker() {
-
-        FlyWeightCommand.getInstance().getValues().forEach(this::add);
+        FlyWeightCommandFactory.getInstance().getValues().forEach(this::add);
     }
 
     public static Invoker getInstance() {
@@ -46,23 +45,18 @@ public class Invoker {
     }
 
     /**
-     * invoke try to do command
-     *
-     * @param commandString analyze for different conditions
+     * analyzing for different conditions  and then try to invoke command
      */
-    public void invoke(String commandString) {
-        String[] strings;
-        String commandStr = "";
+    public void invoke(String commandStr) {
         try {
-            if (commandString.equals("")) {
+            if (commandStr.equals("")) {
                 return;
             }
-
-            if (commandString.contains("\"")) {
-                strings = commandString.split("\"");
+            String[] strings;
+            if (commandStr.contains("\"")) {
+                strings = commandStr.split("\"");
                 String s = strings[0];
                 strings[0] = s.trim();
-                commandStr = strings[0];
             } else {
                 strings = commandStr.trim().split("\\s+");
             }

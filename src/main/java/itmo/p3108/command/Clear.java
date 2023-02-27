@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * clear collection
+ * Command Clear,clear collection
+ * don't save elements before cleaning
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SuppressWarnings("unused")
 public class Clear implements NoArgumentCommand {
     /**
-     * call clear function
+     * Command clear,clear collection  after execution size=0
      */
     @Override
 

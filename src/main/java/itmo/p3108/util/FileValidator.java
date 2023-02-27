@@ -7,12 +7,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Class FileValidator,checking file attributes.
+ * name,permission,
+ */
 @Slf4j
+
 public class FileValidator {
     private final String FILE_NAME_FORMAT = "[^!_]+";
     @Getter
     private String path = System.getenv("COLLECTION_PATH");
 
+    /**
+     * @param test file name
+     * @return return file with proper name
+     */
     private boolean fileCheck(String test) {
         if (!test.matches(FILE_NAME_FORMAT)) {
             log.error("error during  file check  : name has wrong  format");
@@ -33,6 +42,9 @@ public class FileValidator {
 
     }
 
+    /**
+     * @return reading new file when previous file was rejected
+     */
     private String readFileName() {
         String s = null;
         while (s == null) {
@@ -52,7 +64,7 @@ public class FileValidator {
 
 
     /**
-     * Set initial  file  for serialization
+     * Set initial  xml file for serialization and deserialization
      */
     public String findFile() {
         if (path == null) {

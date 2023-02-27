@@ -12,13 +12,16 @@ import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 
 /**
- * save elements of collection in xml file
+ * Command  save,save elements of collection in xml file
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SuppressWarnings("unused")
 public class Save implements IndependentCommand, NoArgumentCommand {
-
+    /**
+     * @return
+     * @see Parser using to parse collection xml format
+     */
 
     @Override
     public String execute() {

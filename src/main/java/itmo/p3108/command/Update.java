@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDate;
 
 /**
- * update exist element
+ * Command update,update  exist element
+ * has id of element  as parameter.
+ * Has opportunity to stay previous state of attribute
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -132,6 +134,9 @@ public class Update implements Command {
     }
 
 
+    /**
+     * using private methods for rewriting each  element attribute
+     */
     @Override
     public String execute() {
 

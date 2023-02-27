@@ -7,12 +7,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Adapt LocalDate Type for serialization
+ * adapt local Date time for serialization and deserialization
  */
 @Slf4j
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     private static LocalDateAdapter localDateAdapter;
+
 
     public static LocalDateAdapter getInstance() {
         if (localDateAdapter == null) {
@@ -23,7 +24,9 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     }
 
     /**
-     * @return Create certain Date format
+     * @return Create certain Date time format for Local Date
+     * <p>
+     * It needs for serialization
      */
     public DateTimeFormatter dateFormat() {
         return DateTimeFormatter.ofPattern("MM-dd-yyyy");
@@ -31,7 +34,10 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
 
     /**
-     * create LocalDate object from string matched date format
+     * create LocalDate object from string
+     * <p>
+     * It needs for deserialization
+     * use dateFormat for unmarshalling.
      */
     @Override
     public LocalDate unmarshal(String v) {
@@ -42,6 +48,8 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     /**
      * marshal local date to formatted string
+     * <p>
+     * use dateFormat for converting data in certain format
      */
     @Override
     public String marshal(LocalDate v) {

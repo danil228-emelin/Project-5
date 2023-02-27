@@ -10,13 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.stream.Collectors;
 
 /**
- * print all elements,which name start with argument
+ * Command FilterStartsWithName, print all elements,which name start with given argument.
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class FilterStartsWithName implements Command {
 
     private String substring;
+
+    /**
+     * @return the result of command
+     */
 
     @Override
     public String execute() {

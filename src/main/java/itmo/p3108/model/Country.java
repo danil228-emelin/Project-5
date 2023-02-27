@@ -20,10 +20,16 @@ public enum Country {
         return null;
     }
 
+    /**
+     * @return all constants converted to String
+     */
     public static String[] countries() {
         return Arrays.stream(Country.values()).map(Country::getName).toArray(String[]::new);
     }
 
+    /**
+     * @param test by id check whether enum constant exist or not
+     */
     public static boolean isPresent(String test) {
         for (Country country : Country.values()) {
             if (country.getName().substring(2).equals(test.toLowerCase())) {

@@ -23,6 +23,9 @@ public enum Color {
         return null;
     }
 
+    /**
+     * @param test by id check whether enum constant exist or not
+     */
     public static boolean isPresent(String test) {
         for (Color color : Color.values()) {
             if (color.getName().substring(2).equals(test.toLowerCase())) {
@@ -34,7 +37,9 @@ public enum Color {
         return false;
     }
 
-
+    /**
+     * @return all constants converted to String
+     */
     public static String[] colors() {
         return Arrays.stream(Color.values()).map(Color::getName).toArray(String[]::new);
     }

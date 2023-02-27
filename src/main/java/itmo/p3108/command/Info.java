@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * put out major information of collection
+ * Command Info, put out major information of collection
+ * Size,Collection Type,Initialization Date
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -15,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public class Info implements NoArgumentCommand, IndependentCommand {
     @Override
 
+    /**
+     * put out major information of collection
+     */
     public String execute() {
 
         log.info("Command info print information");
@@ -27,6 +31,7 @@ public class Info implements NoArgumentCommand, IndependentCommand {
         return
                 "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)";
     }
+
 
     @Override
     public String name() {

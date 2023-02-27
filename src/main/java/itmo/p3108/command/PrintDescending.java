@@ -12,8 +12,8 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 /**
- * print in descending order
- * provided with default comparator
+ * Command Print Descending, print in descending order
+ * provided with default comparator,compare by id
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)

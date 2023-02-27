@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * remove element with certain id
+ * Command RemoveByID,remove element with certain id,
+ * has int number as parameter
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)

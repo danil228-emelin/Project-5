@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Comparator;
 
 /**
- * reorder collection
- * provided with default comparator
+ * Command reorder,reorder collection in reverse order
+ * provided with default comparator,comapre by id
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -21,6 +21,13 @@ public class Reorder implements NoArgumentCommand {
     @NonNull
     private Comparator<Person> naturalComparatorOrder = Comparator.comparing(Person::getId);
     private boolean isReversed = false;
+
+    /**
+     * if collection has been already reversed,
+     * using natural order to return to initial order
+     *
+     * @return
+     */
 
     @Override
     public String execute() {

@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * parse elements from and to the xml file
+ * Class Parse,parse elements from and to the xml file
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -42,10 +42,19 @@ public final class Parser {
     private static final ArrayList<String> ARGUMENTS = new ArrayList<>();
 
 
+    /**
+     * @param element certain node of xml file
+     * @param tegName certain leave from node
+     * @return information which leave has
+     */
     private static String information(Element element, String tegName) {
         return element.getElementsByTagName(tegName).item(0).getTextContent();
     }
 
+    /**
+     * @param path read from file,treated it as xml file
+     *             find  all nodes,if one of the attribute is null or missed-error raise
+     */
     public static void read(@NonNull String path) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -156,6 +165,11 @@ public final class Parser {
 
     }
 
+    /**
+     * @param path source,treated as xml file
+     * @throws JAXBException         occur when parser detects error in nodes format
+     * @throws FileNotFoundException occur when file doesn't exist
+     */
     public static void write(@NonNull String path) throws JAXBException, FileNotFoundException {
 
         CollectionController controller = CollectionController.getInstance();

@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * set path  file for serialization
+ * Class CheckData,check each attribute of element
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -35,6 +35,9 @@ public class CheckData {
     @SuppressWarnings("all")
     private final String NAME_FORMAT = "(\\w+-?\\w*)";
 
+    /**
+     * @see Country
+     */
     @Checking
     public boolean checkNationalityReadingFromFile(String test) {
 
@@ -53,6 +56,9 @@ public class CheckData {
         return true;
     }
 
+    /**
+     * @see Color
+     */
     @Checking
     public boolean checkColourReadingFile(String test) {
         if (!Color.isPresent(test)) {

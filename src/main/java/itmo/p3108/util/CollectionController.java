@@ -10,7 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * contain array list
+ * CollectionController class.Contain Collection of elements.
+ * Contain the root element of xml file,it needs for creating certain xml format(tree format)
  */
 @Slf4j
 @XmlRootElement(name = "collection")
@@ -40,6 +41,10 @@ public final class CollectionController {
         return personList;
     }
 
+    /**
+     * @return provided main information about collection
+     * @see itmo.p3108.command.Info
+     */
     public String info() {
         return "Тип:ArrayList\n" + "Дата инициализации:" +
                 localDate + "\n"
@@ -50,7 +55,7 @@ public final class CollectionController {
         return personList.isEmpty();
     }
 
-    
+
     public Person getPersonById(Long id) {
         for (Person person : personList) {
             if (person.getId().equals(id)) {

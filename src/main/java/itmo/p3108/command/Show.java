@@ -9,13 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.stream.Collectors;
 
 /**
- * print the elements of collection in order
+ * Command Show,print  elements of collection
+ * in order of addition if reorder wasn't invoked
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SuppressWarnings("unused")
 public class Show implements NoArgumentCommand {
 
+    /**
+     * @return show elements of collection
+     * using to string method of elemenents
+     */
     @Override
     public String execute() {
         log.info("command Show:print elements ");

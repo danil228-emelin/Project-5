@@ -16,7 +16,11 @@ import java.util.Collection;
 import java.util.Comparator;
 
 /**
+ * Command Remove Greater,
  * remove elements witch greater than created element
+ * after reading command,user creates new element.
+ * if new element is greater than elements in collections will be deleted
+ * provided with default comparator,compare by name and then birthday
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -25,6 +29,10 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
     @NonNull
     private Comparator<Person> comparator = Comparator.comparing(Person::getName).thenComparing(Person::getBirthday);
 
+    /**
+     * @return result of command invocation
+     * no elements can be deleted
+     */
     @Override
     public String execute() {
 

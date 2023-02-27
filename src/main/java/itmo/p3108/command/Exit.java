@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * exit without saving collection
+ * Command exit,exit without saving collection
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SuppressWarnings("unused")
 public class Exit implements IndependentCommand, NoArgumentCommand {
+    /**
+     * @return the result of command
+     */
     @Override
     public String execute() {
         log.info("Exit from the system");

@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.ZonedDateTime;
 
 /**
- * Add element in collection
+ * Command Add,add element in collection
+ * <p>
+ * User enters data,but  while script executing Add take arguments from script file
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -21,7 +23,7 @@ public class Add implements NoArgumentCommand, IndependentCommand {
 
     /**
      * @return result of execution
-     * {@link PersonReadingBuilder} is used to read from console
+     * {@link PersonReadingBuilder} is used to read and check information from  console
      */
     @Override
     public String execute() {

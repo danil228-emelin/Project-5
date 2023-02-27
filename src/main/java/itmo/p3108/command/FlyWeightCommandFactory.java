@@ -10,18 +10,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * Class FlyWeightCommandFactory generated all commands
+ * and control that only one instance of each command was created
+ */
 @Slf4j
-public class FlyWeightCommand {
-    private static final FlyWeightCommand FLY_WEIGHT_COMMAND = new FlyWeightCommand();
+public class FlyWeightCommandFactory {
+    private static final FlyWeightCommandFactory FLY_WEIGHT_COMMAND = new FlyWeightCommandFactory();
     private final HashMap<String, Command> COMMAND_MAP = new HashMap<>();
 
-    private FlyWeightCommand() {
+    /**
+     * in constructor  reflections is used  to find all commands in project
+     */
+    private FlyWeightCommandFactory() {
         Set<Class<?>> set = Reflection.findAllCommands("itmo.p3108.command");
         if (set == null) {
             throw new ValidationException("Commands not found");
         }
         for (Class<?> commandClass : set) {
-
             try {
                 Object object = commandClass.getConstructor().newInstance();
                 if (object instanceof Command command) {
@@ -34,9 +40,10 @@ public class FlyWeightCommand {
         }
     }
 
-    public static FlyWeightCommand getInstance() {
+    public static FlyWeightCommandFactory getInstance() {
         return FLY_WEIGHT_COMMAND;
     }
+
 
     public Command getCommand(String key) {
         if (COMMAND_MAP.containsKey(key.trim().toLowerCase())) {
