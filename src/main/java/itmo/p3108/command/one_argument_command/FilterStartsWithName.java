@@ -2,6 +2,8 @@ package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.model.Person;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,22 +13,10 @@ import java.util.stream.Collectors;
  * print all elements,which name start with argument
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class FilterStartsWithName implements Command {
 
-    private static FilterStartsWithName filterStartsWithName;
     private String substring;
-
-    private FilterStartsWithName() {
-    }
-
-    public static FilterStartsWithName getInstance() {
-        if (filterStartsWithName == null) {
-            filterStartsWithName = new FilterStartsWithName();
-            log.info("FilterStartsWithName initialized");
-        }
-        return filterStartsWithName;
-
-    }
 
     @Override
     public String execute() {

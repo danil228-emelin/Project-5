@@ -36,24 +36,11 @@ public class Person {
     private Location location;
 
     @Override
-    public String toString() {
-        return "{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", height=" + height +
-                ", birthday=" + birthday +
-                ", eyeColor=" + eyeColor +
-                ", nationality=" + nationality +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Person) {
-            Person person = (Person) obj;
+        if (obj instanceof Person person) {
             return
                     this.name.equals(person.name) &&
                             this.coordinates.equals(person.coordinates) &&
@@ -64,6 +51,18 @@ public class Person {
                             this.location.equals(person.location);
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", height=" + height +
+                ", birthday=" + birthday +
+                ", eyeColor=" + eyeColor +
+                ", nationality=" + nationality +
+                '}';
     }
 }
 

@@ -4,6 +4,8 @@ import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
 import itmo.p3108.model.PersonReadingBuilder;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.ZonedDateTime;
@@ -12,23 +14,9 @@ import java.time.ZonedDateTime;
  * Add element in collection
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Add implements NoArgumentCommand, IndependentCommand {
-
-    private static Add add;
-    private final PersonReadingBuilder personReadingBuilder;
-
-    private Add() {
-        personReadingBuilder = PersonReadingBuilder.getInstance();
-    }
-
-    public static Add getInstance() {
-        if (add == null) {
-            add = new Add();
-            log.info("Command Add initialized");
-        }
-        return add;
-    }
-
+    private final PersonReadingBuilder personReadingBuilder = PersonReadingBuilder.getInstance();
 
     /**
      * @return result of execution

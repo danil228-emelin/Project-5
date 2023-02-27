@@ -2,6 +2,8 @@ package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
@@ -10,21 +12,8 @@ import java.util.stream.Collectors;
  * print the elements of collection in order
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Show implements NoArgumentCommand {
-    private static Show show;
-
-    private Show() {
-
-    }
-
-    public static Show getInstance() {
-        if (show == null) {
-            show = new Show();
-            log.info("Show initialized");
-
-        }
-        return show;
-    }
 
     @Override
     public String execute() {

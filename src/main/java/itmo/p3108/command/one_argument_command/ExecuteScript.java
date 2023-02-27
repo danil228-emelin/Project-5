@@ -5,32 +5,21 @@ import itmo.p3108.exception.ValidationException;
 import itmo.p3108.util.AnalyzerExecuteScript;
 import itmo.p3108.util.FileWorker;
 import itmo.p3108.util.Invoker;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 
 /**
  * execute scripts
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ExecuteScript implements Command {
-    private static ExecuteScript executeScript;
-
     private String path;
-
-    private ExecuteScript() {
-    }
-
-    public static ExecuteScript getInstance() {
-        if (executeScript == null) {
-            executeScript = new ExecuteScript();
-            log.info("ExecuteScript initialized");
-        }
-        return executeScript;
-    }
 
     /**
      * set path ,call before execute method

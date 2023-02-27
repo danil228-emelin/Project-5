@@ -1,10 +1,11 @@
 package itmo.p3108.model;
 
+import lombok.Builder;
+import lombok.Data;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import lombok.Builder;
-import lombok.Data;
 
 @Builder
 @Data

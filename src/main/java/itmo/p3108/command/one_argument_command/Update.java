@@ -3,6 +3,8 @@ package itmo.p3108.command.one_argument_command;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -11,21 +13,9 @@ import java.time.LocalDate;
  * update exist element
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Update implements Command {
-
-    private static Update update;
     private Person person;
-
-    private Update() {
-    }
-
-    public static Update getInstance() {
-        if (update == null) {
-            update = new Update();
-            log.info("Update initialized");
-        }
-        return update;
-    }
 
     public Update findPerson(Long id) {
         if (id <= 0) {
@@ -151,7 +141,7 @@ public class Update implements Command {
         person.setEyeColor(createColor());
         person.setNationality(createNationality());
         person.setLocation(createLocation());
-        log.info("Update:element with id "+person.getId() +" is updated");
+        log.info("Update:element with id " + person.getId() + " is updated");
         return "element is updated";
     }
 

@@ -16,8 +16,8 @@ import java.util.ArrayList;
 @XmlRootElement(name = "collection")
 public final class CollectionController {
     private static CollectionController controller;
-    private ArrayList<Person> personList;
-    private LocalDate localDate;
+    private final ArrayList<Person> personList;
+    private final LocalDate localDate;
 
     private CollectionController() {
         this.personList = new ArrayList<>();

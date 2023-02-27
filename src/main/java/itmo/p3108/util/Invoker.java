@@ -1,8 +1,11 @@
 package itmo.p3108.util;
 
+import itmo.p3108.command.FlyWeightCommand;
 import itmo.p3108.command.one_argument_command.*;
-import itmo.p3108.command.type.*;
-import itmo.p3108.exception.*;
+import itmo.p3108.command.type.Command;
+import itmo.p3108.command.type.IndependentCommand;
+import itmo.p3108.command.type.NoArgumentCommand;
+import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,26 +21,23 @@ import java.util.List;
  */
 @Slf4j
 public class Invoker {
-    private static Invoker invoker;
+    private static final Invoker invoker = new Invoker();
     private final HashMap<String, Command> commands = new HashMap<>();
-
-    private List<String> executeScriptPaths = new ArrayList<>();
+    private final List<String> executeScriptPaths = new ArrayList<>();
 
     private Invoker() {
+
+        FlyWeightCommand.getInstance().getValues().forEach(this::add);
     }
 
-
     public static Invoker getInstance() {
-        if (invoker == null) {
-            invoker = new Invoker();
-        }
-
         return invoker;
     }
 
-public Collection<Command> commands(){
-       return commands.values();
-}
+    public Collection<Command> commands() {
+        return commands.values();
+    }
+
     public void add(@NonNull Command... commands) {
         for (Command command : commands) {
             if (!this.commands.containsKey(command.name())) {

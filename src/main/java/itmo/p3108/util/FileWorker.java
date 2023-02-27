@@ -1,7 +1,5 @@
 package itmo.p3108.util;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileWriter;

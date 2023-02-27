@@ -11,6 +11,7 @@ public class AnalyzerExecuteScript {
     }
 
     public static void analyze(String... commands) {
+
         Invoker invoker = Invoker.getInstance();
 
         for (int i = 0; i < commands.length; i++) {

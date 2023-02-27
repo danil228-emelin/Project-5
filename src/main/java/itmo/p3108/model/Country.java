@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum Country {
     RUSSIA("1)russia"), FRANCE("2)france"), SPAIN("3)spain"), NORTH_KOREA("4)north_korea");
-    private String name;
+    private final String name;
 
     Country(String s) {
         name = s;

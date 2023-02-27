@@ -14,10 +14,11 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     private static LocalDateAdapter localDateAdapter;
 
+
     public static LocalDateAdapter getInstance() {
         if (localDateAdapter == null) {
             localDateAdapter = new LocalDateAdapter();
-        log.info("Local Adapter initialized");
+            log.info("Local Adapter initialized");
         }
         return localDateAdapter;
     }
@@ -31,8 +32,7 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
 
     /**
-     *create LocalDate object from string matched date format
-     *
+     * create LocalDate object from string matched date format
      */
     @Override
     public LocalDate unmarshal(String v) {
@@ -40,6 +40,7 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
         log.info("Local Adapter  unmarshal  LocalDate time from xml format");
         return LocalDate.parse(v, formatter);
     }
+
     /**
      * marshal local date to formatted string
      */

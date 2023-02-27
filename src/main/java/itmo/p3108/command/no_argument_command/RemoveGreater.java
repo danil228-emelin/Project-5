@@ -4,6 +4,8 @@ import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
 import itmo.p3108.model.PersonReadingBuilder;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,22 +18,11 @@ import java.util.Comparator;
  * remove elements witch greater than created element
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
-    private static RemoveGreater removeGreater;
     @Setter
     @NonNull
     private Comparator<Person> comparator = Comparator.comparing(Person::getName).thenComparing(Person::getBirthday);
-
-    private RemoveGreater() {
-    }
-
-    public static RemoveGreater getInstance() {
-        if (removeGreater == null) {
-            removeGreater = new RemoveGreater();
-            log.info("RemoveGreater Initialized");
-        }
-        return removeGreater;
-    }
 
     @Override
     public String execute() {
@@ -53,7 +44,7 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
         int size = arrayList.size();
         arrayList.removeIf(x -> {
                     if (comparator.compare(x, person) > 0) {
-                       log.info("command RemoveGreater remove "+ x.getName());
+                        log.info("command RemoveGreater remove " + x.getName());
                         System.out.println(x.getName() + " removed ");
                         return true;
                     }
@@ -72,7 +63,7 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
 
     @Override
     public String description() {
-               return  "remove_greater {element} : удалить из коллекции все элементы, больше, чем заданный";
+        return "remove_greater {element} : удалить из коллекции все элементы, больше, чем заданный";
 
     }
 

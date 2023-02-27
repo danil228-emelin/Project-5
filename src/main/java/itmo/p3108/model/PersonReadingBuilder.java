@@ -190,16 +190,16 @@ public final class PersonReadingBuilder {
 
             String test = properRead("z must not be null");
 
-           if(!CheckData.checkLocationCoordinateZ(test)){
-               continue;
-           }
+            if (!CheckData.checkLocationCoordinateZ(test)) {
+                continue;
+            }
             z = test;
         }
         while (name.equals("")) {
             System.out.println("enter location name");
             String test = properRead("location must not be null");
 
-            if(!CheckData.checkName(test)){
+            if (!CheckData.checkName(test)) {
                 continue;
             }
             name = test;

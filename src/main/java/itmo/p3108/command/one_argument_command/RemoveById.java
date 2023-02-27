@@ -2,27 +2,17 @@ package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * remove element with certain id
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class RemoveById implements Command {
-    private static RemoveById remove;
     private Long id;
-
-    private RemoveById() {
-    }
-
-    public static RemoveById getInstance() {
-        if (remove == null) {
-            remove = new RemoveById();
-            log.info("RemoveById initialized");
-        }
-        return remove;
-    }
-
 
     @Override
     public String execute() {

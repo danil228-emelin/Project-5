@@ -4,6 +4,8 @@ import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.parser.Parser;
 import itmo.p3108.util.CheckData;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.xml.bind.JAXBException;
@@ -13,18 +15,9 @@ import java.io.FileNotFoundException;
  * save elements of collection in xml file
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Save implements IndependentCommand, NoArgumentCommand {
-    private static Save save;
 
-    private Save() {
-    }
-
-    public static Save getInstance() {
-        if (save == null) {
-            save = new Save();
-        }
-        return save;
-    }
 
     @Override
     public String execute() {

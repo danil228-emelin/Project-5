@@ -2,23 +2,18 @@ package itmo.p3108.command.one_argument_command;
 
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * count elements with certain height
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class CountByHeight implements Command {
-    private static CountByHeight count;
     private double height;
 
-    public static CountByHeight getInstance() {
-        if (count == null) {
-            count = new CountByHeight();
-            log.info("CountBtHeight initialized");
-        }
-        return count;
-    }
 
     @Override
     public String execute() {
@@ -34,9 +29,13 @@ public class CountByHeight implements Command {
 
     }
 
+    @Override
+    public String name() {
+        return "count_by_height";
+    }
+
     /**
      * set height,call before execute method
-     *
      */
     public CountByHeight setHeight(double height) {
         if (height <= 0) {
@@ -47,10 +46,5 @@ public class CountByHeight implements Command {
 
         this.height = height;
         return this;
-    }
-
-    @Override
-    public String name() {
-        return "count_by_height";
     }
 }

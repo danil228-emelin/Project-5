@@ -2,6 +2,8 @@ package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.Person;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -14,22 +16,11 @@ import java.util.stream.Collectors;
  * provided with default comparator
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class PrintDescending implements NoArgumentCommand {
-    private static PrintDescending printDescending;
     @Setter
     @NonNull
-    private Comparator<Person> naturalComparatorOrder=(Comparator.comparing(Person::getId));
-
-    private PrintDescending() {
-    }
-
-    public static PrintDescending getInstance() {
-        if (printDescending == null) {
-            printDescending = new PrintDescending();
-        log.info("PrintDescending initialized");
-        }
-        return printDescending;
-    }
+    private Comparator<Person> naturalComparatorOrder = (Comparator.comparing(Person::getId));
 
     @Override
     public String execute() {
@@ -39,9 +30,9 @@ public class PrintDescending implements NoArgumentCommand {
                 .getPersonList()
                 .stream()
                 .sorted(reversed_comparator)
-               .parallel()
-               .map(Person::toString)
-               .collect(Collectors.joining("\n"));
+                .parallel()
+                .map(Person::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     @Override

@@ -9,7 +9,7 @@ public enum Color {
     YELLOW("3)yellow"),
     WHITE("4)white"),
     BROWN("5)brown");
-    private String name;
+    private final String name;
 
     Color(String name) {
         this.name = name;
@@ -22,6 +22,7 @@ public enum Color {
         }
         return null;
     }
+
     public static boolean isPresent(String test) {
         for (Color color : Color.values()) {
             if (color.getName().substring(2).equals(test.toLowerCase())) {

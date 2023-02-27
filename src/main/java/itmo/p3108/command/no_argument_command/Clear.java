@@ -2,27 +2,16 @@ package itmo.p3108.command.no_argument_command;
 
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.model.PersonReadingBuilder;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * clear collection
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Clear implements NoArgumentCommand {
-    private static Clear clear;
-
-    private Clear() {
-    }
-
-    public static Clear getInstance() {
-
-        if (clear == null) {
-            clear = new Clear();
-            log.info("Clear initialized");
-        }
-        return clear;
-    }
-
     /**
      * call clear function
      */

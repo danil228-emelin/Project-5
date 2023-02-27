@@ -132,7 +132,7 @@ public class CheckData {
             return false;
         }
 
-        if ( Integer.parseInt(strings[1]) > 31) {
+        if (Integer.parseInt(strings[1]) > 31) {
             System.err.println("error:during birthday setting value is incorrect");
             System.err.println("day can't be greater than 31");
             log.error("error:during birthday setting value is incorrect");
@@ -252,10 +252,10 @@ public class CheckData {
 
             return false;
         }
-        Long  id = Long.parseLong(test);
+        Long id = Long.parseLong(test);
         if (Command.controller.isPersonExist(id)) {
             System.err.println("error:id has wrong format");
-            System.err.println("person with  id "+id+" already exist");
+            System.err.println("person with  id " + id + " already exist");
             log.error("error:id has wrong format");
 
             return false;
