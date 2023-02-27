@@ -3,7 +3,7 @@ package itmo.p3108.command.no_argument_command;
 import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.parser.Parser;
-import itmo.p3108.util.CheckData;
+import itmo.p3108.util.FileValidator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class Save implements IndependentCommand, NoArgumentCommand {
     @Override
     public String execute() {
         try {
-            Parser.write(CheckData.getPath());
+            Parser.write(new FileValidator().getPath());
             log.info("Command save:collection is saved");
             return "collection is saved";
         } catch (JAXBException | FileNotFoundException e) {

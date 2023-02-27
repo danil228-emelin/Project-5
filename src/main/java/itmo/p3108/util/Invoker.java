@@ -3,7 +3,6 @@ package itmo.p3108.util;
 import itmo.p3108.command.FlyWeightCommand;
 import itmo.p3108.command.one_argument_command.*;
 import itmo.p3108.command.type.Command;
-import itmo.p3108.command.type.IndependentCommand;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
@@ -80,13 +79,6 @@ public class Invoker {
                 throw new ValidationException("Error during execution command " + command.name() + " has one argument ");
             }
 
-            if (command instanceof IndependentCommand) {
-                if (command instanceof CheckData.SetPath) {
-                    ((CheckData.SetPath) command).setPath(strings[1]);
-                }
-                System.out.println(command.execute());
-                return;
-            }
 
             try {
                 if (command instanceof FilterStartsWithName) {

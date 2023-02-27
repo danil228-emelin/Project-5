@@ -125,48 +125,15 @@ public final class Parser {
                         continue;
                     }
 
-
-                    if (
-                            CheckData.checkName(name.get()) &&
-                                    CheckData.checkColourReadingFile(eyeColour.get()) &&
-                                    CheckData.checkId(id.get()) &&
-                                    CheckData.checkHeight(height.get()) &&
-                                    CheckData.checkBirthday(birthday.get()) &&
-                                    CheckData.checkNationalityReadingFromFile(nationality.get()) &&
-                                    CheckData.checkCoordinateX(xCoordinates.get()) &&
-                                    CheckData.checkCoordinateY(yCoordinates.get()) &&
-                                    CheckData.checkLocationCoordinateY(y.get()) &&
-                                    CheckData.checkLocationCoordinateX(x.get()) &&
-                                    CheckData.checkLocationCoordinateZ(z.get()) &&
-                                    CheckData.checkName(placeName.get()) &&
-                                    CheckData.checkCreationTime(createDate.get())
-                    ) {
+                    CheckData checkData = new CheckData();
+                    if (checkData.checkName(name.get()) && checkData.checkColourReadingFile(eyeColour.get()) && checkData.checkId(id.get()) && checkData.checkHeight(height.get()) && checkData.checkBirthday(birthday.get()) && checkData.checkNationalityReadingFromFile(nationality.get()) && checkData.checkCoordinateX(xCoordinates.get()) && checkData.checkCoordinateY(yCoordinates.get()) && checkData.checkLocationCoordinateY(y.get()) && checkData.checkLocationCoordinateX(x.get()) && checkData.checkLocationCoordinateZ(z.get()) && checkData.checkName(placeName.get()) && checkData.checkCreationTime(createDate.get())) {
                     } else {
                         log.error("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                         System.err.println("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                         continue;
                     }
 
-                    Person person = Person.builder()
-                            .id(Long.parseLong(id.get()))
-                            .name(name.get())
-                            .height(Double.parseDouble(height.get()))
-                            .eyeColor(Color.valueOf(eyeColour.get()))
-                            .creationDate(ZonedDateTime.parse(createDate.get()))
-                            .nationality(Country.valueOf(nationality.get()))
-                            .birthday(LocalDate.parse(birthday.get(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
-                            .coordinates(Coordinates.builder()
-                                    .x(Integer.parseInt(xCoordinates.get()))
-                                    .y(Float.valueOf(yCoordinates.get()))
-                                    .build())
-                            .location(Location.builder()
-                                    .name(placeName.get())
-                                    .x(Double.parseDouble(x.get()))
-                                    .y(Float.valueOf(y.get()))
-                                    .z(Float.parseFloat(z.get()))
-                                    .name(placeName.get())
-                                    .build())
-                            .build();
+                    Person person = Person.builder().id(Long.parseLong(id.get())).name(name.get()).height(Double.parseDouble(height.get())).eyeColor(Color.valueOf(eyeColour.get())).creationDate(ZonedDateTime.parse(createDate.get())).nationality(Country.valueOf(nationality.get())).birthday(LocalDate.parse(birthday.get(), DateTimeFormatter.ofPattern("MM-dd-yyyy"))).coordinates(Coordinates.builder().x(Integer.parseInt(xCoordinates.get())).y(Float.valueOf(yCoordinates.get())).build()).location(Location.builder().name(placeName.get()).x(Double.parseDouble(x.get())).y(Float.valueOf(y.get())).z(Float.parseFloat(z.get())).name(placeName.get()).build()).build();
 
                     if (!Command.controller.isPersonExist(person.getId())) {
                         Command.controller.add(person);

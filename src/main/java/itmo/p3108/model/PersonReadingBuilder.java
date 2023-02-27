@@ -11,6 +11,7 @@ import java.util.Objects;
 public final class PersonReadingBuilder {
     private static PersonReadingBuilder createPerson;
     private static Long id = 1L;
+    private final CheckData checkData = new CheckData();
 
     private PersonReadingBuilder() {
     }
@@ -37,7 +38,7 @@ public final class PersonReadingBuilder {
         while (name.equals("")) {
             System.out.println("enter name");
             String test = properRead("name must not be null");
-            if (!CheckData.checkName(test)) {
+            if (!checkData.checkName(test)) {
                 continue;
             }
             name = test;
@@ -58,7 +59,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter height");
             test = properRead("height must not be null");
 
-            if (!CheckData.checkHeight(test)) {
+            if (!checkData.checkHeight(test)) {
                 continue;
             }
             height = Double.parseDouble(test);
@@ -73,7 +74,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter birthday in format MM-dd-yyyy");
             String test = properRead("birthday must not be null");
 
-            if (!CheckData.checkBirthday(test)) {
+            if (!checkData.checkBirthday(test)) {
                 continue;
             }
             birthday = test;
@@ -91,7 +92,8 @@ public final class PersonReadingBuilder {
             System.out.println("choose one number");
             System.out.println(Arrays.toString(Color.colors()));
             String test = properRead("Color must not be null");
-            if (!CheckData.checkColourReadingConsole(test)) {
+            CheckData checkData = new CheckData();
+            if (!checkData.checkColourReadingConsole(test)) {
                 continue;
             }
             color = Color.newValue(test);
@@ -110,7 +112,7 @@ public final class PersonReadingBuilder {
 
             System.out.println(Arrays.toString(Country.countries()));
             String test = properRead("country must not be null");
-            if (!CheckData.checkNationalityReadingFromConsole(test)) {
+            if (!checkData.checkNationalityReadingFromConsole(test)) {
                 continue;
             }
             nationality = Country.newValue(test);
@@ -131,7 +133,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("x must not be null");
 
-            if (!CheckData.checkCoordinateX(test)) {
+            if (!checkData.checkCoordinateX(test)) {
                 continue;
             }
             x = test;
@@ -140,7 +142,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter y");
 
             String test = properRead("y must not be null");
-            if (!CheckData.checkCoordinateY(test)) {
+            if (!checkData.checkCoordinateY(test)) {
                 continue;
             }
             y = test;
@@ -168,7 +170,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("x must not be null");
 
-            if (!CheckData.checkLocationCoordinateX(test)) {
+            if (!checkData.checkLocationCoordinateX(test)) {
                 continue;
             }
 
@@ -180,7 +182,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("y must not be null");
 
-            if (!CheckData.checkLocationCoordinateX(test)) {
+            if (!checkData.checkLocationCoordinateX(test)) {
                 continue;
             }
             y = test;
@@ -190,7 +192,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("z must not be null");
 
-            if (!CheckData.checkLocationCoordinateZ(test)) {
+            if (!checkData.checkLocationCoordinateZ(test)) {
                 continue;
             }
             z = test;
@@ -199,7 +201,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter location name");
             String test = properRead("location must not be null");
 
-            if (!CheckData.checkName(test)) {
+            if (!checkData.checkName(test)) {
                 continue;
             }
             name = test;

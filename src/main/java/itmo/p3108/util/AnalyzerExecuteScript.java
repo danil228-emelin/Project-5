@@ -36,20 +36,20 @@ public class AnalyzerExecuteScript {
                 continue;
             }
             String[] arguments = commands[1].trim().split(",");
-
+            CheckData checkData = new CheckData();
             if (
-                    CheckData.checkId(arguments[0]) &&
-                            CheckData.checkName(arguments[1]) &&
-                            CheckData.checkCoordinateX(arguments[2]) &&
-                            CheckData.checkCoordinateY(arguments[3]) &&
-                            CheckData.checkHeight(arguments[4]) &&
-                            CheckData.checkBirthday(arguments[5]) &&
-                            CheckData.checkColourReadingConsole(arguments[6]) &&
-                            CheckData.checkNationalityReadingFromConsole(arguments[7]) &&
-                            CheckData.checkLocationCoordinateX(arguments[8]) &&
-                            CheckData.checkLocationCoordinateY(arguments[9]) &&
-                            CheckData.checkLocationCoordinateZ(arguments[10]) &&
-                            CheckData.checkName(arguments[11])
+                    checkData.checkId(arguments[0]) &&
+                            checkData.checkName(arguments[1]) &&
+                            checkData.checkCoordinateX(arguments[2]) &&
+                            checkData.checkCoordinateY(arguments[3]) &&
+                            checkData.checkHeight(arguments[4]) &&
+                            checkData.checkBirthday(arguments[5]) &&
+                            checkData.checkColourReadingConsole(arguments[6]) &&
+                            checkData.checkNationalityReadingFromConsole(arguments[7]) &&
+                            checkData.checkLocationCoordinateX(arguments[8]) &&
+                            checkData.checkLocationCoordinateY(arguments[9]) &&
+                            checkData.checkLocationCoordinateZ(arguments[10]) &&
+                            checkData.checkName(arguments[11])
             ) {
                 Person person = Person.builder()
                         .id(Long.parseLong(arguments[0]))
