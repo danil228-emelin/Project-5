@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class Help implements NoArgumentCommand, IndependentCommand {
     /**
-     * @return information about commands
+     * @return main  information about commands
      */
     @Override
     public String execute() {

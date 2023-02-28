@@ -45,6 +45,10 @@ public class FlyWeightCommandFactory {
     }
 
 
+    /**
+     * @param key name of command
+     * @return command if it exists
+     */
     public Command getCommand(String key) {
         if (COMMAND_MAP.containsKey(key.trim().toLowerCase())) {
             return COMMAND_MAP.get(key.trim().toLowerCase());
@@ -53,6 +57,9 @@ public class FlyWeightCommandFactory {
         return null;
     }
 
+    /**
+     * @return all commands which contains factory
+     */
     public Collection<Command> getValues() {
         return COMMAND_MAP.values();
     }

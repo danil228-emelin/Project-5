@@ -19,8 +19,8 @@ import java.io.FileNotFoundException;
 @SuppressWarnings("unused")
 public class Save implements IndependentCommand, NoArgumentCommand {
     /**
-     * @return
-     * @see Parser using to parse collection xml format
+     * Saving collection by using class  @see {@link Parser}.
+     * It parses collection xml format
      */
 
     @Override

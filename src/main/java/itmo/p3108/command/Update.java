@@ -12,7 +12,7 @@ import java.time.LocalDate;
 /**
  * Command update,update  exist element
  * has id of element  as parameter.
- * Has opportunity to stay previous state of attribute
+ * User has opportunity to stay previous state of attribute
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)

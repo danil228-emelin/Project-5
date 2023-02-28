@@ -12,7 +12,7 @@ import java.util.Comparator;
 
 /**
  * Command reorder,reorder collection in reverse order
- * provided with default comparator,comapre by id
+ * provided with default comparator,compare by id
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -25,8 +25,6 @@ public class Reorder implements NoArgumentCommand {
     /**
      * if collection has been already reversed,
      * using natural order to return to initial order
-     *
-     * @return
      */
 
     @Override

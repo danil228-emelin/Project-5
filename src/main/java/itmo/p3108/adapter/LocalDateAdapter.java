@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * adapt local Date time for serialization and deserialization
+ * class LocalDateAdapter adapts LocalDate  for serialization and deserialization in xml format
  */
 @Slf4j
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {

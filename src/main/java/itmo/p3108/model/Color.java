@@ -3,6 +3,9 @@ package itmo.p3108.model;
 
 import java.util.Arrays;
 
+/**
+ * class Colour using as  @see {@link Person} eye's color
+ */
 public enum Color {
     GREEN("1)green"),
     BLUE("2)blue"),

@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Class PersonReadingBuilder created to build all @see {@link Person} attributes using console input
+ */
 public final class PersonReadingBuilder {
     private static PersonReadingBuilder createPerson;
     private static Long id = 1L;

@@ -2,6 +2,9 @@ package itmo.p3108.model;
 
 import java.util.Arrays;
 
+/**
+ * class Country using to describe current location of  @see {@link Person}
+ */
 public enum Country {
     RUSSIA("1)russia"), FRANCE("2)france"), SPAIN("3)spain"), NORTH_KOREA("4)north_korea");
     private final String name;

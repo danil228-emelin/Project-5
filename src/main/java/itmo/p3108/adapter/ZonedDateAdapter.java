@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Adapt ZonedDate Type for serialization and deserialization
+ * class ZonedDateAdapter adapt ZonedDate Type for serialization and deserialization
  */
 @Slf4j
 public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
