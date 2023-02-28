@@ -45,7 +45,7 @@ public class AnalyzerExecuteScript {
 
             String[] arguments = addArguments.trim().split(",");
             CheckData checkData = new CheckData();
-            if (checkData.checkArguments(Arrays.stream(arguments).toList())) {
+            if (checkData.wrapperCheckArguments(Arrays.stream(arguments).toList())) {
                 Person person = Person.builder()
                         .id(Long.parseLong(arguments[0].trim()))
                         .name(arguments[1].trim())

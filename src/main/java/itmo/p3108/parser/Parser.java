@@ -124,7 +124,7 @@ public final class Parser {
                     }
 
                     CheckData checkData = new CheckData();
-                    if (!checkData.checkArguments(ARGUMENTS)) {
+                    if (!checkData.wrapperCheckArguments(ARGUMENTS)) {
                         log.error("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                         System.err.println("Error during parsing:some attributes was in incorrect format,change or fix xml file");
                         continue;
@@ -155,7 +155,7 @@ public final class Parser {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             log.error("Error during parsing:file has incorrect data,collection is empty,change or fix xml file");
             System.err.println("Error during parsing:file has incorrect data,collection is empty");
-        } catch (ValidationException e) {
+        } catch (ValidationException | FileException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());
         } catch (NullPointerException | NoSuchElementException e) {

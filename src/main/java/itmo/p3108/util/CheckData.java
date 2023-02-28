@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Set;
 
 /**
- * Class CheckData,check each attribute of element
+ * Class CheckData,check each attribute of @see {@link itmo.p3108.model.Person}
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -43,7 +45,8 @@ public class CheckData {
 
         if (!Country.isPresent(test)) {
             log.error("error:during nationality setting line has wrong format");
-            throw new ValidationException("error:during nationality setting line has wrong format");
+            System.err.println("error:during nationality setting line has wrong format");
+            return false;
         }
         return true;
     }
@@ -51,7 +54,9 @@ public class CheckData {
     public boolean checkColourReadingConsole(String test) {
         if (!test.matches("[1-5]")) {
             log.error("error:during colour setting line has wrong format");
-            throw new ValidationException("error:during colour setting line has wrong format");
+            System.err.println("error:during colour setting line has wrong format");
+            return false;
+
         }
         return true;
     }
@@ -63,7 +68,9 @@ public class CheckData {
     public boolean checkColourReadingFile(String test) {
         if (!Color.isPresent(test)) {
             log.error("error:during colour setting line has wrong format");
-            throw new ValidationException("error:during colour setting line has wrong format");
+            System.err.println("error:during colour setting line has wrong format");
+            return false;
+
         }
         return true;
     }
@@ -73,25 +80,32 @@ public class CheckData {
     public boolean checkBirthday(String test) {
         if (!test.matches(BIRTHDAY_FORMAT)) {
             log.error("error:during birthday setting line has wrong format");
-            throw new ValidationException("error:during birthday setting line has wrong format");
+            System.err.println("error:during birthday setting line has wrong format");
+            return false;
         }
         String[] strings = test.split("-");
 
         if (Integer.parseInt(strings[0]) > 12) {
             log.error("error:during birthday setting value is incorrect");
 
-            throw new ValidationException("error:during birthday setting value is incorrect\n month can't be greater than 12");
+            System.err.println("error:during birthday setting value is incorrect\n month can't be greater than 12");
+            return false;
+
         }
 
         if (Integer.parseInt(strings[1]) > 31) {
             log.error("error:during birthday setting value is incorrect");
-            throw new ValidationException("error:during birthday setting value is incorrect\n day can't be greater than 31");
+            System.err.println("error:during birthday setting value is incorrect\n day can't be greater than 31");
+            return false;
+
         }
 
 
         if (Integer.parseInt(strings[2]) > 2024 || Integer.parseInt(strings[2]) < 1920) {
             log.error("error:during birthday setting value is incorrect");
-            throw new ValidationException("error:during birthday setting value is incorrect \n year can't be greater than 2023 and less than 1920");
+            System.err.println("error:during birthday setting value is incorrect \n year can't be greater than 2023 and less than 1920");
+            return false;
+
         }
 
         return true;
@@ -100,7 +114,8 @@ public class CheckData {
     public boolean checkNationalityReadingFromConsole(String test) {
         if (!test.matches("[1-4]")) {
             log.error("error:during nationality setting line has wrong format");
-            throw new ValidationException("error:during nationality setting line has wrong format");
+            System.err.println("error:during nationality setting line has wrong format");
+            return false;
         }
         return true;
     }
@@ -109,12 +124,15 @@ public class CheckData {
     public boolean checkCoordinateX(String test) {
         if (!test.matches(INT_NUMBER_FORMAT)) {
             log.error("error:during coordinate x setting, wrong format");
-            throw new ValidationException("error:during coordinate x setting, wrong format \n x is integer");
+            System.err.println("error:during coordinate x setting, wrong format \n x is integer");
+            return false;
 
         }
         if (test.length() > 15) {
             log.error("error:during coordinate x setting,value is too large");
-            throw new ValidationException("error:during coordinate x setting,value is too large");
+            System.err.println("error:during coordinate x setting,value is too large");
+            return false;
+
         }
         return true;
     }
@@ -123,11 +141,15 @@ public class CheckData {
     public boolean checkCoordinateY(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during coordinate y setting");
-            throw new ValidationException("error:during coordinate y setting \n value is whole or fractional number");
+            System.err.println("error:during coordinate y setting \n value is whole or fractional number");
+            return false;
+
         }
         if (test.length() > 15) {
             log.error("error:during coordinate y setting value is too large");
-            throw new ValidationException("error:during coordinate y setting \n value is too large");
+            System.err.println("error:during coordinate y setting \n value is too large");
+            return false;
+
         }
         return true;
     }
@@ -136,11 +158,15 @@ public class CheckData {
     public boolean checkLocationCoordinateX(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during location coordinate x setting,wrong format");
-            throw new ValidationException("error:during location coordinate x setting \n value is whole or fractional number");
+            System.err.println("error:during location coordinate x setting \n value is whole or fractional number");
+            return false;
+
         }
         if (test.length() > 15) {
             log.error("error:during location coordinate x setting value is too large");
-            throw new ValidationException("error:during location coordinate x setting \n value is too large");
+            System.err.println("error:during location coordinate x setting \n value is too large");
+            return false;
+
         }
         return true;
     }
@@ -151,12 +177,16 @@ public class CheckData {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during location coordinate y setting wrong format");
 
-            throw new ValidationException("error:during location coordinate y setting \n value is whole or fractional number");
+            System.err.println("error:during location coordinate y setting \n value is whole or fractional number");
+            return false;
+
         }
         if (test.length() > 15) {
             log.error("error:during location coordinate y setting value is too large");
 
-            throw new ValidationException("error:during location coordinate y setting \n value is too large");
+            System.err.println("error:during location coordinate y setting \n value is too large");
+            return false;
+
         }
         return true;
     }
@@ -166,14 +196,17 @@ public class CheckData {
         if (!test.matches(POSITIVE_NUMBER_FORMAT)) {
             log.error("error:id has wrong format");
 
-            throw new ValidationException("error:id has wrong format \n id is natural number");
+            System.err.println("error:id has wrong format \n id is natural number");
+            return false;
 
         }
         Long id = Long.parseLong(test);
         if (Command.controller.isPersonExist(id)) {
             log.error("error:id has wrong format");
 
-            throw new ValidationException("error:id has wrong format \n person with   already exist");
+            System.err.println("error:id has wrong format \n person with   already exist");
+            return false;
+
         }
 
         return true;
@@ -184,11 +217,15 @@ public class CheckData {
 
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error: error:during location coordinate z setting");
-            throw new ValidationException("error:during location coordinate z setting \n value is whole or fractional number");
+            System.err.println("error:during location coordinate z setting \n value is whole or fractional number");
+            return false;
+
         }
         if (test.length() > 15) {
             log.error("error: error:during location coordinate z setting,value is too large");
-            throw new ValidationException("error:during location coordinate z setting \n value is too large");
+            System.err.println("error:during location coordinate z setting \n value is too large");
+            return false;
+
         }
         return true;
     }
@@ -197,11 +234,15 @@ public class CheckData {
     public boolean checkHeight(String test) {
         if (!test.matches(POSITIVE_FLOAT_NUMBER_FORMAT)) {
             log.error("error:during height setting");
-            throw new ValidationException("error:during height setting \n value is positive whole or fractional number");
+            System.err.println("error:during height setting \n value is positive whole or fractional number");
+            return false;
+
         }
         if (test.length() > 15) {
             log.error("error:during height setting");
-            throw new ValidationException("error:during height setting value is too large");
+            System.err.println("error:during height setting value is too large");
+            return false;
+
         }
         return true;
     }
@@ -210,7 +251,9 @@ public class CheckData {
     public boolean checkCreationTime(String test) {
 
         if (!test.matches(CREATION_TIME_FORMAT)) {
-            throw new ValidationException("error:creation time has wrong format");
+            System.err.println("error:creation time has wrong format");
+            return false;
+
         }
         return true;
     }
@@ -219,17 +262,42 @@ public class CheckData {
 
         if (test.length() > 40) {
             log.error("error during name setting:too long line");
-            throw new ValidationException("error during name setting:too long line \n maximum is 40 letters");
+            System.err.println("error during name setting:too long line \n maximum is 40 letters");
+            return false;
+
         }
         if (!test.matches(NAME_FORMAT)) {
             log.error("error during name setting:line has wrong format ");
 
-            throw new ValidationException("error during name setting:line has wrong format \n use only digits,letters,and dash for double name");
+            System.err.println("error during name setting:line has wrong format \n use only digits,letters,and dash for double name");
+            return false;
+
         }
         return true;
     }
 
-    public boolean checkArguments(@NonNull Collection<String> collection) {
+    /**
+     * helper method for @see {@link CheckData#checkArguments(Collection)}
+     * Methods, witch validate data,print errors in system.err.
+     * in order to suppress  message while checkArguments is executing
+     * helper method redirect error flow in nullOutputStream
+     * after execution it redirects error flow back
+     */
+    public boolean wrapperCheckArguments(@NonNull Collection<String> collection) {
+        PrintStream error = System.err;
+        System.setErr(new PrintStream(OutputStream.nullOutputStream()));
+        boolean result = checkArguments(collection);
+        System.setErr(error);
+        return result;
+    }
+
+
+    /**
+     * it is implied that  @param collection has attributes of @see {@link itmo.p3108.model.Person}
+     * Method checked whether all attributes have wright format
+     */
+    private boolean checkArguments(@NonNull Collection<String> collection) {
+
         Set<Method> set = Reflection.findAllCommandsWithAnnotation("itmo.p3108.util", Checking.class);
         if (set == null) {
             return false;
