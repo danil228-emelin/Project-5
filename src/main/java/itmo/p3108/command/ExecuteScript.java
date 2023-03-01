@@ -46,7 +46,7 @@ public class ExecuteScript implements Command {
 
             AnalyzerExecuteScript.analyze(commands);
             log.info(String.format("Script %s executed ", path));
-            return String.format("Script %s executed ", path);
+            return String.format("Script executed", path);
         } catch (IOException e) {
             log.error("Execute Script:fail error ");
             System.err.println("Execute script:file error");
