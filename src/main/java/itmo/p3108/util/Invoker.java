@@ -3,16 +3,16 @@ package itmo.p3108.util;
 import itmo.p3108.command.*;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.command.type.NoArgumentCommand;
+import itmo.p3108.exception.CommandException;
 import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 
 /**
  * Class invoker,invoke and analyze commands
@@ -21,7 +21,7 @@ import java.util.List;
 public class Invoker {
     private static final Invoker invoker = new Invoker();
     private final HashMap<String, Command> commands = new HashMap<>();
-    private final List<String> executeScriptPaths = new ArrayList<>();
+    private final HashSet<String> executeScriptPaths = new HashSet<>();
 
     private Invoker() {
         FlyWeightCommandFactory.getInstance().getValues().forEach(this::add);
@@ -61,7 +61,7 @@ public class Invoker {
             }
             if (!commands.containsKey(strings[0].toLowerCase())) {
 
-                throw new ValidationException("Error during execution command doesn't exist \n use help command");
+                throw new CommandException("Error during execution command doesn't exist \n use help command");
 
             }
             Command command = commands.get(strings[0].toLowerCase());
@@ -69,12 +69,12 @@ public class Invoker {
             if (command instanceof NoArgumentCommand) {
                 if (strings.length > 1) {
                     log.error("Error during execution command " + command.name() + " doesn't have arguments");
-                    throw new ValidationException("Error during execution command " + command.name() + " doesn't have arguments");
+                    throw new CommandException("Error during execution command " + command.name() + " doesn't have arguments");
                 }
 
             } else if (strings.length > 2 || strings.length == 1) {
                 log.error("Error during execution command " + command.name() + " has one argument ");
-                throw new ValidationException("Error during execution command " + command.name() + " has one argument ");
+                throw new CommandException("Error during execution command " + command.name() + " has one argument ");
             }
 
 
@@ -111,10 +111,8 @@ public class Invoker {
             }
             if (command instanceof ExecuteScript) {
                 if (executeScriptPaths.contains(strings[1])) {
-                    log.error("Error : execute_script can't be executed "
-                            + "(" + strings[1] + ")" + ".Recursion is forbidden");
-                    System.err.println("Error : execute_script can't be executed "
-                            + "(" + strings[1] + ")" + ".Recursion is forbidden");
+                    log.error(String.format("Error : execute_script can't be executed %s.Recursion is forbidden", strings[1]));
+                    System.err.printf("Error : execute_script can't be executed %s.Recursion is forbidden\n", strings[1]);
                     return;
                 }
                 if (Files.exists(Path.of(strings[1]))) {
@@ -123,7 +121,7 @@ public class Invoker {
                     System.out.println(command.execute());
                 } else {
                     log.error("Error during execution command :file " + strings[1] + " doesn't exist");
-                    throw new ValidationException("Error during execution command :file " + strings[1] + " doesn't exist");
+                    throw new CommandException("Error during execution command :file " + strings[1] + " doesn't exist");
                 }
             }
             if (command instanceof NoArgumentCommand) {
@@ -135,7 +133,7 @@ public class Invoker {
 
                 throw new ValidationException("Collection is empty");
             }
-        } catch (ValidationException e) {
+        } catch (ValidationException | CommandException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());
         }
