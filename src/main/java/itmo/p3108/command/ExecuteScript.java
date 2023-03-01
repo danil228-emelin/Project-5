@@ -40,13 +40,13 @@ public class ExecuteScript implements Command {
      */
     @Override
     public String execute() {
-
+        String current_fail = path;
         try {
             String[] commands = FileWorker.read(path).split("\n");
 
             AnalyzerExecuteScript.analyze(commands);
-            log.info(String.format("Script %s executed ", path));
-            return String.format("Script %s executed ", path);
+            log.info(String.format("Script %s executed ", current_fail));
+            return String.format("Script %s executed ", current_fail);
         } catch (IOException e) {
             log.error("Execute Script:fail error ");
             System.err.println("Execute script:file error");

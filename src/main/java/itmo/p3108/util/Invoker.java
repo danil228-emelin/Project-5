@@ -4,6 +4,7 @@ import itmo.p3108.command.*;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.command.type.NoArgumentCommand;
 import itmo.p3108.exception.CommandException;
+import itmo.p3108.exception.FileException;
 import itmo.p3108.exception.ValidationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -110,15 +111,20 @@ public class Invoker {
                 System.err.println("Error during execution command CountByHeight:number has wrong format ");
             }
             if (command instanceof ExecuteScript) {
-                if (executeScriptPaths.contains(strings[1])) {
+                if (executeScriptPaths.size() > 49) {
+                    throw new FileException("Too many files in executed_script");
+                }
+                String path = strings[1].toLowerCase();
+                if (executeScriptPaths.contains(path)) {
                     log.error(String.format("Error : execute_script can't be executed %s.Recursion is forbidden", strings[1]));
                     System.err.printf("Error : execute_script can't be executed %s.Recursion is forbidden\n", strings[1]);
                     return;
                 }
-                if (Files.exists(Path.of(strings[1]))) {
-                    executeScriptPaths.add(strings[1]);
-                    ((ExecuteScript) command).setPath(strings[1]);
+                if (Files.exists(Path.of(path))) {
+                    executeScriptPaths.add(path);
+                    ((ExecuteScript) command).setPath(path);
                     System.out.println(command.execute());
+                    return;
                 } else {
                     log.error("Error during execution command :file " + strings[1] + " doesn't exist");
                     throw new CommandException("Error during execution command :file " + strings[1] + " doesn't exist");
@@ -126,14 +132,14 @@ public class Invoker {
             }
             if (command instanceof NoArgumentCommand) {
                 System.out.println(command.execute());
+                return;
             }
 
             if (Command.controller.isEmpty()) {
                 log.error("Collection is empty");
-
                 throw new ValidationException("Collection is empty");
             }
-        } catch (ValidationException | CommandException e) {
+        } catch (ValidationException | CommandException|FileException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());
         }
