@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Entry point of program
- * Before working with user,
+ * Before working with user ,
  * FileValidator check whether the xml file for serialization and deserialization has added
  * Parser try to download elements from xml file
  * Invoker using getInstance download all existing commands.
