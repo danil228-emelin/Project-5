@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 /**
  * Class FileValidator,checking file attributes.
- * name,permission,
+ * name,permission
  */
 @Slf4j
 
