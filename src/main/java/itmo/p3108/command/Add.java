@@ -12,7 +12,6 @@ import java.time.ZonedDateTime;
 
 /**
  * Command Add,add element in collection
- * <p>
  * User enters data,but  while script executing Add take arguments from script file
  * Next line is treated as arguments
  *

@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+/**
+ * class Location using to describe current location of  @see {@link Person}
+ */
 @Builder
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)

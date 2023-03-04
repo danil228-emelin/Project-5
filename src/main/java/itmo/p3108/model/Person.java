@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
+ *  class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
  */
 @Builder
 @Data

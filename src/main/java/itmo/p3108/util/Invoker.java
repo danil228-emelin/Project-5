@@ -139,7 +139,7 @@ public class Invoker {
                 log.error("Collection is empty");
                 throw new ValidationException("Collection is empty");
             }
-        } catch (ValidationException | CommandException|FileException e) {
+        } catch (ValidationException | CommandException | FileException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());
         }
