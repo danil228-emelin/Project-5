@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 /**
- * Class AnalyzerExecuteScript analyze lines from execute script
+ *  Class AnalyzerExecuteScript analyze lines from execute script
  * it needs to detect add command
  */
 public class AnalyzerExecuteScript {

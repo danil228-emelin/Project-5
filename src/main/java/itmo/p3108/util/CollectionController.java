@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * CollectionController class.Contain Collection of elements.
+ *  CollectionController class.Contain Collection of elements.
  * Contain the root element of xml file,it needs for creating certain xml format(tree format)
  */
 @Slf4j

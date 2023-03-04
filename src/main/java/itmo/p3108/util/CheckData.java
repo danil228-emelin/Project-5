@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * Class CheckData,check each attribute of @see {@link itmo.p3108.model.Person}
+ *  Class CheckData,check each attribute of @see {@link itmo.p3108.model.Person}
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
