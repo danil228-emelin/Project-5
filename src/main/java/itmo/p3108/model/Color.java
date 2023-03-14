@@ -1,6 +1,8 @@
 package itmo.p3108.model;
 
 
+import com.sun.istack.Nullable;
+
 import java.util.Arrays;
 
 /**
@@ -18,6 +20,7 @@ public enum Color {
         this.name = name;
     }
 
+    @Nullable
     public static Color newValue(String str) {
         for (Color color : Color.values()) {
             if (color.getName().startsWith(str))

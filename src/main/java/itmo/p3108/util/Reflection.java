@@ -1,5 +1,6 @@
 package itmo.p3108.util;
 
+import com.sun.istack.Nullable;
 import itmo.p3108.command.type.Command;
 import org.reflections.Reflections;
 import org.reflections.ReflectionsException;
@@ -22,6 +23,7 @@ public class Reflection {
      * @param packageName source package
      * @return find all commands in certain package
      */
+    @Nullable
     public static Set<Class<?>> findAllCommands(String packageName) {
         try {
 
@@ -43,6 +45,7 @@ public class Reflection {
      * @param annotation         certain annotation to find
      * @return commands which has certain annotation
      */
+    @Nullable
     public static Set<Method> findAllCommandsWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
         try {
 

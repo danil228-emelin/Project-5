@@ -1,5 +1,7 @@
 package itmo.p3108.model;
 
+import com.sun.istack.Nullable;
+
 import java.util.Arrays;
 
 /**
@@ -13,6 +15,7 @@ public enum Country {
         name = s;
     }
 
+    @Nullable
     public static Country newValue(String str) {
 
         for (Country country : Country.values()) {

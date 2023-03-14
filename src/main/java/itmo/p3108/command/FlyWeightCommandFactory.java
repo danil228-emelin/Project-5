@@ -1,5 +1,6 @@
 package itmo.p3108.command;
 
+import com.sun.istack.Nullable;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.util.Reflection;
@@ -49,6 +50,7 @@ public class FlyWeightCommandFactory {
      * @param key name of command
      * @return command if it exists
      */
+    @Nullable
     public Command getCommand(String key) {
         if (COMMAND_MAP.containsKey(key.trim().toLowerCase())) {
             return COMMAND_MAP.get(key.trim().toLowerCase());

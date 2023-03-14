@@ -22,7 +22,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SuppressWarnings("unused")
 public class Add implements NoArgumentCommand, IndependentCommand {
-    private final PersonReadingBuilder personReadingBuilder = PersonReadingBuilder.getInstance();
+    private static final PersonReadingBuilder personReadingBuilder = PersonReadingBuilder.getInstance();
 
     /**
      * @return result of execution
