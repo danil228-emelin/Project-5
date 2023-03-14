@@ -22,6 +22,8 @@ import java.util.Optional;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class AddIfMax implements NoArgumentCommand, IndependentCommand {
+    private final static String SUCCESS = "Command AddIf: new element  added ";
+    private final static String FAIL = "Command AddIf: new element didn't added ";
     @Setter
     @NonNull
     private Comparator<Person> comparator = Comparator.comparing(Person::getName).thenComparing(Person::getId);
@@ -48,9 +50,9 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                 .build();
         if (controller.getPersonList().size() == 0) {
             controller.getPersonList().add(person);
-            log.info("Command AddIf: new element  added ");
+            log.info(SUCCESS);
 
-            return "element added ";
+            return SUCCESS;
         }
         Optional<Person> other =
                 controller
@@ -58,13 +60,13 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                         .stream().parallel().max(comparator);
         if (other.isPresent() && comparator.compare(person, other.get()) > 0) {
             controller.getPersonList().add(person);
-            log.info("Command AddIf:elements added ");
+            log.info(SUCCESS);
 
-            return "element added ";
+            return SUCCESS;
         }
-        log.info("Command AddIf :elements weren't  added");
+        log.info(FAIL);
 
-        return "Command AddIf:element wasn't  added ";
+        return FAIL;
     }
 
     @Override

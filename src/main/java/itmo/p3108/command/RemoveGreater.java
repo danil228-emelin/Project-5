@@ -25,6 +25,8 @@ import java.util.Comparator;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
+    private final static String SUCCESS = "command RemoveGreater deleted all suitable elements ";
+    private final static String FAIL = "command RemoveGreater deleted nothing ";
     @Setter
     @NonNull
     private Comparator<Person> comparator = Comparator.comparing(Person::getName).thenComparing(Person::getBirthday);
@@ -53,12 +55,12 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
         Collection<Person> collection = arrayList.stream().filter(x -> comparator.compare(x, person) > 0).toList();
 
         if (arrayList.removeAll(collection)) {
-            log.info("command RemoveGreater deleted all suitable elements ");
-            return "All suitable elements are deleted  ";
+            log.info(SUCCESS);
+            return SUCCESS;
         }
-        log.info("command RemoveGreater deleted nothing ");
+        log.info(FAIL);
 
-        return "Nothing was deleted";
+        return FAIL;
     }
 
     @Override

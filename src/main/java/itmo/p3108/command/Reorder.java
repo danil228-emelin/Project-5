@@ -17,6 +17,7 @@ import java.util.Comparator;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Reorder implements NoArgumentCommand {
+    private final static String SUCCESS = "Command reorder:collection reordered ";
     @Setter
     @NonNull
     private Comparator<Person> naturalComparatorOrder = Comparator.comparing(Person::getId);
@@ -36,9 +37,9 @@ public class Reorder implements NoArgumentCommand {
             controller.getPersonList().sort(naturalComparatorOrder);
             isReversed = false;
         }
-        log.info("Command reorder:collection reordered ");
+        log.info(SUCCESS);
 
-        return "collection reordered ";
+        return SUCCESS;
     }
 
     @Override

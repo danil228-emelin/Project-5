@@ -22,16 +22,18 @@ public class Save implements IndependentCommand, NoArgumentCommand {
      * Saving collection by using class  @see {@link Parser}.
      * It parses collection xml format
      */
+    private final static String SUCCESS = "Command save:collection is saved";
+    private final static String FAIL_ERROR = "Error during saving elements";
 
     @Override
     public String execute() {
         try {
             Parser.write(new FileValidator().getPath());
-            log.info("Command save:collection is saved");
-            return "collection is saved";
+            log.info(SUCCESS);
+            return SUCCESS;
         } catch (JAXBException | FileNotFoundException e) {
-            log.error("Error during saving elements,check or set new  file");
-            return "Error during saving elements,check or set new  file";
+            log.error(FAIL_ERROR);
+            return FAIL_ERROR;
         }
     }
 

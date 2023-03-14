@@ -20,6 +20,8 @@ import java.nio.file.Path;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ExecuteScript implements Command {
+    private static final String ERROR_PERMISSION = "ExecuteScript error during setting path:can't read and write  file";
+    private static final String IOEXCEPTION = "Execute Script:fail error ";
     private String path;
 
     /**
@@ -28,9 +30,9 @@ public class ExecuteScript implements Command {
     public void setPath(String path) {
         Path test = Path.of(path);
         if (!Files.isReadable(test) || !Files.isWritable(test)) {
-            log.info("ExecuteScript error during setting path:can't read and write  file");
+            log.info(ERROR_PERMISSION);
 
-            throw new FileException("error:can't read and write file");
+            throw new FileException(ERROR_PERMISSION);
         }
         this.path = path;
     }
@@ -48,8 +50,8 @@ public class ExecuteScript implements Command {
             log.info(String.format("Script %s executed ", current_fail));
             return String.format("Script %s executed ", current_fail);
         } catch (IOException e) {
-            log.error("Execute Script:fail error ");
-            System.err.println("Execute script:file error");
+            log.error(IOEXCEPTION);
+            System.err.println(IOEXCEPTION);
             return "";
         }
     }

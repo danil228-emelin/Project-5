@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class CountByHeight implements Command {
+    private static final String VALIDATION_ERROR = "CountBtHeight error during setting height:height must be more than 0";
     private double height;
 
     /**
@@ -43,9 +44,9 @@ public class CountByHeight implements Command {
      */
     public CountByHeight setHeight(double height) {
         if (height <= 0) {
-            log.error("CountBtHeight error during setting height:height must be more than 0");
+            log.error(VALIDATION_ERROR);
 
-            throw new ValidationException("error:height must be more than 0");
+            throw new ValidationException(VALIDATION_ERROR);
         }
 
         this.height = height;

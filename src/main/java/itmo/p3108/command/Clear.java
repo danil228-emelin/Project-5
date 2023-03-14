@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @SuppressWarnings("unused")
 public class Clear implements NoArgumentCommand {
+    private final static String SUCCESS = "Command Clear deleted elements ";
+
     /**
      * Command clear,clear collection  after execution size=0
      */
@@ -22,9 +24,9 @@ public class Clear implements NoArgumentCommand {
     public String execute() {
         controller.getPersonList().clear();
         PersonReadingBuilder.setId(1L);
-        log.info("Command Clear deleted elements  ");
+        log.info(SUCCESS);
 
-        return "elements are deleted ";
+        return SUCCESS;
     }
 
     @Override

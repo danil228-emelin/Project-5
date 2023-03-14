@@ -14,7 +14,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -22,16 +21,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 /**
  * Class Parse,parse elements from and to the xml file
@@ -40,7 +36,12 @@ import java.util.NoSuchElementException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Parser {
     private static final ArrayList<String> ARGUMENTS = new ArrayList<>();
-
+    /**
+     * @param path read from file,treated it as xml file
+     * find  all nodes,if one of the attribute is null or missed-error raise
+     */
+    private static final String EMPTY_FAIL = "Fail is empty, collection empty as well";
+    private static final String PARSING_FAIL = "Error during parsing:some attributes was in incorrect format or missed";
 
     /**
      * @param element certain node of xml file
@@ -51,10 +52,6 @@ public final class Parser {
         return element.getElementsByTagName(tegName).item(0).getTextContent();
     }
 
-    /**
-     * @param path read from file,treated it as xml file
-     *             find  all nodes,if one of the attribute is null or missed-error raise
-     */
     public static void read(@NonNull String path) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -67,8 +64,8 @@ public final class Parser {
 
             File file = new File(path);
             if (file.length() == 0) {
-                log.warn(String.format("Fail %s is empty, collection empty as well", path));
-                throw new FileException("Fail " + path + " is empty, collection empty as well");
+                log.warn(EMPTY_FAIL);
+                throw new FileException(EMPTY_FAIL);
             }
             Document doc = db.parse(file);
 
@@ -125,8 +122,8 @@ public final class Parser {
 
                     CheckData checkData = new CheckData();
                     if (!checkData.wrapperCheckArguments(ARGUMENTS)) {
-                        log.error("Error during parsing:some attributes was in incorrect format,change or fix xml file");
-                        System.err.println("Error during parsing:some attributes was in incorrect format,change or fix xml file");
+                        log.error(PARSING_FAIL);
+                        System.err.println(PARSING_FAIL);
                         continue;
                     }
 
@@ -152,15 +149,12 @@ public final class Parser {
 
             }
             PersonReadingBuilder.setId(max_id);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            log.error("Error during parsing:file has incorrect data,collection is empty,change or fix xml file");
-            System.err.println("Error during parsing:file has incorrect data,collection is empty");
         } catch (ValidationException | FileException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());
-        } catch (NullPointerException | NoSuchElementException e) {
-            log.error("Error during parsing:One of the element is null,change or fix xml file");
-            System.err.println("Error during parsing:One of the element is null,change or fix xml file");
+        } catch (Exception e) {
+            log.error(PARSING_FAIL);
+            System.err.println(PARSING_FAIL + " collection is empty");
         }
 
     }

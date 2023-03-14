@@ -14,6 +14,8 @@ import java.nio.file.Paths;
 @Slf4j
 
 public class FileValidator {
+    private final static String FAIL_NAME_ERROR = "error during  file check  : name has wrong  format";
+    private final static String PERMISSION_ERROR = "Permission error:no rights for writing and reading";
     private final String FILE_NAME_FORMAT = "[^!_]+";
     @Getter
     private String path = System.getenv("COLLECTION_PATH");
@@ -24,8 +26,8 @@ public class FileValidator {
      */
     private boolean fileCheck(String test) {
         if (!test.matches(FILE_NAME_FORMAT)) {
-            log.error("error during  file check  : name has wrong  format");
-            System.err.println("file has incorrect name");
+            log.error(FAIL_NAME_ERROR);
+            System.err.println(FILE_NAME_FORMAT);
             return false;
         }
         Path path = Paths.get(test);
@@ -35,8 +37,8 @@ public class FileValidator {
         if (Files.isWritable(path) && Files.isReadable(path))
             return true;
         else {
-            log.error(String.format("Permission error:no rights for writing and reading:%s", path));
-            System.err.printf("Permission error:no rights for writing and reading:%s", path);
+            log.error(String.format(PERMISSION_ERROR));
+            System.err.printf(PERMISSION_ERROR);
             return false;
         }
 

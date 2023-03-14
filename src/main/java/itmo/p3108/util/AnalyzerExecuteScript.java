@@ -12,6 +12,10 @@ import java.util.Arrays;
  * it needs to detect add command
  */
 public class AnalyzerExecuteScript {
+    private static final String ADD_EXECUTE_SCRIPT_EXCEPTION1 = "Error add:next line empty ,but it  must have arguments";
+    private static final String ADD_PROPER_ARGUMENTS_ORDER = "parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name";
+    private static final String ADD_EXECUTE_SCRIPT_EXCEPTION2 = "Error add:some attributes are missed in argument line";
+
     private AnalyzerExecuteScript() {
     }
 
@@ -30,15 +34,15 @@ public class AnalyzerExecuteScript {
 
             if (i == commands.length - 1) {
 
-                System.err.println("Error add:next line empty ,but it  must have arguments");
-                System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name");
+                System.err.println(ADD_EXECUTE_SCRIPT_EXCEPTION1);
+                System.err.println(ADD_PROPER_ARGUMENTS_ORDER);
                 i++;
                 continue;
             }
             String addArguments = commands[i + 1];
             if (addArguments.trim().split(",").length != 12) {
-                System.err.printf("Error add:some attributes are missed in argument line %d%n", i);
-                System.err.println("parameters format:id,name,coordinate.x,coordinate.y,height,birthday, eyeColor number ,nationality number,location.x,location.y,location.z,location.name");
+                System.err.printf("%s,line %d\n", ADD_EXECUTE_SCRIPT_EXCEPTION2, i);
+                System.err.println(ADD_PROPER_ARGUMENTS_ORDER);
                 i += 2;
                 continue;
             }
