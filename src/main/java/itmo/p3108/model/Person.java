@@ -5,6 +5,7 @@ import itmo.p3108.adapter.LocalDateAdapter;
 import itmo.p3108.adapter.ZonedDateAdapter;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,22 +21,30 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 public class Person {
     @XmlElement
+    @NonNull
     private Long id;
     @XmlElement
+    @NonNull
     private String name;
     @XmlElement
+    @NonNull
     private Coordinates coordinates;
     @XmlJavaTypeAdapter(ZonedDateAdapter.class)
     private java.time.ZonedDateTime creationDate;
     @XmlElement
-    private double height;
+    @NonNull
+    private Double height;
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    @NonNull
     private java.time.LocalDate birthday;
     @XmlElement
+    @NonNull
     private Color eyeColor;
     @XmlElement
+    @NonNull
     private Country nationality;
     @XmlElement
+    @NonNull
     private Location location;
 
     @Override

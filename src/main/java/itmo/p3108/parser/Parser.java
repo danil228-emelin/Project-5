@@ -152,6 +152,8 @@ public final class Parser {
         } catch (ValidationException | FileException e) {
             log.error(e.getMessage());
             System.err.println(e.getMessage());
+        } catch (NullPointerException e) {
+            System.err.printf("error during parser:%s\n", e.getMessage());
         } catch (Exception e) {
             log.error(PARSING_FAIL);
             System.err.println(PARSING_FAIL + " collection is empty");
