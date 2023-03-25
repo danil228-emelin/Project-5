@@ -25,7 +25,7 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
     private final static String FAIL = "Command AddIf: new element didn't added ";
     @Setter
     @NonNull
-    private Comparator<Person> comparator = Comparator.comparing(Person::getName).thenComparing(Person::getId);
+    private Comparator<Person> comparator = Comparator.comparing(Person::getPersonName).thenComparing(Person::getPersonId);
 
     /**
      * @return result of execution

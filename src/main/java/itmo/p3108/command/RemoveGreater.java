@@ -28,7 +28,7 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
     private final static String FAIL = "command RemoveGreater deleted nothing ";
     @Setter
     @NonNull
-    private Comparator<Person> comparator = Comparator.comparing(Person::getName).thenComparing(Person::getBirthday);
+    private Comparator<Person> comparator = Comparator.comparing(Person::getPersonName).thenComparing(Person::getPersonBirthday);
 
     /**
      * @return result of command invocation

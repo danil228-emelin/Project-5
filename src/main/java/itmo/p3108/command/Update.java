@@ -31,13 +31,13 @@ public class Update implements Command {
 
     public String createName() {
 
-        System.out.println("person name " + person.getName());
+        System.out.println("person name " + person.getPersonName());
         System.out.println("Press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
             if (s.equals("")) {
-                return person.getName();
+                return person.getPersonName();
             }
             return PersonReadingBuilder.getInstance().createName();
         }
@@ -60,14 +60,14 @@ public class Update implements Command {
 
     public double createHeight() {
 
-        System.out.println(" height  " + person.getHeight());
+        System.out.println(" height  " + person.getPersonHeight());
         System.out.println("press enter-don't change");
 
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
             if (s.equals("")) {
-                return person.getHeight();
+                return person.getPersonHeight();
             }
             return PersonReadingBuilder.getInstance().createHight();
         }
@@ -75,14 +75,14 @@ public class Update implements Command {
 
     public LocalDate createBirthDay() {
 
-        System.out.println(" birthday  " + person.getBirthday());
+        System.out.println(" birthday  " + person.getPersonBirthday());
         System.out.println("press enter-don't change");
 
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
             if (s.equals("")) {
-                return person.getBirthday();
+                return person.getPersonBirthday();
             }
             return PersonReadingBuilder.getInstance().createBirthDay();
         }
@@ -90,14 +90,14 @@ public class Update implements Command {
 
     public Color createColor() {
 
-        System.out.println(" colour  " + person.getEyeColor());
+        System.out.println(" colour  " + person.getPersonEyeColor());
         System.out.println("press enter-don't change");
 
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
             if (s.equals("")) {
-                return person.getEyeColor();
+                return person.getPersonEyeColor();
             }
             return PersonReadingBuilder.getInstance().createColor();
         }
@@ -106,13 +106,13 @@ public class Update implements Command {
 
     public Country createNationality() {
 
-        System.out.println(" nationality  " + person.getNationality());
+        System.out.println(" nationality  " + person.getPersonNationality());
         System.out.println("press enter-don't change");
         while (true) {
             String s = PersonReadingBuilder.getInstance().properRead("name must be not null");
 
             if (s.equals("")) {
-                return person.getNationality();
+                return person.getPersonNationality();
             }
             return PersonReadingBuilder.getInstance().createNationality();
         }
@@ -140,14 +140,14 @@ public class Update implements Command {
     @Override
     public String execute() {
 
-        person.setName(createName());
+        person.setPersonName(createName());
         person.setCoordinates(createCoordinates());
-        person.setHeight(createHeight());
-        person.setBirthday(createBirthDay());
-        person.setEyeColor(createColor());
-        person.setNationality(createNationality());
+        person.setPersonHeight(createHeight());
+        person.setPersonBirthday(createBirthDay());
+        person.setPersonEyeColor(createColor());
+        person.setPersonNationality(createNationality());
         person.setLocation(createLocation());
-        log.info(String.format("Update:element with id %d is updated", person.getId()));
+        log.info(String.format("Update:element with id %d is updated", person.getPersonId()));
         return "element is updated";
     }
 

@@ -24,7 +24,7 @@ public class CountByHeight implements Command {
     public String execute() {
         log.info("CountBtHeight printing");
 
-        return Long.toString(controller.getPersonList().stream().parallel().filter(x -> x.getHeight() == height).count());
+        return Long.toString(controller.getPersonList().stream().parallel().filter(x -> x.getPersonHeight() == height).count());
     }
 
     @Override

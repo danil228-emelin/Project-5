@@ -30,7 +30,7 @@ public class FilterStartsWithName implements Command {
                 controller
                         .getPersonList()
                         .stream()
-                        .filter(x -> x.getName().startsWith(substring))
+                        .filter(x -> x.getPersonName().startsWith(substring))
                         .parallel()
                         .map(Person::toString)
                         .collect(Collectors.joining("\n"));

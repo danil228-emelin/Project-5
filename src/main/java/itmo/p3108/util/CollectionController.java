@@ -58,7 +58,7 @@ public final class CollectionController {
 
     public Person getPersonById(Long id) {
         for (Person person : personList) {
-            if (person.getId().equals(id)) {
+            if (person.getPersonId().equals(id)) {
                 return person;
             }
         }
@@ -67,7 +67,7 @@ public final class CollectionController {
 
     public boolean isPersonExist(Long id) {
         for (Person person : personList) {
-            if (person.getId().equals(id)) {
+            if (person.getPersonId().equals(id)) {
                 return true;
             }
         }

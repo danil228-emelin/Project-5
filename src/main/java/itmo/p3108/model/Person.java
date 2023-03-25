@@ -3,7 +3,8 @@ package itmo.p3108.model;
 
 import itmo.p3108.adapter.LocalDateAdapter;
 import itmo.p3108.adapter.ZonedDateAdapter;
-import itmo.p3108.util.annotation.Parsing;
+import itmo.p3108.util.annotation.BuilderClass;
+import itmo.p3108.util.annotation.ParsingMethod;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -25,40 +26,40 @@ import java.time.format.DateTimeFormatter;
 public class Person {
     @XmlElement
     @NonNull
-    private Long id;
+    private Long personId;
     @XmlElement
     @NonNull
-    private String name;
+    private String personName;
     @XmlElement
     @NonNull
     private Coordinates coordinates;
     @XmlJavaTypeAdapter(ZonedDateAdapter.class)
-    private java.time.ZonedDateTime creationDate;
+    private java.time.ZonedDateTime personCreationDate;
     @XmlElement
     @NonNull
-    private Double height;
+    private Double personHeight;
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @NonNull
-    private java.time.LocalDate birthday;
+    private java.time.LocalDate personBirthday;
     @XmlElement
     @NonNull
-    private Color eyeColor;
+    private Color personEyeColor;
     @XmlElement
     @NonNull
-    private Country nationality;
+    private Country personNationality;
     @XmlElement
     @NonNull
     private Location location;
 
     private Person(PersonBuilder personBuilder) {
-        id = personBuilder.id;
-        name = personBuilder.name;
+        personId = personBuilder.id;
+        personName = personBuilder.name;
         coordinates = personBuilder.coordinates;
-        creationDate = ZonedDateTime.now();
-        height = personBuilder.height;
-        birthday = personBuilder.birthday;
-        eyeColor = personBuilder.eyeColor;
-        nationality = personBuilder.nationality;
+        personCreationDate = ZonedDateTime.now();
+        personHeight = personBuilder.height;
+        personBirthday = personBuilder.birthday;
+        personEyeColor = personBuilder.eyeColor;
+        personNationality = personBuilder.nationality;
         location = personBuilder.location;
     }
 
@@ -72,16 +73,18 @@ public class Person {
             return true;
         }
         if (obj instanceof Person person) {
-            return this.name.equals(person.name) && this.coordinates.equals(person.coordinates) && this.height == person.height && this.birthday.equals(person.birthday) && this.eyeColor.equals(person.eyeColor) && this.nationality.equals(person.nationality) && this.location.equals(person.location);
+            return this.personName.equals(person.personName) && this.coordinates.equals(person.coordinates) && this.personHeight == person.personHeight && this.personBirthday.equals(person.personBirthday) && this.personEyeColor.equals(person.personEyeColor) && this.personNationality.equals(person.personNationality) && this.location.equals(person.location);
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return String.format("{id=%d, name=%s, height=%.3f, birthday=%s, eyeColor=%s, nationality=%s}", id, name, height, birthday, eyeColor, nationality);
+        return String.format("{id=%d, name=%s, height=%.3f, birthday=%s, eyeColor=%s, nationality=%s}", personId, personName, personHeight, personBirthday, personEyeColor, personNationality);
 
     }
+
+    @BuilderClass
 
     public static class PersonBuilder {
 
@@ -97,7 +100,7 @@ public class Person {
         private PersonBuilder() {
         }
 
-        @Parsing
+        @ParsingMethod
         public PersonBuilder id(String id) {
             this.id = Long.valueOf(id);
             return this;
@@ -108,7 +111,7 @@ public class Person {
             return this;
         }
 
-        @Parsing
+        @ParsingMethod
         public PersonBuilder name(String name) {
             this.name = name;
             return this;
@@ -119,7 +122,7 @@ public class Person {
             return this;
         }
 
-        @Parsing
+        @ParsingMethod
         public PersonBuilder height(String height) {
             this.height = Double.valueOf(height);
             return this;
@@ -136,7 +139,7 @@ public class Person {
             return this;
         }
 
-        @Parsing
+        @ParsingMethod
         public PersonBuilder birthday(String birthday) {
             this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
             return this;
@@ -147,7 +150,7 @@ public class Person {
             return this;
         }
 
-        @Parsing
+        @ParsingMethod
         public PersonBuilder eyeColor(String eyeColor) {
             this.eyeColor = Color.valueOf(eyeColor);
             return this;
@@ -158,7 +161,7 @@ public class Person {
             return this;
         }
 
-        @Parsing
+        @ParsingMethod
         public PersonBuilder nationality(String nationality) {
             this.nationality = Country.valueOf(nationality);
             return this;

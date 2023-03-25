@@ -20,7 +20,7 @@ public class Reorder implements NoArgumentCommand {
     private final static String SUCCESS = "Command reorder:collection reordered ";
     @Setter
     @NonNull
-    private Comparator<Person> naturalComparatorOrder = Comparator.comparing(Person::getId);
+    private Comparator<Person> naturalComparatorOrder = Comparator.comparing(Person::getPersonId);
     private boolean isReversed = false;
 
     /**

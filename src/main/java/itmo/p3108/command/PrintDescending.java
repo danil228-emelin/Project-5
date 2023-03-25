@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class PrintDescending implements NoArgumentCommand {
     @Setter
     @NonNull
-    private Comparator<Person> naturalComparatorOrder = (Comparator.comparing(Person::getId));
+    private Comparator<Person> naturalComparatorOrder = (Comparator.comparing(Person::getPersonId));
 
     @Override
     public String execute() {

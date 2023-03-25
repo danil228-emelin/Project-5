@@ -1,5 +1,6 @@
 package itmo.p3108.model;
 
+import itmo.p3108.util.annotation.BuilderClass;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,6 +35,7 @@ public class Location {
         return String.format("Location{x=%f, y=%f, z=%f ,name=%s}", locationX, locationY, locationZ, locationName);
     }
 
+    @BuilderClass
     public static class LocationBuilder {
         private double x;
         private Float y;

@@ -17,7 +17,7 @@ public class RemoveById implements Command {
 
     @Override
     public String execute() {
-        controller.getPersonList().removeIf(x -> x.getId().equals(id));
+        controller.getPersonList().removeIf(x -> x.getPersonId().equals(id));
         log.info(String.format("RemoveById:element with id %d  was deleted", id));
 
         return "element with  id " + id + " was deleted ";

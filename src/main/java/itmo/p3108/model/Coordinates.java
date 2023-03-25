@@ -1,5 +1,6 @@
 package itmo.p3108.model;
 
+import itmo.p3108.util.annotation.BuilderClass;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,6 +32,7 @@ public class Coordinates {
         return String.format("Coordinates{x=%d, y= %f}", coordinateX, coordinateY);
     }
 
+    @BuilderClass
     public static class CoordinatesBuilder {
         private int x;
         private Float y;
