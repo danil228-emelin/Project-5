@@ -298,7 +298,7 @@ public class CheckData {
      */
     private boolean checkArguments(@NonNull Collection<String> collection) {
 
-        Set<Method> set = Reflection.findAllCommandsWithAnnotation("itmo.p3108.util", Checking.class);
+        Set<Method> set = Reflection.findAllClassesWithAnnotation("itmo.p3108.util", Checking.class);
         if (set == null) {
             return false;
         }

@@ -1,7 +1,6 @@
 package itmo.p3108.util;
 
 import com.sun.istack.Nullable;
-import itmo.p3108.command.type.Command;
 import org.reflections.Reflections;
 import org.reflections.ReflectionsException;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -24,12 +23,11 @@ public class Reflection {
      * @return find all commands in certain package
      */
     @Nullable
-    public static Set<Class<?>> findAllCommands(String packageName) {
+    public static Set<Class<?>> findAllClasses(String packageName, Class<?> classExtended) {
         try {
 
-
             Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
-            return reflections.getSubTypesOf(Command.class)
+            return reflections.getSubTypesOf(classExtended)
                     .stream()
                     .parallel()
                     .collect(Collectors.toSet());
@@ -46,7 +44,7 @@ public class Reflection {
      * @return commands which has certain annotation
      */
     @Nullable
-    public static Set<Method> findAllCommandsWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
+    public static Set<Method> findAllClassesWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
         try {
 
 

@@ -24,7 +24,7 @@ public class FlyWeightCommandFactory {
      * in constructor  reflections is used  to find all commands in project
      */
     private FlyWeightCommandFactory() {
-        Set<Class<?>> set = Reflection.findAllCommands("itmo.p3108.command");
+        Set<Class<?>> set = Reflection.findAllClasses("itmo.p3108.command", Command.class);
         if (set == null) {
             throw new ValidationException("Commands not found");
         }

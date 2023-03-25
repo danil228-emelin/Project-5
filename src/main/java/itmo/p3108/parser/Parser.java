@@ -1,10 +1,6 @@
 package itmo.p3108.parser;
 
-import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.FileException;
-import itmo.p3108.exception.ValidationException;
-import itmo.p3108.model.*;
-import itmo.p3108.util.CheckData;
 import itmo.p3108.util.CollectionController;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,8 +8,8 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -21,12 +17,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -73,99 +68,21 @@ public final class Parser {
 
             NodeList personList = doc.getElementsByTagName("person");
 
-            for (int temp = 0; temp < personList.getLength(); temp++) {
-                Node personNode = personList.item(temp);
 
-                if (personNode.getNodeType() == Node.ELEMENT_NODE) {
-
-
-                    Element personElem = (Element) personNode;
-
-                    String eyeColour = (information(personElem, "eyeColor"));
-
-                    String id = (information(personElem, "id"));
-                    ARGUMENTS.add(id);
-                    String name = (information(personElem, "name"));
-                    ARGUMENTS.add(name);
-                    String height = (information(personElem, "height"));
-                    ARGUMENTS.add(height);
-                    String createDate = (information(personElem, "creationDate"));
-                    ARGUMENTS.add(createDate);
-                    String birthday = (information(personElem, "birthday"));
-                    ARGUMENTS.add(birthday);
-                    String nationality = (information(personElem, "nationality"));
-                    ARGUMENTS.add(nationality);
-
-                    String xCoordinates = "";
-                    String yCoordinates = "";
-                    NodeList coordinateList = doc.getElementsByTagName("coordinates");
-
-                    String x = "";
-                    String y = "";
-                    String z = "";
-                    String placeName = "";
-
-                    for (int i = 0; i < coordinateList.getLength(); i++) {
-                        Element coordinateElem = (Element) coordinateList.item(i);
-                        xCoordinates = (information(coordinateElem, "x"));
-                        yCoordinates = (information(coordinateElem, "y"));
-                    }
-                    NodeList location = doc.getElementsByTagName("location");
-
-                    for (int i = 0; i < location.getLength(); i++) {
-                        Element coordinateElem = (Element) location.item(i);
-                        x = (information(coordinateElem, "x"));
-                        y = (information(coordinateElem, "y"));
-                        z = (information(coordinateElem, "z"));
-                        placeName = (information(coordinateElem, "name"));
-                    }
-
-                    CheckData checkData = new CheckData();
-                    if (!checkData.wrapperCheckArguments(ARGUMENTS)) {
-                        log.error(PARSING_FAIL);
-                        System.err.println(PARSING_FAIL);
-                        continue;
-                    }
-
-                    Person person = Person
-                            .builder()
-                            .id(Long.parseLong(id))
-                            .name(name)
-                            .height(Double.parseDouble(height))
-                            .eyeColor(Color.valueOf(eyeColour))
-                            .creationDate(ZonedDateTime.parse(createDate))
-                            .nationality(Country.valueOf(nationality))
-                            .birthday(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("MM-dd-yyyy")))
-                            .coordinates(Coordinates.builder().x(Integer.parseInt(xCoordinates)).y(Float.valueOf(yCoordinates))
-                                    .build()).location(Location.builder().name(placeName).x(Double.parseDouble(x))
-                                    .y(Float.valueOf(y)).z(Float.parseFloat(z)).name(placeName).build()).build();
-
-                    if (!Command.controller.isPersonExist(person.getId())) {
-                        Command.controller.getPersonList().add(person);
-                        max_id = Math.max(Long.parseLong(id), max_id);
-                    }
+            for (int i = 0; i < personList.getLength(); i++) {
+                NodeList personAttributes = personList.item(i).getChildNodes();
+                for (int z = 0; z < personAttributes.getLength(); z++) {
+                    System.out.println(personAttributes.item(z).getNodeName());
                 }
 
 
             }
-            PersonReadingBuilder.setId(max_id);
-        } catch (ValidationException | FileException e) {
+        } catch (IOException | SAXException | ParserConfigurationException e) {
             log.error(e.getMessage());
-            System.err.println(e.getMessage());
-        } catch (NullPointerException e) {
-            System.err.printf("error during parser:%s\n", e.getMessage());
-        } catch (Exception e) {
-            log.error(PARSING_FAIL);
-            System.err.println(PARSING_FAIL + " collection is empty");
+            System.err.println("Error during parsing.Fail has incorrect data");
         }
-
     }
 
-    /**
-     * @param path source,treated as xml file
-     * @throws JAXBException         occur when parser detects error in nodes format
-     * @throws FileNotFoundException occur when file doesn't exist
-     */
     public static void write(@NonNull String path) throws JAXBException, FileNotFoundException {
 
         CollectionController controller = CollectionController.getInstance();
