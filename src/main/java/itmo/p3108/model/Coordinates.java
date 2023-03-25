@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlElement;
  * class Coordinates using as coordinates for  @see {@link Person}
  */
 @Data
+@BuilderClass
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Coordinates {
     @XmlElement
@@ -32,7 +34,6 @@ public class Coordinates {
         return String.format("Coordinates{x=%d, y= %f}", coordinateX, coordinateY);
     }
 
-    @BuilderClass
     public static class CoordinatesBuilder {
         private int x;
         private Float y;
@@ -51,12 +52,12 @@ public class Coordinates {
             return this;
         }
 
-        public CoordinatesBuilder x(String x) {
+        public CoordinatesBuilder coordinatesX(String x) {
             this.x = Integer.parseInt(x);
             return this;
         }
 
-        public CoordinatesBuilder y(String y) {
+        public CoordinatesBuilder coordinatesY(String y) {
             this.y = Float.valueOf(y);
             return this;
         }

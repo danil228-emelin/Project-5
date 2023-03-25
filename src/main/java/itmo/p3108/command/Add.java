@@ -30,12 +30,12 @@ public class Add implements NoArgumentCommand, IndependentCommand {
     public String execute() {
         Person person = Person
                 .builder()
-                .name(personReadingBuilder.createName())
-                .id(personReadingBuilder.createId())
-                .height(personReadingBuilder.createHight())
-                .eyeColor(personReadingBuilder.createColor())
-                .nationality(personReadingBuilder.createNationality())
-                .birthday(personReadingBuilder.createBirthDay())
+                .personName(personReadingBuilder.createName())
+                .personId(personReadingBuilder.createId())
+                .personHeight(personReadingBuilder.createHight())
+                .personEyeColor(personReadingBuilder.createColor())
+                .personNationality(personReadingBuilder.createNationality())
+                .personBirthday(personReadingBuilder.createBirthDay())
                 .coordinates(personReadingBuilder.createCoordinates())
                 .location(personReadingBuilder.createLocation())
                 .build();

@@ -6,6 +6,7 @@ import org.reflections.Reflections;
 import org.reflections.ReflectionsException;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -29,10 +30,20 @@ public class Reflection {
         try {
 
             Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
-            return reflections.getSubTypesOf(classExtended)
-                    .stream()
-                    .parallel()
-                    .collect(Collectors.toSet());
+            return reflections.getSubTypesOf(classExtended).stream().parallel().collect(Collectors.toSet());
+
+        } catch (ReflectionsException exception) {
+            System.err.println(exception.getMessage());
+        }
+        return null;
+    }
+
+    @Nullable
+    public static Set<Class<?>> findAllAnnotatedClasses(String packageName, Class<? extends Annotation> annotation) {
+        try {
+
+            Reflections reflections = new Reflections(packageName, new TypeAnnotationsScanner(), new SubTypesScanner(false));
+            return reflections.getTypesAnnotatedWith(annotation).stream().parallel().collect(Collectors.toSet());
 
         } catch (ReflectionsException exception) {
             System.err.println(exception.getMessage());
@@ -46,7 +57,7 @@ public class Reflection {
      * @return commands which has certain annotation
      */
     @Nullable
-    public static Set<Method> findAllClassesWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
+    public static Set<Method> findAllMethodsWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
         try {
 
 

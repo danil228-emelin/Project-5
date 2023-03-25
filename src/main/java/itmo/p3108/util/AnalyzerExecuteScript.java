@@ -51,17 +51,17 @@ public class AnalyzerExecuteScript {
             CheckData checkData = new CheckData();
             if (checkData.wrapperCheckArguments(Arrays.stream(arguments).toList())) {
                 Person person = Person.builder()
-                        .id(Long.parseLong(arguments[0].trim()))
-                        .name(arguments[1].trim())
-                        .coordinates(Coordinates.builder().x(arguments[2]).y(arguments[3].trim()).build())
-                        .height(Double.parseDouble(arguments[4].trim()))
-                        .birthday(LocalDate.parse(arguments[5].trim(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
-                        .eyeColor(Color.newValue(arguments[6].trim()))
-                        .nationality(Country.newValue(arguments[7].trim()))
+                        .personId(Long.parseLong(arguments[0].trim()))
+                        .personName(arguments[1].trim())
+                        .coordinates(Coordinates.builder().coordinatesX(arguments[2]).coordinatesY(arguments[3].trim()).build())
+                        .personHeight(Double.parseDouble(arguments[4].trim()))
+                        .personBirthday(LocalDate.parse(arguments[5].trim(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
+                        .personEyeColor(Color.newValue(arguments[6].trim()))
+                        .personNationality(Country.newValue(arguments[7].trim()))
                         .location(Location.builder()
-                                .x(Double.parseDouble(arguments[8].trim()))
-                                .y(Float.valueOf(arguments[9].trim()))
-                                .z(Float.parseFloat(arguments[10].trim()))
+                                .locationX(Double.parseDouble(arguments[8].trim()))
+                                .locationY(Float.valueOf(arguments[9].trim()))
+                                .locationZ(Float.parseFloat(arguments[10].trim()))
                                 .name(arguments[11].trim()).build())
                         .build();
                 Command.controller.getPersonList().add(person);

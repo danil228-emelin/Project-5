@@ -43,7 +43,7 @@ public class CheckData {
      * @see Country
      */
     @Checking
-    public boolean checkNationalityReadingFromFile(String test) {
+    public boolean checkPersonNationalityReadingFromFile(String test) {
 
         if (!Country.isPresent(test)) {
             log.error("error:during nationality setting line has wrong format");
@@ -53,7 +53,7 @@ public class CheckData {
         return true;
     }
 
-    public boolean checkColourReadingConsole(String test) {
+    public boolean checkPersonColourReadingConsole(String test) {
         if (!test.matches("[1-5]")) {
             log.error("error:during colour setting line has wrong format");
             System.err.println("error:during colour setting line has wrong format");
@@ -67,7 +67,7 @@ public class CheckData {
      * @see Color
      */
     @Checking
-    public boolean checkEyeColorReadingFile(String test) {
+    public boolean checkPersonEyeColorReadingFile(String test) {
         if (!Color.isPresent(test)) {
             log.error("error:during colour setting line has wrong format");
             System.err.println("error:during colour setting line has wrong format");
@@ -79,7 +79,7 @@ public class CheckData {
 
     @Checking
 
-    public boolean checkBirthday(String test) {
+    public boolean checkPersonBirthday(String test) {
         if (!test.matches(BIRTHDAY_FORMAT)) {
             log.error("error:during birthday setting line has wrong format");
             System.err.println("error:during birthday setting line has wrong format");
@@ -113,7 +113,7 @@ public class CheckData {
         return true;
     }
 
-    public boolean checkNationalityReadingFromConsole(String test) {
+    public boolean checkPersonNationalityReadingFromConsole(String test) {
         if (!test.matches("[1-4]")) {
             log.error("error:during nationality setting line has wrong format");
             System.err.println("error:during nationality setting line has wrong format");
@@ -194,7 +194,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkId(String test) {
+    public boolean checkPersonId(String test) {
         if (!test.matches(POSITIVE_NUMBER_FORMAT)) {
             log.error("error:id has wrong format");
 
@@ -233,7 +233,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkHeight(String test) {
+    public boolean checkPersonHeight(String test) {
         if (!test.matches(POSITIVE_FLOAT_NUMBER_FORMAT)) {
             log.error("error:during height setting");
             System.err.println("error:during height setting \n value is positive whole or fractional number");
@@ -250,7 +250,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkCreationDate(String test) {
+    public boolean checkPersonCreationDate(String test) {
 
         if (!test.matches(CREATION_TIME_FORMAT)) {
             System.err.println("error:creation time has wrong format");
@@ -261,7 +261,12 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkName(String test) {
+    public boolean checkLocationName(String test) {
+        return checkPersonName(test);
+    }
+
+    @Checking
+    public boolean checkPersonName(String test) {
 
         if (test.length() > 40) {
             log.error("error during name setting:too long line");
@@ -321,7 +326,7 @@ public class CheckData {
      */
     private boolean checkArguments(@NonNull Collection<String> collection) {
 
-        Set<Method> set = Reflection.findAllClassesWithAnnotation("itmo.p3108.util", Checking.class);
+        Set<Method> set = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
         if (set == null) {
             return false;
         }

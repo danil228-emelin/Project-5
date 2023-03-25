@@ -40,12 +40,12 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
         PersonReadingBuilder personReadingBuilder = PersonReadingBuilder.getInstance();
         Person person = Person
                 .builder()
-                .name(personReadingBuilder.createName())
-                .id(personReadingBuilder.createId())
-                .height(personReadingBuilder.createName())
-                .eyeColor(personReadingBuilder.createColor())
-                .nationality(personReadingBuilder.createNationality())
-                .birthday(personReadingBuilder.createBirthDay())
+                .personName(personReadingBuilder.createName())
+                .personId(personReadingBuilder.createId())
+                .personHeight(personReadingBuilder.createName())
+                .personEyeColor(personReadingBuilder.createColor())
+                .personNationality(personReadingBuilder.createNationality())
+                .personBirthday(personReadingBuilder.createBirthDay())
                 .coordinates(personReadingBuilder.createCoordinates())
                 .location(personReadingBuilder.createLocation())
                 .build();

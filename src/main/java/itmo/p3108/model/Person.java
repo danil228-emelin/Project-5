@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
  */
-
+@BuilderClass
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -55,7 +55,7 @@ public class Person {
         personId = personBuilder.id;
         personName = personBuilder.name;
         coordinates = personBuilder.coordinates;
-        personCreationDate = ZonedDateTime.now();
+        personCreationDate = personBuilder.creationDate;
         personHeight = personBuilder.height;
         personBirthday = personBuilder.birthday;
         personEyeColor = personBuilder.eyeColor;
@@ -84,7 +84,6 @@ public class Person {
 
     }
 
-    @BuilderClass
 
     public static class PersonBuilder {
 
@@ -96,23 +95,31 @@ public class Person {
         private Color eyeColor;
         private Country nationality;
         private Location location;
+        private java.time.ZonedDateTime creationDate;
 
         private PersonBuilder() {
         }
 
         @ParsingMethod
-        public PersonBuilder id(String id) {
+        public PersonBuilder personId(String id) {
             this.id = Long.valueOf(id);
             return this;
         }
 
-        public PersonBuilder id(Long id) {
+        @ParsingMethod
+
+        public PersonBuilder personCreationDate(String date) {
+            creationDate = ZonedDateTime.parse(date);
+            return this;
+        }
+
+        public PersonBuilder personId(Long id) {
             this.id = id;
             return this;
         }
 
         @ParsingMethod
-        public PersonBuilder name(String name) {
+        public PersonBuilder personName(String name) {
             this.name = name;
             return this;
         }
@@ -123,46 +130,46 @@ public class Person {
         }
 
         @ParsingMethod
-        public PersonBuilder height(String height) {
+        public PersonBuilder personHeight(String height) {
             this.height = Double.valueOf(height);
             return this;
         }
 
-        public PersonBuilder height(double height) {
+        public PersonBuilder personHeight(double height) {
             this.height = height;
             return this;
         }
 
 
-        public PersonBuilder birthday(LocalDate birthday) {
+        public PersonBuilder personBirthday(LocalDate birthday) {
             this.birthday = birthday;
             return this;
         }
 
         @ParsingMethod
-        public PersonBuilder birthday(String birthday) {
+        public PersonBuilder personBirthday(String birthday) {
             this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
             return this;
         }
 
-        public PersonBuilder eyeColor(Color eyeColor) {
+        public PersonBuilder personEyeColor(Color eyeColor) {
             this.eyeColor = eyeColor;
             return this;
         }
 
         @ParsingMethod
-        public PersonBuilder eyeColor(String eyeColor) {
+        public PersonBuilder personEyeColor(String eyeColor) {
             this.eyeColor = Color.valueOf(eyeColor);
             return this;
         }
 
-        public PersonBuilder nationality(Country nationality) {
+        public PersonBuilder personNationality(Country nationality) {
             this.nationality = nationality;
             return this;
         }
 
         @ParsingMethod
-        public PersonBuilder nationality(String nationality) {
+        public PersonBuilder personNationality(String nationality) {
             this.nationality = Country.valueOf(nationality);
             return this;
         }

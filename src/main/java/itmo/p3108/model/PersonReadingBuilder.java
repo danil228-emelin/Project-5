@@ -41,7 +41,7 @@ public final class PersonReadingBuilder {
         while (name.equals("")) {
             System.out.println("enter name");
             String test = properRead("name must not be null");
-            if (!checkData.checkName(test)) {
+            if (!checkData.checkPersonName(test)) {
                 continue;
             }
             name = test;
@@ -62,7 +62,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter height");
             test = properRead("height must not be null");
 
-            if (!checkData.checkHeight(test)) {
+            if (!checkData.checkPersonHeight(test)) {
                 continue;
             }
             height = Double.parseDouble(test);
@@ -77,7 +77,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter birthday in format MM-dd-yyyy");
             String test = properRead("birthday must not be null");
 
-            if (!checkData.checkBirthday(test)) {
+            if (!checkData.checkPersonBirthday(test)) {
                 continue;
             }
             birthday = test;
@@ -96,7 +96,7 @@ public final class PersonReadingBuilder {
             System.out.println(Arrays.toString(Color.colors()));
             String test = properRead("Color must not be null");
             CheckData checkData = new CheckData();
-            if (!checkData.checkColourReadingConsole(test)) {
+            if (!checkData.checkPersonColourReadingConsole(test)) {
                 continue;
             }
             color = Color.newValue(test);
@@ -115,7 +115,7 @@ public final class PersonReadingBuilder {
 
             System.out.println(Arrays.toString(Country.countries()));
             String test = properRead("country must not be null");
-            if (!checkData.checkNationalityReadingFromConsole(test)) {
+            if (!checkData.checkPersonNationalityReadingFromConsole(test)) {
                 continue;
             }
             nationality = Country.newValue(test);
@@ -153,8 +153,8 @@ public final class PersonReadingBuilder {
         }
         return Coordinates
                 .builder()
-                .x(x)
-                .y(y)
+                .coordinatesX(x)
+                .coordinatesY(y)
                 .build();
     }
 
@@ -204,16 +204,16 @@ public final class PersonReadingBuilder {
             System.out.println("enter location name");
             String test = properRead("location must not be null");
 
-            if (!checkData.checkName(test)) {
+            if (!checkData.checkPersonName(test)) {
                 continue;
             }
             name = test;
         }
         return Location
                 .builder()
-                .z(Float.parseFloat(z))
-                .y(Float.valueOf(y))
-                .x(Double.parseDouble(x))
+                .locationZ(Float.parseFloat(z))
+                .locationY(Float.valueOf(y))
+                .locationX(Double.parseDouble(x))
                 .name(name)
                 .build();
     }

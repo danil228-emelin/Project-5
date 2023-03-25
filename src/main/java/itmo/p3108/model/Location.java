@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 @Data
+@BuilderClass
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Location {
     @XmlElement
@@ -35,7 +37,6 @@ public class Location {
         return String.format("Location{x=%f, y=%f, z=%f ,name=%s}", locationX, locationY, locationZ, locationName);
     }
 
-    @BuilderClass
     public static class LocationBuilder {
         private double x;
         private Float y;
@@ -45,17 +46,17 @@ public class Location {
         private LocationBuilder() {
         }
 
-        public LocationBuilder x(double x) {
+        public LocationBuilder locationX(double x) {
             this.x = x;
             return this;
         }
 
-        public LocationBuilder y(Float y) {
+        public LocationBuilder locationY(Float y) {
             this.y = y;
             return this;
         }
 
-        public LocationBuilder z(float z) {
+        public LocationBuilder locationZ(float z) {
             this.z = z;
             return this;
         }
@@ -66,17 +67,17 @@ public class Location {
         }
 
 
-        public LocationBuilder x(String x) {
+        public LocationBuilder locationX(String x) {
             this.x = Double.parseDouble(x);
             return this;
         }
 
-        public LocationBuilder y(String y) {
+        public LocationBuilder locationY(String y) {
             this.y = Float.valueOf(y);
             return this;
         }
 
-        public LocationBuilder z(String z) {
+        public LocationBuilder locationZ(String z) {
             this.z = Float.parseFloat(z);
             return this;
         }
