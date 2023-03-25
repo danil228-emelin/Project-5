@@ -153,8 +153,8 @@ public final class PersonReadingBuilder {
         }
         return Coordinates
                 .builder()
-                .x(Integer.parseInt(x))
-                .y(Float.valueOf(y))
+                .x(x)
+                .y(y)
                 .build();
     }
 

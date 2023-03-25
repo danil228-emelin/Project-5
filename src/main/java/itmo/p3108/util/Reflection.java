@@ -62,10 +62,10 @@ public class Reflection {
     }
 
     @Nullable
-    public static Method findMethodInClass(Class<?> certainClass, String name) {
+    public static Method findMethodInClass(Class<?> certainClass, String name, Class<? extends Annotation> annotation) {
         Method[] methods = certainClass.getMethods();
         for (Method method : methods) {
-            if (method.getName().toLowerCase().contains(name.toLowerCase())) {
+            if (method.getName().toLowerCase().contains(name.toLowerCase()) && method.isAnnotationPresent(annotation)) {
                 return method;
             }
         }

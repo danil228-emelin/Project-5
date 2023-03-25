@@ -3,6 +3,7 @@ package itmo.p3108.model;
 
 import itmo.p3108.adapter.LocalDateAdapter;
 import itmo.p3108.adapter.ZonedDateAdapter;
+import itmo.p3108.util.annotation.Parsing;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -12,6 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
@@ -95,8 +97,9 @@ public class Person {
         private PersonBuilder() {
         }
 
+        @Parsing
         public PersonBuilder id(String id) {
-            this.id = Long.getLong(id);
+            this.id = Long.valueOf(id);
             return this;
         }
 
@@ -105,6 +108,7 @@ public class Person {
             return this;
         }
 
+        @Parsing
         public PersonBuilder name(String name) {
             this.name = name;
             return this;
@@ -115,7 +119,7 @@ public class Person {
             return this;
         }
 
-
+        @Parsing
         public PersonBuilder height(String height) {
             this.height = Double.valueOf(height);
             return this;
@@ -132,8 +136,20 @@ public class Person {
             return this;
         }
 
+        @Parsing
+        public PersonBuilder birthday(String birthday) {
+            this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+            return this;
+        }
+
         public PersonBuilder eyeColor(Color eyeColor) {
             this.eyeColor = eyeColor;
+            return this;
+        }
+
+        @Parsing
+        public PersonBuilder eyeColor(String eyeColor) {
+            this.eyeColor = Color.valueOf(eyeColor);
             return this;
         }
 
@@ -141,6 +157,13 @@ public class Person {
             this.nationality = nationality;
             return this;
         }
+
+        @Parsing
+        public PersonBuilder nationality(String nationality) {
+            this.nationality = Country.valueOf(nationality);
+            return this;
+        }
+
 
         public PersonBuilder location(Location location) {
             this.location = location;

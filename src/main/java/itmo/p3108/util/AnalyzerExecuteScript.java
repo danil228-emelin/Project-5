@@ -53,7 +53,7 @@ public class AnalyzerExecuteScript {
                 Person person = Person.builder()
                         .id(Long.parseLong(arguments[0].trim()))
                         .name(arguments[1].trim())
-                        .coordinates(Coordinates.builder().x(Integer.parseInt(arguments[2].trim())).y(Float.valueOf(arguments[3].trim())).build())
+                        .coordinates(Coordinates.builder().x(arguments[2]).y(arguments[3].trim()).build())
                         .height(Double.parseDouble(arguments[4].trim()))
                         .birthday(LocalDate.parse(arguments[5].trim(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
                         .eyeColor(Color.newValue(arguments[6].trim()))

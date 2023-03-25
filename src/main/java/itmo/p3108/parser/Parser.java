@@ -1,7 +1,6 @@
 package itmo.p3108.parser;
 
 import itmo.p3108.exception.FileException;
-import itmo.p3108.model.Person;
 import itmo.p3108.util.CheckData;
 import itmo.p3108.util.CollectionController;
 import itmo.p3108.util.Reflection;
@@ -12,7 +11,6 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -27,7 +25,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
@@ -77,40 +74,12 @@ public final class Parser {
             NodeList personList = doc.getElementsByTagName("person");
             CheckData checkData = new CheckData();
             Set<Method> validationMethods = Reflection.findAllClassesWithAnnotation("itmo.p3108.util", Checking.class);
-            Person.PersonBuilder personBuilder = Person.builder();
-            for (int i = 0; i < personList.getLength(); i++) {
-                NodeList personAttributes = personList.item(i).getChildNodes();
-                for (int z = 0; z < personAttributes.getLength(); z++) {
-                    Node attribute = personAttributes.item(z);
-                    if (attribute.getNodeName().startsWith("#") || attribute.getChildNodes().getLength() > 1) {
-                        continue;
-                    }
-                    boolean result = false;
-                    for (Method method : validationMethods) {
-                        if (method.getName().toLowerCase().contains(attribute.getNodeName().toLowerCase())) {
-                            result = (boolean) method.invoke(checkData, attribute.getTextContent());
-                        }
-                    }
-                    if (!result) {
-                        System.err.printf("Error during parsing,Element %d  has incorrect %s\n", i, attribute.getNodeName());
-                        continue;
-                    }
-                    Method method = Reflection.findMethodInClass(Person.PersonBuilder.class, attribute.getNodeName());
-                    if (method == null) {
-                        log.error(String.format("Method for attribute %s in Person builder wasn't found", attribute.getNodeName()));
-                        continue;
-                    }
-                    method.invoke(personBuilder, attribute.getNodeName());
-                }
-                Person person = personBuilder.build();
-                System.out.println(person);
-            }
+            for (int person = 0; person < personList.getLength(); person++) {
 
+            }
         } catch (IOException | SAXException | ParserConfigurationException e) {
             log.error(e.getMessage());
             System.err.println("Error during parsing.Fail has incorrect data");
-        } catch (InvocationTargetException | IllegalAccessException error) {
-            System.err.println("Error during parsing.Checking methods are incorrect");
         }
     }
 
