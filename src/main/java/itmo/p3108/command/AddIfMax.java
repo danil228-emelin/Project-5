@@ -10,7 +10,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -45,7 +44,6 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                 .nationality(personReadingBuilder.createNationality())
                 .birthday(personReadingBuilder.createBirthDay())
                 .coordinates(personReadingBuilder.createCoordinates())
-                .creationDate(ZonedDateTime.now())
                 .location(personReadingBuilder.createLocation())
                 .build();
         if (controller.getPersonList().size() == 0) {

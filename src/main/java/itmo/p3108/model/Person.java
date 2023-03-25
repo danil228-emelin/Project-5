@@ -3,7 +3,6 @@ package itmo.p3108.model;
 
 import itmo.p3108.adapter.LocalDateAdapter;
 import itmo.p3108.adapter.ZonedDateAdapter;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -11,11 +10,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 /**
  * class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
  */
-@Builder
+
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -47,29 +48,108 @@ public class Person {
     @NonNull
     private Location location;
 
+    private Person(PersonBuilder personBuilder) {
+        id = personBuilder.id;
+        name = personBuilder.name;
+        coordinates = personBuilder.coordinates;
+        creationDate = ZonedDateTime.now();
+        height = personBuilder.height;
+        birthday = personBuilder.birthday;
+        eyeColor = personBuilder.eyeColor;
+        nationality = personBuilder.nationality;
+        location = personBuilder.location;
+    }
+
+    public static PersonBuilder builder() {
+        return new PersonBuilder();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj instanceof Person person) {
-            return
-                    this.name.equals(person.name) &&
-                            this.coordinates.equals(person.coordinates) &&
-                            this.height == person.height &&
-                            this.birthday.equals(person.birthday) &&
-                            this.eyeColor.equals(person.eyeColor) &&
-                            this.nationality.equals(person.nationality) &&
-                            this.location.equals(person.location);
+            return this.name.equals(person.name) && this.coordinates.equals(person.coordinates) && this.height == person.height && this.birthday.equals(person.birthday) && this.eyeColor.equals(person.eyeColor) && this.nationality.equals(person.nationality) && this.location.equals(person.location);
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return String.format("{id=%d, name=%s, height=%.3f, birthday=%s, eyeColor=%s, nationality=%s}",
-                id, name, height, birthday, eyeColor, nationality);
+        return String.format("{id=%d, name=%s, height=%.3f, birthday=%s, eyeColor=%s, nationality=%s}", id, name, height, birthday, eyeColor, nationality);
 
     }
-}
 
+    public static class PersonBuilder {
+
+        private Long id;
+        private String name;
+        private Coordinates coordinates;
+        private Double height;
+        private java.time.LocalDate birthday;
+        private Color eyeColor;
+        private Country nationality;
+        private Location location;
+
+        private PersonBuilder() {
+        }
+
+        public PersonBuilder id(String id) {
+            this.id = Long.getLong(id);
+            return this;
+        }
+
+        public PersonBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public PersonBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public PersonBuilder coordinates(Coordinates coordinates) {
+            this.coordinates = coordinates;
+            return this;
+        }
+
+
+        public PersonBuilder height(String height) {
+            this.height = Double.valueOf(height);
+            return this;
+        }
+
+        public PersonBuilder height(double height) {
+            this.height = height;
+            return this;
+        }
+
+
+        public PersonBuilder birthday(LocalDate birthday) {
+            this.birthday = birthday;
+            return this;
+        }
+
+        public PersonBuilder eyeColor(Color eyeColor) {
+            this.eyeColor = eyeColor;
+            return this;
+        }
+
+        public PersonBuilder nationality(Country nationality) {
+            this.nationality = nationality;
+            return this;
+        }
+
+        public PersonBuilder location(Location location) {
+            this.location = location;
+            return this;
+        }
+
+        public Person build() {
+            return new Person(this);
+        }
+    }
+
+}

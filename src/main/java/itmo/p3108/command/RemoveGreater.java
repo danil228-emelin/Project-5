@@ -10,7 +10,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -43,12 +42,11 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
                 .builder()
                 .name(personReadingBuilder.createName())
                 .id(personReadingBuilder.createId())
-                .height(personReadingBuilder.createHight())
+                .height(personReadingBuilder.createName())
                 .eyeColor(personReadingBuilder.createColor())
                 .nationality(personReadingBuilder.createNationality())
                 .birthday(personReadingBuilder.createBirthDay())
                 .coordinates(personReadingBuilder.createCoordinates())
-                .creationDate(ZonedDateTime.now())
                 .location(personReadingBuilder.createLocation())
                 .build();
         ArrayList<Person> arrayList = controller.getPersonList();

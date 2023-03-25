@@ -8,8 +8,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.ZonedDateTime;
-
 /**
  * Command Add,add element in collection
  * <p>
@@ -39,7 +37,6 @@ public class Add implements NoArgumentCommand, IndependentCommand {
                 .nationality(personReadingBuilder.createNationality())
                 .birthday(personReadingBuilder.createBirthDay())
                 .coordinates(personReadingBuilder.createCoordinates())
-                .creationDate(ZonedDateTime.now())
                 .location(personReadingBuilder.createLocation())
                 .build();
         controller.getPersonList().add(person);

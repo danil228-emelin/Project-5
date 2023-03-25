@@ -1,5 +1,6 @@
 package itmo.p3108.util;
 
+import com.sun.istack.Nullable;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.model.Color;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Set;
@@ -65,7 +67,7 @@ public class CheckData {
      * @see Color
      */
     @Checking
-    public boolean checkColourReadingFile(String test) {
+    public boolean checkEyeColorReadingFile(String test) {
         if (!Color.isPresent(test)) {
             log.error("error:during colour setting line has wrong format");
             System.err.println("error:during colour setting line has wrong format");
@@ -248,7 +250,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkCreationTime(String test) {
+    public boolean checkCreationDate(String test) {
 
         if (!test.matches(CREATION_TIME_FORMAT)) {
             System.err.println("error:creation time has wrong format");
@@ -258,6 +260,7 @@ public class CheckData {
         return true;
     }
 
+    @Checking
     public boolean checkName(String test) {
 
         if (test.length() > 40) {
@@ -276,6 +279,25 @@ public class CheckData {
         return true;
     }
 
+    public boolean checkArgument(@NonNull String argument, Method checkMethod) {
+        PrintStream error = System.err;
+        System.setErr(new PrintStream(OutputStream.nullOutputStream()));
+        boolean result = wrapperCheckArgument(argument, checkMethod);
+        System.setErr(error);
+        return result;
+    }
+
+    @Nullable
+    private boolean wrapperCheckArgument(@NonNull String argument, Method checkMethod) {
+        try {
+
+            return (boolean) checkMethod.invoke(this, argument);
+        } catch (InvocationTargetException | IllegalAccessException exception) {
+            System.err.println("CheckMethod is incorrect");
+        }
+        return false;
+    }
+
     /**
      * helper method for @see {@link CheckData#checkArguments(Collection)}
      * Methods, witch validate data,print errors in system.err.
@@ -283,6 +305,7 @@ public class CheckData {
      * helper method redirect error flow in nullOutputStream
      * after execution it redirects error flow back
      */
+
     public boolean wrapperCheckArguments(@NonNull Collection<String> collection) {
         PrintStream error = System.err;
         System.setErr(new PrintStream(OutputStream.nullOutputStream()));

@@ -1,6 +1,7 @@
 package itmo.p3108.util;
 
 import com.sun.istack.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.reflections.ReflectionsException;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Class Reflection,provide Reflections class functionality
  */
+@Slf4j
 public class Reflection {
     private Reflection() {
     }
@@ -59,4 +61,16 @@ public class Reflection {
         return null;
     }
 
+    @Nullable
+    public static Method findMethodInClass(Class<?> certainClass, String name) {
+        Method[] methods = certainClass.getMethods();
+        for (Method method : methods) {
+            if (method.getName().toLowerCase().contains(name.toLowerCase())) {
+                return method;
+            }
+        }
+        return null;
+
+
+    }
 }
