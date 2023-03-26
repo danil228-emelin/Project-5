@@ -1,7 +1,10 @@
 package itmo.p3108.model;
 
+import itmo.p3108.util.Builder;
 import itmo.p3108.util.annotation.BuilderClass;
+import itmo.p3108.util.annotation.ParsingMethod;
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,18 +14,20 @@ import javax.xml.bind.annotation.XmlElement;
  * class Coordinates using as coordinates for  @see {@link Person}
  */
 @Data
-@BuilderClass
+@BuilderClass(builderClass = Coordinates.CoordinatesBuilder.class)
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Coordinates {
     @XmlElement
-    private int coordinateX;
+    @NonNull
+    private Integer coordinatesX;
     @XmlElement
-    private Float coordinateY;
+    @NonNull
+    private Float coordinatesY;
 
     private Coordinates(CoordinatesBuilder coordinatesBuilder) {
-        coordinateX = coordinatesBuilder.x;
-        coordinateY = coordinatesBuilder.y;
+        coordinatesX = coordinatesBuilder.x;
+        coordinatesY = coordinatesBuilder.y;
     }
 
     public static CoordinatesBuilder builder() {
@@ -31,11 +36,11 @@ public class Coordinates {
 
     @Override
     public String toString() {
-        return String.format("Coordinates{x=%d, y= %f}", coordinateX, coordinateY);
+        return String.format("Coordinates{x=%d, y= %f}", coordinatesX, coordinatesY);
     }
 
-    public static class CoordinatesBuilder {
-        private int x;
+    public static class CoordinatesBuilder implements Builder {
+        private Integer x;
         private Float y;
 
         private CoordinatesBuilder() {
@@ -52,14 +57,24 @@ public class Coordinates {
             return this;
         }
 
+        @ParsingMethod
         public CoordinatesBuilder coordinatesX(String x) {
             this.x = Integer.parseInt(x);
             return this;
         }
 
+        @ParsingMethod
         public CoordinatesBuilder coordinatesY(String y) {
             this.y = Float.valueOf(y);
             return this;
+        }
+
+        @Override
+        public String toString() {
+            return "CoordinatesBuilder{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}';
         }
 
         public Coordinates build() {

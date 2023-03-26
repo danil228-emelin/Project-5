@@ -1,8 +1,11 @@
 package itmo.p3108.parser;
 
 import com.sun.istack.Nullable;
+import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.FileException;
 import itmo.p3108.model.Person;
+import itmo.p3108.model.PersonReadingBuilder;
+import itmo.p3108.util.Builder;
 import itmo.p3108.util.CheckData;
 import itmo.p3108.util.CollectionController;
 import itmo.p3108.util.Reflection;
@@ -33,6 +36,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -42,24 +46,17 @@ import java.util.Set;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Parser {
-    /**
-     * @param path read from file,treated it as xml file
-     * find  all nodes,if one of the attribute is null or missed-error raise
-     */
+
     private static final String EMPTY_FAIL = "Fail is empty, collection empty as well";
     private static final String PARSING_FAIL = "Error during parsing:some attributes was in incorrect format or missed";
     private static final int AMOUNT_OF_ATTRIBUTES = 19;
-    private static final Set<Method> validationMethods = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
+    private static final Set<Class<?>> builderOwners = Reflection.findAllAnnotatedClasses("itmo.p3108.model", BuilderClass.class);
+
 
     /**
-     * @param element certain node of xml file
-     * @param tegName certain leave from node
-     * @return information which leave has
+     * @param path to fail
+     * @return document from which parser will read
      */
-    private static String information(Element element, String tegName) {
-        return element.getElementsByTagName(tegName).item(0).getTextContent();
-    }
-
     private static Document createDocument(String path) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
@@ -77,127 +74,283 @@ public final class Parser {
             return doc;
         } catch (IOException | SAXException | ParserConfigurationException e) {
             log.error(e.getMessage());
-            System.err.println("Error during parsing.Fail has incorrect data");
+            System.err.printf("createDocument.%s is incorrect\n", path);
             return null;
         }
     }
 
+    /**
+     * Check whether the attribute has proper value.
+     *
+     * @param attributes of person.For instance,name,height.
+     * @return result of checking.
+     */
     @Nullable
-    private static boolean checkAttribute(Node attribute) {
-        if (attribute == null) {
-            System.err.println("Error during checking Attribute was null");
-            return false;
-        }
+    private static boolean checkAttributes(List<Node> attributes, Set<Method> validationMethods) {
+
         CheckData checkData = new CheckData();
 
-        assert validationMethods != null;
-        Method validationMethod = null;
-        for (Method method : validationMethods) {
-            if (method.getName().toLowerCase().contains(attribute.getNodeName().toLowerCase())) {
-                validationMethod = method;
-                break;
+        for (Node personAttribute : attributes) {
+            Method validationMethod = null;
+            for (Method method : validationMethods) {
+                if (method.getName().toLowerCase().contains(personAttribute.getNodeName().toLowerCase())) {
+                    validationMethod = method;
+                    break;
+                }
+            }
+
+            try {
+                if (validationMethod == null) {
+                    System.err.println("Error during checkAttributes,validation method is null");
+                    return false;
+                }
+                boolean validationResult = (boolean) validationMethod.invoke(checkData, personAttribute.getTextContent());
+                if (!validationResult) {
+                    System.err.println(personAttribute.getNodeName() + " has incorrect data");
+                    return false;
+                }
+            } catch (IllegalAccessException | InvocationTargetException | NullPointerException e) {
+                log.error(e.getMessage());
+                System.err.printf("checkAttributes,validation methods are incorrect.\nMethod-%s,attribute-%s", validationMethod, personAttribute.getNodeName());
+                return false;
             }
         }
-        try {
-            assert validationMethod != null;
-
-            return (boolean) validationMethod.invoke(checkData, attribute.getTextContent());
-        } catch (IllegalAccessException | InvocationTargetException | NullPointerException e) {
-            log.error(e.getMessage());
-            System.err.println("Error during parsing,validation methods are incorrect");
-            return false;
-        }
+        return true;
     }
 
+    /**
+     * Create builders of certain classes.
+     * All classes are taken with a help of reflection.
+     * These classes are  marked with annotation BuilderClass.
+     *
+     * @return list of builders.
+     */
     private static List<Object> convertToBuilders() {
         List<Object> builders = new ArrayList<>();
-        Set<Class<?>> builderOwners = Reflection.findAllAnnotatedClasses("itmo.p3108.model", BuilderClass.class);
 
-        assert builderOwners != null;
+
+        if (builderOwners == null) {
+            System.err.println("convertToBuilders.Classes which have builders are null");
+            return null;
+        }
         for (Class<?> builderOwner : builderOwners) {
             try {
                 builders.add(builderOwner.getMethod("builder").invoke(null));
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 log.error(e.getMessage());
+                System.err.println("convertToBuilders,builder method was incorrect Class-" + builderOwner.getSimpleName());
+                return null;
             }
         }
         return builders;
     }
 
+
     @Nullable
-    private static Boolean FillBuilder(Object builder, Node attribute) {
-        Method[] methods = builder.getClass().getMethods();
-        Method fillMethod = null;
-        for (Method method : methods) {
-            if (!method.isAnnotationPresent(ParsingMethod.class)) {
-                continue;
-            }
-            if (method.getName().toLowerCase().contains(attribute.getNodeName().toLowerCase())) {
-                fillMethod = method;
-                break;
-            }
-        }
-        if (fillMethod == null) {
+    private static Boolean fillBuilderWithDifficultObjects(Person.PersonBuilder targetBuilder, Object objectBuilder) {
+        if (!(objectBuilder instanceof Builder)) {
+            System.err.printf("%s doesn't implement Builder interface\n", objectBuilder);
             return false;
         }
-        try {
-            fillMethod.invoke(builder, attribute.getTextContent());
-            return true;
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            log.error(e.getMessage());
+        Method[] fillMethods = targetBuilder.getClass().getMethods();
+        if (builderOwners == null) {
+            System.err.println("There is no classes with buildes");
             return false;
         }
-    }
-
-    public static void read(@NonNull String path) {
-        long max_id = 0L;
-        Document doc = createDocument(path);
-        List<Object> builders = convertToBuilders();
-
-        assert doc != null;
-        NodeList personList = doc.getElementsByTagName("person");
-
-        for (int person = 0; person < personList.getLength(); person++) {
-            NodeList personAttributes = personList.item(person).getChildNodes();
-            if (personAttributes.getLength() < AMOUNT_OF_ATTRIBUTES) {
-                System.err.printf("%s,element %d", PARSING_FAIL, person);
-                continue;
-            }
-            for (int attributeCounter = 0; attributeCounter < personAttributes.getLength(); attributeCounter++) {
-                Node attribute = personAttributes.item(attributeCounter);
-                if (attribute.getNodeName().startsWith("#")) {
-                    continue;
-                }
-                if (attribute.getChildNodes().getLength() > 1) {
-                    continue;
-                }
-                boolean validationResult = checkAttribute(attribute);
-                if (!validationResult) {
-                    log.error(PARSING_FAIL);
-                    return;
-                }
-                boolean result = false;
-                for (Object builder : builders) {
-                    result = FillBuilder(builder, attribute);
-                    if (result) {
+        for (Class<?> builderOwner : builderOwners) {
+            if (objectBuilder.toString().toLowerCase().contains(builderOwner.getSimpleName().toLowerCase())) {
+                Method properFillMethod = null;
+                for (Method method : fillMethods) {
+                    if (!(method.getParameterCount() == 1)) {
+                        continue;
+                    }
+                    if (objectBuilder.getClass().getSimpleName().toLowerCase().contains(method.getName().toLowerCase())) {
+                        properFillMethod = method;
                         break;
                     }
                 }
-                if (!result) {
-                    System.err.println("Builder has incorrect methods ");
-                    System.err.println(attribute.getNodeName());
-                    return;
+                if (properFillMethod == null) {
+                    System.err.println("There is set method in Person Builder for " + objectBuilder.getClass().getSimpleName());
+                    return false;
                 }
-
-            }
-            for (Object builder : builders) {
-                if (builder instanceof Person.PersonBuilder) {
-                    System.out.println(((Person.PersonBuilder) builder).build());
+                try {
+                    properFillMethod.invoke(targetBuilder, ((Builder) objectBuilder).build());
+                    return true;
+                } catch (IllegalAccessException | InvocationTargetException | AssertionError e) {
+                    log.error(e.getMessage());
+                    System.err.println("fillBuilderWithDifficultObjects,methods are incorrect");
+                    return false;
                 }
             }
         }
+        return false;
     }
 
+
+    /**
+     * set certain field  of Builder.
+     *
+     * @param builder    in which try to set data
+     * @param attributes want to set in builder.
+     * @return true-if set.
+     */
+    @Nullable
+    private static Boolean fillBuilder(Object builder, List<Node> attributes) {
+        Method[] methods = builder.getClass().getMethods();
+        for (Node personAttribute : attributes) {
+            boolean isInserted;
+            Method fillMethod = null;
+            for (Method method : methods) {
+                if (!method.isAnnotationPresent(ParsingMethod.class)) {
+                    continue;
+                }
+                if (method.getName().toLowerCase().contains(personAttribute.getNodeName().toLowerCase())) {
+                    fillMethod = method;
+                    break;
+                }
+            }
+            if (fillMethod == null) {
+                continue;
+            }
+            try {
+                isInserted = true;
+                fillMethod.invoke(builder, personAttribute.getTextContent());
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                log.error(e.getMessage());
+                System.err.println("FillBuilder. methods are incorrect.");
+                return false;
+            }
+            if (!isInserted) {
+                System.err.println("None builders can insert " + personAttribute.getNodeName());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void findAllNodes(Node personNode, List<Node> listAttributes) {
+        class FindAllNodes {
+            void find(Node node) {
+                if (node.getChildNodes().getLength() == 1) {
+                    listAttributes.add(node);
+                    return;
+                }
+                NodeList nodeList = node.getChildNodes();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Node currentNode = nodeList.item(i);
+                    if (currentNode.getNodeName().startsWith("#")) {
+                        continue;
+                    }
+
+                    Element element = (Element) currentNode;
+                    find(element);
+                }
+
+            }
+        }
+        FindAllNodes findAllNodes = new FindAllNodes();
+        NodeList personAttributes = personNode.getChildNodes();
+        for (int attributeCounter = 0; attributeCounter < personAttributes.getLength(); attributeCounter++) {
+            Node attribute = personAttributes.item(attributeCounter);
+            if (attribute.getNodeName().startsWith("#")) {
+                continue;
+            }
+            findAllNodes.find(attribute);
+        }
+    }
+
+    private static Person createPerson(List<Object> builders) {
+        Person.PersonBuilder personBuilder = null;
+        Iterator<Object> objectIterator = builders.listIterator();
+        while (objectIterator.hasNext()) {
+            Object builder = objectIterator.next();
+            if (builder instanceof Person.PersonBuilder) {
+                personBuilder = (Person.PersonBuilder) builder;
+                objectIterator.remove();
+                break;
+            }
+        }
+        if (personBuilder == null) {
+            System.err.println("Person Builder is missed");
+            return null;
+        }
+        objectIterator = builders.listIterator();
+        while (objectIterator.hasNext()) {
+            Object builder = objectIterator.next();
+            if (!fillBuilderWithDifficultObjects(personBuilder, builder)) {
+                System.err.println("fillDifficultObjects failed for " + builder.getClass().getSimpleName());
+                return null;
+            }
+
+        }
+        return personBuilder.build();
+    }
+
+    /**
+     * read elements from fail and convert it to objects.
+     *
+     * @param path file to read
+     */
+    public static void read(@NonNull String path) {
+        long max_id = 0L;
+        final Document doc = createDocument(path);
+        if (doc == null) {
+            return;
+        }
+        NodeList personList = doc.getElementsByTagName("person");
+        final List<Object> builders = convertToBuilders();
+        if (builders == null) {
+            return;
+        }
+        final Set<Method> validationMethods = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
+        if (validationMethods == null) {
+            System.err.println("Error during parsing.validation methods are null");
+            return;
+        }
+        final List<Node> attributes = new ArrayList<>(AMOUNT_OF_ATTRIBUTES);
+
+        for (int person = 0; person < personList.getLength(); person++) {
+            if (personList.item(person).getChildNodes().getLength() < AMOUNT_OF_ATTRIBUTES) {
+                System.err.printf("%s,element %d\n", PARSING_FAIL, person);
+                continue;
+            }
+            findAllNodes(personList.item(person), attributes);
+
+            boolean validationResult = checkAttributes(attributes, validationMethods);
+            if (!validationResult) {
+                System.err.println("checkAttributes failed");
+                continue;
+            }
+            var builderInsertResult = false;
+            for (Object builder : builders) {
+                builderInsertResult = fillBuilder(builder, attributes);
+
+                if (!builderInsertResult) {
+                    System.err.printf("Error during filling " + builder.getClass().getSimpleName());
+                }
+            }
+            if (!builderInsertResult) {
+                return;
+            }
+            Person person1 = createPerson(builders);
+            if (person1 == null) {
+                System.err.println("Error person wasn't created");
+                continue;
+            }
+            Command.controller.getPersonList().add(person1);
+            max_id = Math.max(person1.getPersonId(), max_id);
+        }
+        PersonReadingBuilder.setId(max_id);
+
+    }
+
+    /**
+     * Write elements to file,serialize them
+     *
+     * @param path fail to write
+     * @throws JAXBException         problem with parser
+     * @throws FileNotFoundException IO exception.
+     */
     public static void write(@NonNull String path) throws JAXBException, FileNotFoundException {
 
         CollectionController controller = CollectionController.getInstance();

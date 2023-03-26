@@ -136,7 +136,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("x must not be null");
 
-            if (!checkData.checkCoordinateX(test)) {
+            if (!checkData.checkCoordinatesX(test)) {
                 continue;
             }
             x = test;
@@ -145,7 +145,7 @@ public final class PersonReadingBuilder {
             System.out.println("enter y");
 
             String test = properRead("y must not be null");
-            if (!checkData.checkCoordinateY(test)) {
+            if (!checkData.checkCoordinatesY(test)) {
                 continue;
             }
             y = test;
@@ -173,7 +173,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("x must not be null");
 
-            if (!checkData.checkLocationCoordinateX(test)) {
+            if (!checkData.checkLocationX(test)) {
                 continue;
             }
 
@@ -185,7 +185,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("y must not be null");
 
-            if (!checkData.checkLocationCoordinateX(test)) {
+            if (!checkData.checkLocationX(test)) {
                 continue;
             }
             y = test;
@@ -195,7 +195,7 @@ public final class PersonReadingBuilder {
 
             String test = properRead("z must not be null");
 
-            if (!checkData.checkLocationCoordinateZ(test)) {
+            if (!checkData.checkLocationZ(test)) {
                 continue;
             }
             z = test;
@@ -214,7 +214,7 @@ public final class PersonReadingBuilder {
                 .locationZ(Float.parseFloat(z))
                 .locationY(Float.valueOf(y))
                 .locationX(Double.parseDouble(x))
-                .name(name)
+                .locationName(name)
                 .build();
     }
 }

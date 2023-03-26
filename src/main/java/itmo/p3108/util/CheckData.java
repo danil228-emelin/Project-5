@@ -123,7 +123,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkCoordinateX(String test) {
+    public boolean checkCoordinatesX(String test) {
         if (!test.matches(INT_NUMBER_FORMAT)) {
             log.error("error:during coordinate x setting, wrong format");
             System.err.println("error:during coordinate x setting, wrong format \n x is integer");
@@ -140,7 +140,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkCoordinateY(String test) {
+    public boolean checkCoordinatesY(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during coordinate y setting");
             System.err.println("error:during coordinate y setting \n value is whole or fractional number");
@@ -157,7 +157,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkLocationCoordinateX(String test) {
+    public boolean checkLocationX(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during location coordinate x setting,wrong format");
             System.err.println("error:during location coordinate x setting \n value is whole or fractional number");
@@ -174,7 +174,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkLocationCoordinateY(String test) {
+    public boolean checkLocationY(String test) {
 
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during location coordinate y setting wrong format");
@@ -215,7 +215,7 @@ public class CheckData {
     }
 
     @Checking
-    public boolean checkLocationCoordinateZ(String test) {
+    public boolean checkLocationZ(String test) {
 
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error: error:during location coordinate z setting");
