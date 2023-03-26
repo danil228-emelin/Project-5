@@ -62,7 +62,7 @@ public class AnalyzerExecuteScript {
                                 .locationX(Double.parseDouble(arguments[8].trim()))
                                 .locationY(Float.valueOf(arguments[9].trim()))
                                 .locationZ(Float.parseFloat(arguments[10].trim()))
-                                .name(arguments[11].trim()).build())
+                                .locationName(arguments[11].trim()).build())
                         .build();
                 Command.controller.getPersonList().add(person);
             }

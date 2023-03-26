@@ -3,6 +3,7 @@ package itmo.p3108.model;
 
 import itmo.p3108.adapter.LocalDateAdapter;
 import itmo.p3108.adapter.ZonedDateAdapter;
+import itmo.p3108.util.Builder;
 import itmo.p3108.util.annotation.BuilderClass;
 import itmo.p3108.util.annotation.ParsingMethod;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
  */
-@BuilderClass
+@BuilderClass(builderClass = Person.PersonBuilder.class)
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -80,13 +81,20 @@ public class Person {
 
     @Override
     public String toString() {
-        return String.format("{id=%d, name=%s, height=%.3f, birthday=%s, eyeColor=%s, nationality=%s}", personId, personName, personHeight, personBirthday, personEyeColor, personNationality);
-
+        return "Person{" + "\n" +
+                "personId=" + personId + "\n" +
+                "personName='" + personName + '\'' + "\n" +
+                "coordinates=" + coordinates + "\n" +
+                "personCreationDate=" + personCreationDate + "\n" +
+                "personHeight=" + personHeight + "\n" +
+                "personBirthday=" + personBirthday + "\n" +
+                "personEyeColor=" + personEyeColor + "\n" +
+                "personNationality=" + personNationality + "\n" +
+                "location=" + location + "\n" +
+                '}';
     }
 
-
-    public static class PersonBuilder {
-
+    public static class PersonBuilder implements Builder {
         private Long id;
         private String name;
         private Coordinates coordinates;
@@ -124,6 +132,7 @@ public class Person {
             return this;
         }
 
+        @ParsingMethod
         public PersonBuilder coordinates(Coordinates coordinates) {
             this.coordinates = coordinates;
             return this;
@@ -174,7 +183,7 @@ public class Person {
             return this;
         }
 
-
+        @ParsingMethod
         public PersonBuilder location(Location location) {
             this.location = location;
             return this;
@@ -182,6 +191,21 @@ public class Person {
 
         public Person build() {
             return new Person(this);
+        }
+
+        @Override
+        public String toString() {
+            return "PersonBuilder{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", coordinates=" + coordinates +
+                    ", height=" + height +
+                    ", birthday=" + birthday +
+                    ", eyeColor=" + eyeColor +
+                    ", nationality=" + nationality +
+                    ", location=" + location +
+                    ", creationDate=" + creationDate +
+                    '}';
         }
     }
 
