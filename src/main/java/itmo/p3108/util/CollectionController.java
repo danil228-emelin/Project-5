@@ -28,7 +28,6 @@ public final class CollectionController {
     public static CollectionController getInstance() {
         if (controller == null) {
             controller = new CollectionController();
-            log.info("CollectionController initialized");
         }
         return controller;
     }

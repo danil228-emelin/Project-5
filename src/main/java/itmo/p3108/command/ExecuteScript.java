@@ -30,7 +30,6 @@ public class ExecuteScript implements Command {
     public void setPath(String path) {
         Path test = Path.of(path);
         if (!Files.isReadable(test) || !Files.isWritable(test)) {
-            log.info(ERROR_PERMISSION);
 
             throw new FileException(ERROR_PERMISSION);
         }
@@ -47,7 +46,6 @@ public class ExecuteScript implements Command {
             String[] commands = FileWorker.read(path).split("\n");
 
             AnalyzerExecuteScript.analyze(commands);
-            log.info(String.format("Script %s executed ", current_fail));
             return String.format("Script %s executed ", current_fail);
         } catch (IOException e) {
             log.error(IOEXCEPTION);

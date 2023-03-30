@@ -24,7 +24,6 @@ public class FilterStartsWithName implements Command {
 
     @Override
     public String execute() {
-        log.info("command FilterStartsWithName:print elements ");
 
         return
                 controller

@@ -21,7 +21,6 @@ public class Info implements NoArgumentCommand, IndependentCommand {
      */
     public String execute() {
 
-        log.info("Command info print information");
 
         return controller.info();
     }

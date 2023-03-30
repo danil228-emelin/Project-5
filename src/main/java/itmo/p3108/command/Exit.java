@@ -18,7 +18,6 @@ public class Exit implements IndependentCommand, NoArgumentCommand {
      */
     @Override
     public String execute() {
-        log.info("Exit from the system");
         log.warn(" command didn't save collection before exit");
 
         System.exit(0);

@@ -53,10 +53,8 @@ public class RemoveGreater implements NoArgumentCommand, IndependentCommand {
         Collection<Person> collection = arrayList.stream().filter(x -> comparator.compare(x, person) > 0).toList();
 
         if (arrayList.removeAll(collection)) {
-            log.info(SUCCESS);
             return SUCCESS;
         }
-        log.info(FAIL);
 
         return FAIL;
     }

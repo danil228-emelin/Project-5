@@ -10,6 +10,7 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,29 +27,29 @@ public class Reflection {
      * @return find all commands in certain package
      */
     @Nullable
-    public static Set<Class<?>> findAllClasses(String packageName, Class<?> classExtended) {
+    public static Optional<Set<Class<?>>> findAllClasses(String packageName, Class<?> classExtended) {
         try {
 
             Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
-            return reflections.getSubTypesOf(classExtended).stream().parallel().collect(Collectors.toSet());
+            return Optional.of(reflections.getSubTypesOf(classExtended).stream().parallel().collect(Collectors.toSet()));
 
         } catch (ReflectionsException exception) {
             System.err.println(exception.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     @Nullable
-    public static Set<Class<?>> findAllAnnotatedClasses(String packageName, Class<? extends Annotation> annotation) {
+    public static Optional<Set<Class<?>>> findAllAnnotatedClasses(String packageName, Class<? extends Annotation> annotation) {
         try {
 
             Reflections reflections = new Reflections(packageName, new TypeAnnotationsScanner(), new SubTypesScanner(false));
-            return reflections.getTypesAnnotatedWith(annotation).stream().parallel().collect(Collectors.toSet());
+            return Optional.of(reflections.getTypesAnnotatedWith(annotation).stream().parallel().collect(Collectors.toSet()));
 
         } catch (ReflectionsException exception) {
             System.err.println(exception.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -57,31 +58,19 @@ public class Reflection {
      * @return commands which has certain annotation
      */
     @Nullable
-    public static Set<Method> findAllMethodsWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
+    public static Optional<Set<Method>> findAllMethodsWithAnnotation(String pathToCheckedClass, Class<? extends Annotation> annotation) {
         try {
 
 
             Reflections reflections = new Reflections(pathToCheckedClass, new MethodAnnotationsScanner());
 
 
-            return reflections.getMethodsAnnotatedWith(annotation);
+            return Optional.of(reflections.getMethodsAnnotatedWith(annotation));
 
         } catch (ReflectionsException exception) {
             System.err.println(exception.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
-
-    @Nullable
-    public static Method findMethodInClass(Class<?> certainClass, String name, Class<? extends Annotation> annotation) {
-        Method[] methods = certainClass.getMethods();
-        for (Method method : methods) {
-            if (method.getName().toLowerCase().contains(name.toLowerCase()) && method.isAnnotationPresent(annotation)) {
-                return method;
-            }
-        }
-        return null;
-
-
-    }
+    
 }

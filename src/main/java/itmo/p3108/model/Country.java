@@ -3,6 +3,7 @@ package itmo.p3108.model;
 import com.sun.istack.Nullable;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * class Country using to describe current location of  @see {@link Person}
@@ -16,14 +17,14 @@ public enum Country {
     }
 
     @Nullable
-    public static Country newValue(String str) {
+    public static Optional<Country> newValue(String str) {
 
         for (Country country : Country.values()) {
             if (country.getName().startsWith(str)) {
-                return country;
+                return Optional.of(country);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     /**

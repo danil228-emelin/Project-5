@@ -4,6 +4,7 @@ package itmo.p3108.model;
 import com.sun.istack.Nullable;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * class Colour using as  @see {@link Person} eye's color
@@ -21,12 +22,13 @@ public enum Color {
     }
 
     @Nullable
-    public static Color newValue(String str) {
+    public static Optional<Color> newValue(String str) {
         for (Color color : Color.values()) {
             if (color.getName().startsWith(str))
-                return color;
+                return Optional.of(color);
         }
-        return null;
+        return Optional.empty();
+
     }
 
     /**

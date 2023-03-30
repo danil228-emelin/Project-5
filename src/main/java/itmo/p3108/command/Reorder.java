@@ -37,7 +37,6 @@ public class Reorder implements NoArgumentCommand {
             controller.getPersonList().sort(naturalComparatorOrder);
             isReversed = false;
         }
-        log.info(SUCCESS);
 
         return SUCCESS;
     }

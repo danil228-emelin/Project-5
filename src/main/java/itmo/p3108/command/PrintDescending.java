@@ -25,7 +25,6 @@ public class PrintDescending implements NoArgumentCommand {
     @Override
     public String execute() {
         Comparator<Person> reversed_comparator = naturalComparatorOrder.reversed();
-        log.info("Command printDescending print collection");
         return controller
                 .getPersonList()
                 .stream()

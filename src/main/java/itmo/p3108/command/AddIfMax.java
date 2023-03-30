@@ -48,7 +48,6 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                 .build();
         if (controller.getPersonList().size() == 0) {
             controller.getPersonList().add(person);
-            log.info(SUCCESS);
 
             return SUCCESS;
         }
@@ -58,11 +57,9 @@ public class AddIfMax implements NoArgumentCommand, IndependentCommand {
                         .stream().parallel().max(comparator);
         if (other.isPresent() && comparator.compare(person, other.get()) > 0) {
             controller.getPersonList().add(person);
-            log.info(SUCCESS);
 
             return SUCCESS;
         }
-        log.info(FAIL);
 
         return FAIL;
     }

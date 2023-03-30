@@ -1,6 +1,5 @@
 package itmo.p3108.command;
 
-import com.sun.istack.Nullable;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
 import itmo.p3108.util.Reflection;
@@ -9,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -24,12 +24,15 @@ public class FlyWeightCommandFactory {
      * in constructor  reflections is used  to find all commands in project
      */
     private FlyWeightCommandFactory() {
-        Set<Class<?>> set = Reflection.findAllClasses("itmo.p3108.command", Command.class);
-        if (set == null) {
+        Optional<Set<Class<?>>> set = Reflection.findAllClasses("itmo.p3108.command", Command.class);
+        if (set.isEmpty()) {
             throw new ValidationException("Commands not found");
         }
-        for (Class<?> commandClass : set) {
+        for (Class<?> commandClass : set.get()) {
             try {
+                if (commandClass.isInterface()) {
+                    continue;
+                }
                 Object object = commandClass.getConstructor().newInstance();
                 if (object instanceof Command command) {
                     COMMAND_MAP.put(command.name(), command);
@@ -45,19 +48,6 @@ public class FlyWeightCommandFactory {
         return FLY_WEIGHT_COMMAND;
     }
 
-
-    /**
-     * @param key name of command
-     * @return command if it exists
-     */
-    @Nullable
-    public Command getCommand(String key) {
-        if (COMMAND_MAP.containsKey(key.trim().toLowerCase())) {
-            return COMMAND_MAP.get(key.trim().toLowerCase());
-        }
-
-        return null;
-    }
 
     /**
      * @return all commands which contains factory

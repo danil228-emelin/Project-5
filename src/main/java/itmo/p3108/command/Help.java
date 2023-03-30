@@ -22,7 +22,6 @@ public class Help implements NoArgumentCommand, IndependentCommand {
      */
     @Override
     public String execute() {
-        log.info("Command help print information");
 
         return Invoker.getInstance().commands()
                 .stream()

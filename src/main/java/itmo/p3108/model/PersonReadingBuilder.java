@@ -7,6 +7,7 @@ import itmo.p3108.util.UserReader;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Class PersonReadingBuilder created to build all @see {@link Person} attributes using console input
@@ -99,7 +100,11 @@ public final class PersonReadingBuilder {
             if (!checkData.checkPersonColourReadingConsole(test)) {
                 continue;
             }
-            color = Color.newValue(test);
+            Optional<Color> optionalColor = Color.newValue(test);
+            if (optionalColor.isPresent()) {
+                color = optionalColor.get();
+            }
+
         }
         return color;
     }
@@ -118,7 +123,11 @@ public final class PersonReadingBuilder {
             if (!checkData.checkPersonNationalityReadingFromConsole(test)) {
                 continue;
             }
-            nationality = Country.newValue(test);
+            Optional<Country> optionalCountry = Country.newValue(test);
+            if (optionalCountry.isPresent()) {
+                nationality = optionalCountry.get();
+
+            }
         }
         return nationality;
     }
@@ -151,11 +160,7 @@ public final class PersonReadingBuilder {
             y = test;
 
         }
-        return Coordinates
-                .builder()
-                .coordinatesX(x)
-                .coordinatesY(y)
-                .build();
+        return Coordinates.builder().coordinatesX(x).coordinatesY(y).build();
     }
 
 
@@ -209,12 +214,6 @@ public final class PersonReadingBuilder {
             }
             name = test;
         }
-        return Location
-                .builder()
-                .locationZ(Float.parseFloat(z))
-                .locationY(Float.valueOf(y))
-                .locationX(Double.parseDouble(x))
-                .locationName(name)
-                .build();
+        return Location.builder().locationZ(Float.parseFloat(z)).locationY(Float.valueOf(y)).locationX(Double.parseDouble(x)).locationName(name).build();
     }
 }

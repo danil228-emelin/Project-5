@@ -23,6 +23,5 @@ public class Main {
         while (true) {
             invoker.invoke(UserReader.read());
         }
-
     }
 }

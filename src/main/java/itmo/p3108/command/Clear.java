@@ -24,7 +24,6 @@ public class Clear implements NoArgumentCommand {
     public String execute() {
         controller.getPersonList().clear();
         PersonReadingBuilder.setId(1L);
-        log.info(SUCCESS);
 
         return SUCCESS;
     }

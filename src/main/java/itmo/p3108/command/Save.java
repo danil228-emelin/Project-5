@@ -29,7 +29,6 @@ public class Save implements IndependentCommand, NoArgumentCommand {
     public String execute() {
         try {
             Parser.write(new FileValidator().getPath());
-            log.info(SUCCESS);
             return SUCCESS;
         } catch (JAXBException | FileNotFoundException e) {
             log.error(FAIL_ERROR);

@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -205,12 +206,9 @@ public class CheckData {
         Long id = Long.parseLong(test);
         if (Command.controller.isPersonExist(id)) {
             log.error("error:id has wrong format");
-
-            System.err.println("error:id has wrong format \n person with   already exist");
+            System.err.printf("error:id has wrong format  person with %s  already exist\n", test);
             return false;
-
         }
-
         return true;
     }
 
@@ -326,14 +324,14 @@ public class CheckData {
      */
     private boolean checkArguments(@NonNull Collection<String> collection) {
 
-        Set<Method> set = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
-        if (set == null) {
+        Optional<Set<Method>> set = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
+        if (set.isEmpty()) {
             return false;
         }
         CheckData checkData = new CheckData();
         boolean oneArgumentChecking = false;
         for (String data : collection) {
-            for (Method methodChecking : set) {
+            for (Method methodChecking : set.get()) {
                 try {
 
                     Object result = methodChecking.invoke(checkData, data);

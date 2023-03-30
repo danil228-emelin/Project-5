@@ -35,10 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class Parse,parse elements from and to the xml file
@@ -48,16 +45,15 @@ import java.util.Set;
 public final class Parser {
 
     private static final String EMPTY_FAIL = "Fail is empty, collection empty as well";
-    private static final String PARSING_FAIL = "Error during parsing:some attributes was in incorrect format or missed";
     private static final int AMOUNT_OF_ATTRIBUTES = 19;
-    private static final Set<Class<?>> builderOwners = Reflection.findAllAnnotatedClasses("itmo.p3108.model", BuilderClass.class);
+    private static final Optional<Set<Class<?>>> builderOwners = Reflection.findAllAnnotatedClasses("itmo.p3108.model", BuilderClass.class);
 
 
     /**
      * @param path to fail
      * @return document from which parser will read
      */
-    private static Document createDocument(String path) {
+    private static Optional<Document> createDocument(String path) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -71,11 +67,15 @@ public final class Parser {
             }
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
-            return doc;
+            return Optional.of(doc);
         } catch (IOException | SAXException | ParserConfigurationException e) {
             log.error(e.getMessage());
             System.err.printf("createDocument.%s is incorrect\n", path);
-            return null;
+            return Optional.empty();
+        } catch (FileException e) {
+            log.error(e.getMessage());
+            System.err.println(EMPTY_FAIL);
+            return Optional.empty();
         }
     }
 
@@ -125,24 +125,24 @@ public final class Parser {
      *
      * @return list of builders.
      */
-    private static List<Object> convertToBuilders() {
+    private static Optional<List<Object>> convertToBuilders() {
         List<Object> builders = new ArrayList<>();
 
 
-        if (builderOwners == null) {
+        if (builderOwners.isEmpty()) {
             System.err.println("convertToBuilders.Classes which have builders are null");
-            return null;
+            return Optional.empty();
         }
-        for (Class<?> builderOwner : builderOwners) {
+        for (Class<?> builderOwner : builderOwners.get()) {
             try {
                 builders.add(builderOwner.getMethod("builder").invoke(null));
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 log.error(e.getMessage());
                 System.err.println("convertToBuilders,builder method was incorrect Class-" + builderOwner.getSimpleName());
-                return null;
+                return Optional.empty();
             }
         }
-        return builders;
+        return Optional.of(builders);
     }
 
 
@@ -153,11 +153,11 @@ public final class Parser {
             return false;
         }
         Method[] fillMethods = targetBuilder.getClass().getMethods();
-        if (builderOwners == null) {
+        if (builderOwners.isEmpty()) {
             System.err.println("There is no classes with buildes");
             return false;
         }
-        for (Class<?> builderOwner : builderOwners) {
+        for (Class<?> builderOwner : builderOwners.get()) {
             if (objectBuilder.toString().toLowerCase().contains(builderOwner.getSimpleName().toLowerCase())) {
                 Method properFillMethod = null;
                 for (Method method : fillMethods) {
@@ -198,7 +198,6 @@ public final class Parser {
     private static Boolean fillBuilder(Object builder, List<Node> attributes) {
         Method[] methods = builder.getClass().getMethods();
         for (Node personAttribute : attributes) {
-            boolean isInserted;
             Method fillMethod = null;
             for (Method method : methods) {
                 if (!method.isAnnotationPresent(ParsingMethod.class)) {
@@ -213,17 +212,13 @@ public final class Parser {
                 continue;
             }
             try {
-                isInserted = true;
                 fillMethod.invoke(builder, personAttribute.getTextContent());
             } catch (IllegalAccessException | InvocationTargetException e) {
                 log.error(e.getMessage());
                 System.err.println("FillBuilder. methods are incorrect.");
                 return false;
             }
-            if (!isInserted) {
-                System.err.println("None builders can insert " + personAttribute.getNodeName());
-                return false;
-            }
+
         }
         return true;
     }
@@ -259,31 +254,33 @@ public final class Parser {
         }
     }
 
-    private static Person createPerson(List<Object> builders) {
+    private static Optional<Person> createPerson(List<Object> builders) {
         Person.PersonBuilder personBuilder = null;
         Iterator<Object> objectIterator = builders.listIterator();
         while (objectIterator.hasNext()) {
             Object builder = objectIterator.next();
             if (builder instanceof Person.PersonBuilder) {
                 personBuilder = (Person.PersonBuilder) builder;
-                objectIterator.remove();
                 break;
             }
         }
         if (personBuilder == null) {
             System.err.println("Person Builder is missed");
-            return null;
+            return Optional.empty();
         }
         objectIterator = builders.listIterator();
         while (objectIterator.hasNext()) {
+
             Object builder = objectIterator.next();
+            if (builder instanceof Person.PersonBuilder) {
+                continue;
+            }
             if (!fillBuilderWithDifficultObjects(personBuilder, builder)) {
                 System.err.println("fillDifficultObjects failed for " + builder.getClass().getSimpleName());
-                return null;
+                return Optional.empty();
             }
-
         }
-        return personBuilder.build();
+        return Optional.of(personBuilder.build());
     }
 
     /**
@@ -293,36 +290,33 @@ public final class Parser {
      */
     public static void read(@NonNull String path) {
         long max_id = 0L;
-        final Document doc = createDocument(path);
-        if (doc == null) {
+        final Optional<Document> doc = createDocument(path);
+        if (doc.isEmpty()) {
             return;
         }
-        NodeList personList = doc.getElementsByTagName("person");
-        final List<Object> builders = convertToBuilders();
-        if (builders == null) {
+        NodeList personList = doc.get().getElementsByTagName("person");
+        final Optional<List<Object>> builders = convertToBuilders();
+        if (builders.isEmpty()) {
             return;
         }
-        final Set<Method> validationMethods = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
-        if (validationMethods == null) {
+        final Optional<Set<Method>> validationMethods = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
+        if (validationMethods.isEmpty()) {
             System.err.println("Error during parsing.validation methods are null");
             return;
         }
-        final List<Node> attributes = new ArrayList<>(AMOUNT_OF_ATTRIBUTES);
 
         for (int person = 0; person < personList.getLength(); person++) {
-            if (personList.item(person).getChildNodes().getLength() < AMOUNT_OF_ATTRIBUTES) {
-                System.err.printf("%s,element %d\n", PARSING_FAIL, person);
-                continue;
-            }
+            List<Node> attributes = new ArrayList<>(AMOUNT_OF_ATTRIBUTES);
+
             findAllNodes(personList.item(person), attributes);
 
-            boolean validationResult = checkAttributes(attributes, validationMethods);
+            boolean validationResult = checkAttributes(attributes, validationMethods.get());
             if (!validationResult) {
                 System.err.println("checkAttributes failed");
                 continue;
             }
             var builderInsertResult = false;
-            for (Object builder : builders) {
+            for (Object builder : builders.get()) {
                 builderInsertResult = fillBuilder(builder, attributes);
 
                 if (!builderInsertResult) {
@@ -332,13 +326,13 @@ public final class Parser {
             if (!builderInsertResult) {
                 return;
             }
-            Person person1 = createPerson(builders);
-            if (person1 == null) {
+            Optional<Person> optionalPerson = createPerson(builders.get());
+            if (optionalPerson.isEmpty()) {
                 System.err.println("Error person wasn't created");
                 continue;
             }
-            Command.controller.getPersonList().add(person1);
-            max_id = Math.max(person1.getPersonId(), max_id);
+            Command.controller.getPersonList().add(optionalPerson.get());
+            max_id = Math.max(optionalPerson.get().getPersonId(), max_id);
         }
         PersonReadingBuilder.setId(max_id);
 

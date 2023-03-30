@@ -147,7 +147,6 @@ public class Update implements Command {
         person.setPersonEyeColor(createColor());
         person.setPersonNationality(createNationality());
         person.setLocation(createLocation());
-        log.info(String.format("Update:element with id %d is updated", person.getPersonId()));
         return "element is updated";
     }
 

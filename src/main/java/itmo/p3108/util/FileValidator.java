@@ -84,7 +84,6 @@ public class FileValidator {
                 path = readFileName();
             }
         }
-        log.info("file is set");
         System.out.println("file is set successfully");
         return path;
     }

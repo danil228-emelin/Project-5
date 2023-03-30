@@ -17,7 +17,6 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
     public static ZonedDateAdapter getInstance() {
         if (zonedDataAdapter == null) {
             zonedDataAdapter = new ZonedDateAdapter();
-            log.info("Local Adapter initialized");
 
         }
         return zonedDataAdapter;
@@ -41,7 +40,6 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
     @Override
     public ZonedDateTime unmarshal(String v) {
         DateTimeFormatter formatter = dateFormat();
-        log.info("Local Adapter unmarshal ZoneDateTime time from xml format");
         return ZonedDateTime.parse(v, formatter);
     }
 
@@ -53,7 +51,6 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
     @Override
     public String marshal(ZonedDateTime v) {
 
-        log.info("Local Adapter marshal ZoneDateTime time from xml format");
 
         return v.format(dateFormat());
     }
