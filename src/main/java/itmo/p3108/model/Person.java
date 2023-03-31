@@ -6,12 +6,9 @@ import itmo.p3108.adapter.ZonedDateAdapter;
 import itmo.p3108.util.Builder;
 import itmo.p3108.util.annotation.BuilderClass;
 import itmo.p3108.util.annotation.ParsingMethod;
-import lombok.Data;
-import lombok.NonNull;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -21,36 +18,33 @@ import java.time.format.DateTimeFormatter;
  * class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
  */
 @BuilderClass(builderClass = Person.PersonBuilder.class)
-@Data
-@XmlAccessorType(XmlAccessType.FIELD)
-
+@XmlRootElement(name = "person")
 public class Person {
-    @XmlElement
-    @NonNull
     private Long personId;
-    @XmlElement
-    @NonNull
     private String personName;
-    @XmlElement
-    @NonNull
     private Coordinates coordinates;
-    @XmlJavaTypeAdapter(ZonedDateAdapter.class)
     private java.time.ZonedDateTime personCreationDate;
-    @XmlElement
-    @NonNull
     private Double personHeight;
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    @NonNull
+
     private java.time.LocalDate personBirthday;
-    @XmlElement
-    @NonNull
     private Color personEyeColor;
-    @XmlElement
-    @NonNull
     private Country personNationality;
-    @XmlElement
-    @NonNull
     private Location location;
+
+    public Person() {
+    }
+
+    public Person(Long personId, String personName, Coordinates coordinates, ZonedDateTime personCreationDate, Double personHeight, LocalDate personBirthday, Color personEyeColor, Country personNationality, Location location) {
+        this.personId = personId;
+        this.personName = personName;
+        this.coordinates = coordinates;
+        this.personCreationDate = personCreationDate;
+        this.personHeight = personHeight;
+        this.personBirthday = personBirthday;
+        this.personEyeColor = personEyeColor;
+        this.personNationality = personNationality;
+        this.location = location;
+    }
 
     private Person(PersonBuilder personBuilder) {
         personId = personBuilder.id;
@@ -66,6 +60,90 @@ public class Person {
 
     public static PersonBuilder builder() {
         return new PersonBuilder();
+    }
+
+    @XmlElement(name = "id")
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
+    @XmlElement(name = "name")
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    @XmlElement(name = "coordinates")
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    @XmlElement(name = "creationDate")
+    @XmlJavaTypeAdapter(ZonedDateAdapter.class)
+
+    public ZonedDateTime getPersonCreationDate() {
+        return personCreationDate;
+    }
+
+    public void setPersonCreationDate(ZonedDateTime personCreationDate) {
+        this.personCreationDate = personCreationDate;
+    }
+
+    @XmlElement(name = "height")
+    public Double getPersonHeight() {
+        return personHeight;
+    }
+
+    public void setPersonHeight(Double personHeight) {
+        this.personHeight = personHeight;
+    }
+
+    @XmlElement(name = "birthday")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    public LocalDate getPersonBirthday() {
+        return personBirthday;
+    }
+
+    public void setPersonBirthday(LocalDate personBirthday) {
+        this.personBirthday = personBirthday;
+    }
+
+    @XmlElement(name = "eyeColor")
+    public Color getPersonEyeColor() {
+        return personEyeColor;
+    }
+
+    public void setPersonEyeColor(Color personEyeColor) {
+        this.personEyeColor = personEyeColor;
+    }
+
+    @XmlElement(name = "nationality")
+    public Country getPersonNationality() {
+        return personNationality;
+    }
+
+    public void setPersonNationality(Country personNationality) {
+        this.personNationality = personNationality;
+    }
+
+    @XmlElement(name = "location")
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override

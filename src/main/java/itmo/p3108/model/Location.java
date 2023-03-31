@@ -3,30 +3,27 @@ package itmo.p3108.model;
 import itmo.p3108.util.Builder;
 import itmo.p3108.util.annotation.BuilderClass;
 import itmo.p3108.util.annotation.ParsingMethod;
-import lombok.Data;
-import lombok.NonNull;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@Data
 @BuilderClass(builderClass = Location.LocationBuilder.class)
-
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "location")
 public class Location {
-    @XmlElement
-    @NonNull
     private Double locationX;
-    @XmlElement
-    @NonNull
     private Float locationY;
-    @XmlElement
-    @NonNull
     private Float locationZ;
-    @XmlElement
-    @NonNull
     private String locationName;
+
+    public Location() {
+    }
+
+    public Location(Double locationX, Float locationY, Float locationZ, String locationName) {
+        this.locationX = locationX;
+        this.locationY = locationY;
+        this.locationZ = locationZ;
+        this.locationName = locationName;
+    }
 
     private Location(LocationBuilder locationBuilder) {
         locationX = locationBuilder.x;
@@ -37,6 +34,44 @@ public class Location {
 
     public static LocationBuilder builder() {
         return new LocationBuilder();
+    }
+
+    @XmlElement(name = "locationX")
+
+
+    public Double getLocationX() {
+        return locationX;
+    }
+
+    public void setLocationX(Double locationX) {
+        this.locationX = locationX;
+    }
+
+    @XmlElement(name = "locationY")
+    public Float getLocationY() {
+        return locationY;
+    }
+
+    public void setLocationY(Float locationY) {
+        this.locationY = locationY;
+    }
+
+    @XmlElement(name = "locationZ")
+    public Float getLocationZ() {
+        return locationZ;
+    }
+
+    public void setLocationZ(Float locationZ) {
+        this.locationZ = locationZ;
+    }
+
+    @XmlElement(name = "name")
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     @Override

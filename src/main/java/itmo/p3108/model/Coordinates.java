@@ -3,27 +3,26 @@ package itmo.p3108.model;
 import itmo.p3108.util.Builder;
 import itmo.p3108.util.annotation.BuilderClass;
 import itmo.p3108.util.annotation.ParsingMethod;
-import lombok.Data;
-import lombok.NonNull;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * class Coordinates using as coordinates for  @see {@link Person}
  */
-@Data
 @BuilderClass(builderClass = Coordinates.CoordinatesBuilder.class)
-
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "coordinates")
 public class Coordinates {
-    @XmlElement
-    @NonNull
     private Integer coordinatesX;
-    @XmlElement
-    @NonNull
     private Float coordinatesY;
+
+    public Coordinates() {
+    }
+
+    public Coordinates(Integer coordinatesX, Float coordinatesY) {
+        this.coordinatesX = coordinatesX;
+        this.coordinatesY = coordinatesY;
+    }
 
     private Coordinates(CoordinatesBuilder coordinatesBuilder) {
         coordinatesX = coordinatesBuilder.x;
@@ -32,6 +31,24 @@ public class Coordinates {
 
     public static CoordinatesBuilder builder() {
         return new CoordinatesBuilder();
+    }
+
+    @XmlElement(name = "coordinateX")
+    public Integer getCoordinatesX() {
+        return coordinatesX;
+    }
+
+    public void setCoordinatesX(Integer coordinatesX) {
+        this.coordinatesX = coordinatesX;
+    }
+
+    @XmlElement(name = "coordinateY")
+    public Float getCoordinatesY() {
+        return coordinatesY;
+    }
+
+    public void setCoordinatesY(Float coordinatesY) {
+        this.coordinatesY = coordinatesY;
     }
 
     @Override
