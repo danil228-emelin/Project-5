@@ -160,7 +160,7 @@ public final class PersonReadingBuilder {
             y = test;
 
         }
-        return Coordinates.builder().coordinatesX(x).coordinatesY(y).build();
+        return Coordinates.builder().coordinatesX(Integer.valueOf(x)).coordinatesY(Float.valueOf(y)).build();
     }
 
 

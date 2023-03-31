@@ -50,20 +50,7 @@ public class AnalyzerExecuteScript {
             String[] arguments = addArguments.trim().split(",");
             CheckData checkData = new CheckData();
             if (checkData.wrapperCheckArguments(Arrays.stream(arguments).toList())) {
-                Person person = Person.builder()
-                        .personId(Long.parseLong(arguments[0].trim()))
-                        .personName(arguments[1].trim())
-                        .coordinates(Coordinates.builder().coordinatesX(arguments[2]).coordinatesY(arguments[3].trim()).build())
-                        .personHeight(Double.parseDouble(arguments[4].trim()))
-                        .personBirthday(LocalDate.parse(arguments[5].trim(), DateTimeFormatter.ofPattern("MM-dd-yyyy")))
-                        .personEyeColor(Color.newValue(arguments[6].trim()).get())
-                        .personNationality(Country.newValue(arguments[7].trim()).get())
-                        .location(Location.builder()
-                                .locationX(Double.parseDouble(arguments[8].trim()))
-                                .locationY(Float.valueOf(arguments[9].trim()))
-                                .locationZ(Float.parseFloat(arguments[10].trim()))
-                                .locationName(arguments[11].trim()).build())
-                        .build();
+                Person person = Person.builder().personId(Long.parseLong(arguments[0].trim())).personName(arguments[1].trim()).coordinates(Coordinates.builder().coordinatesX(Integer.valueOf(arguments[2])).coordinatesY(Float.valueOf(arguments[3].trim())).build()).personHeight(Double.parseDouble(arguments[4].trim())).personBirthday(LocalDate.parse(arguments[5].trim(), DateTimeFormatter.ofPattern("MM-dd-yyyy"))).personEyeColor(Color.newValue(arguments[6].trim()).get()).personNationality(Country.newValue(arguments[7].trim()).get()).location(Location.builder().locationX(Double.parseDouble(arguments[8].trim())).locationY(Float.valueOf(arguments[9].trim())).locationZ(Float.parseFloat(arguments[10].trim())).locationName(arguments[11].trim()).build()).build();
                 Command.controller.getPersonList().add(person);
             }
             i += 2;

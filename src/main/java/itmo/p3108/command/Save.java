@@ -31,7 +31,7 @@ public class Save implements IndependentCommand, NoArgumentCommand {
             Parser.write(new FileValidator().getPath());
             return SUCCESS;
         } catch (JAXBException | FileNotFoundException e) {
-            log.error(FAIL_ERROR);
+            log.error(e.getMessage());
             return FAIL_ERROR;
         }
     }
