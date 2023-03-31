@@ -3,8 +3,7 @@ package itmo.p3108.util;
 import com.sun.istack.Nullable;
 import itmo.p3108.command.type.Command;
 import itmo.p3108.exception.ValidationException;
-import itmo.p3108.model.Color;
-import itmo.p3108.model.Country;
+import itmo.p3108.model.*;
 import itmo.p3108.util.annotation.Checking;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * Class CheckData,check each attribute of @see {@link itmo.p3108.model.Person}
@@ -44,6 +44,56 @@ public class CheckData {
      * @see Country
      */
     @Checking
+    public boolean checkPersonId(Long id) {
+        return id != null && id > 0;
+    }
+
+    @Checking
+    public boolean checkCoordinates(Coordinates coordinates) {
+        if (coordinates == null) {
+            return false;
+        }
+        return checkCoordinatesX(coordinates.getCoordinatesX().toString()) &&
+                checkCoordinatesY(coordinates.getCoordinatesY().toString());
+    }
+
+    @Checking
+    public boolean checkPersonCreationDate(ZonedDateTime creationDate) {
+        return creationDate != null;
+    }
+
+    @Checking
+    public boolean checkPersonHeight(Double height) {
+        if (height == null) {
+            return false;
+        }
+        return checkPersonHeight(height.toString());
+    }
+
+    @Checking
+    public boolean checkPersonBirthday(LocalDate localDate) {
+        return localDate != null;
+    }
+
+    @Checking
+    public boolean checkPersonEyeColor(Color color) {
+        return color != null;
+    }
+
+    @Checking
+    public boolean checkPersonNationality(Country country) {
+        return country != null;
+    }
+
+    @Checking
+    public boolean checkLocation(Location location) {
+        if (location == null) {
+            return false;
+        }
+        return checkLocationName(location.getLocationName()) && checkLocationZ(location.getLocationY().toString())
+                && checkLocationY(location.getLocationY().toString()) && checkLocationX(location.getLocationX().toString());
+    }
+
     public boolean checkPersonNationalityReadingFromFile(String test) {
 
         if (!Country.isPresent(test)) {
@@ -67,7 +117,6 @@ public class CheckData {
     /**
      * @see Color
      */
-    @Checking
     public boolean checkPersonEyeColorReadingFile(String test) {
         if (!Color.isPresent(test)) {
             log.error("error:during colour setting line has wrong format");
@@ -78,7 +127,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
 
     public boolean checkPersonBirthday(String test) {
         if (!test.matches(BIRTHDAY_FORMAT)) {
@@ -123,7 +171,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkCoordinatesX(String test) {
         if (!test.matches(INT_NUMBER_FORMAT)) {
             log.error("error:during coordinate x setting, wrong format");
@@ -140,7 +187,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkCoordinatesY(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during coordinate y setting");
@@ -157,7 +203,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkLocationX(String test) {
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
             log.error("error:during location coordinate x setting,wrong format");
@@ -174,7 +219,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkLocationY(String test) {
 
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
@@ -194,7 +238,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkPersonId(String test) {
         if (!test.matches(POSITIVE_NUMBER_FORMAT)) {
             log.error("error:id has wrong format");
@@ -212,7 +255,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkLocationZ(String test) {
 
         if (!test.matches(FLOAT_NUMBER_FORMAT)) {
@@ -230,7 +272,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkPersonHeight(String test) {
         if (!test.matches(POSITIVE_FLOAT_NUMBER_FORMAT)) {
             log.error("error:during height setting");
@@ -247,7 +288,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkPersonCreationDate(String test) {
 
         if (!test.matches(CREATION_TIME_FORMAT)) {
@@ -258,7 +298,6 @@ public class CheckData {
         return true;
     }
 
-    @Checking
     public boolean checkLocationName(String test) {
         return checkPersonName(test);
     }
@@ -353,5 +392,43 @@ public class CheckData {
         return true;
     }
 
+    public void checkPersonCollection(List<Person> personList) {
+        List<Person> removePerson = new ArrayList<>(personList.size());
+        Optional<Set<Method>> checkMethods = Reflection.findAllMethodsWithAnnotation("itmo.p3108.util", Checking.class);
+        Field[] personFields = Reflection.findAllFields(Person.class);
+        if (checkMethods.isEmpty()) {
+            System.err.println("Error during checkPersonCollection:checkMethods are missed");
+            return;
+        }
+        Iterator<Person> iterator = personList.listIterator();
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
+            for (Field personField : personFields) {
+                personField.setAccessible(true);
+                boolean validationResult = false;
+                for (Method checkMethod : checkMethods.get()) {
+                    if (checkMethod.getName().toLowerCase().contains(personField.getName().toLowerCase())) {
+                        try {
+                            validationResult = (boolean) checkMethod.invoke(this, personField.get(person));
+                            if (!validationResult) {
+                                removePerson.add(person);
+                            }
+                            break;
+
+                        } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
+                            log.error(e.getMessage());
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
+                if (!validationResult) {
+                    break;
+                }
+            }
+        }
+        for (Person removedPerson : removePerson) {
+            personList.remove(removedPerson);
+        }
+    }
 
 }

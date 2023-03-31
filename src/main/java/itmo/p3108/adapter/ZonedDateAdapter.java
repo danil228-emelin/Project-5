@@ -39,8 +39,7 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
      */
     @Override
     public ZonedDateTime unmarshal(String v) {
-        DateTimeFormatter formatter = dateFormat();
-        return ZonedDateTime.parse(v, formatter);
+        return ZonedDateTime.parse(v);
     }
 
     /**
@@ -51,7 +50,7 @@ public class ZonedDateAdapter extends XmlAdapter<String, ZonedDateTime> {
     @Override
     public String marshal(ZonedDateTime v) {
 
-
         return v.format(dateFormat());
     }
+
 }

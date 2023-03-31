@@ -1,7 +1,6 @@
 package itmo.p3108.model;
 
 import itmo.p3108.util.Builder;
-import itmo.p3108.util.annotation.BuilderClass;
 import itmo.p3108.util.annotation.ParsingMethod;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -10,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * class Coordinates using as coordinates for  @see {@link Person}
  */
-@BuilderClass(builderClass = Coordinates.CoordinatesBuilder.class)
 @XmlRootElement(name = "coordinates")
 public class Coordinates {
     private Integer coordinatesX;

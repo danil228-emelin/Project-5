@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @Slf4j
 @XmlRootElement(name = "collection")
 public final class CollectionController {
-    private static CollectionController controller;
+    private static CollectionController controller = new CollectionController();
     private final ArrayList<Person> personList;
     private final LocalDate localDate;
 
@@ -25,10 +25,11 @@ public final class CollectionController {
         this.localDate = LocalDate.now();
     }
 
+    public static void setController(CollectionController controller) {
+        CollectionController.controller = controller;
+    }
+
     public static CollectionController getInstance() {
-        if (controller == null) {
-            controller = new CollectionController();
-        }
         return controller;
     }
 

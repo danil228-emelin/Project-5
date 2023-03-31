@@ -1,13 +1,11 @@
 package itmo.p3108.model;
 
 import itmo.p3108.util.Builder;
-import itmo.p3108.util.annotation.BuilderClass;
 import itmo.p3108.util.annotation.ParsingMethod;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@BuilderClass(builderClass = Location.LocationBuilder.class)
 @XmlRootElement(name = "location")
 public class Location {
     private Double locationX;

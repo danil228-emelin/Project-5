@@ -9,6 +9,7 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.Set;
@@ -72,5 +73,8 @@ public class Reflection {
         }
         return Optional.empty();
     }
-    
+
+    public static Field[] findAllFields(Class<?> someClass) {
+        return someClass.getDeclaredFields();
+    }
 }

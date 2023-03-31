@@ -4,7 +4,6 @@ package itmo.p3108.model;
 import itmo.p3108.adapter.LocalDateAdapter;
 import itmo.p3108.adapter.ZonedDateAdapter;
 import itmo.p3108.util.Builder;
-import itmo.p3108.util.annotation.BuilderClass;
 import itmo.p3108.util.annotation.ParsingMethod;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -17,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * class Person,objects of this class are  elements of  @see {@link itmo.p3108.util.CollectionController}
  */
-@BuilderClass(builderClass = Person.PersonBuilder.class)
 @XmlRootElement(name = "person")
 public class Person {
     private Long personId;
@@ -91,7 +89,6 @@ public class Person {
 
     @XmlElement(name = "creationDate")
     @XmlJavaTypeAdapter(ZonedDateAdapter.class)
-
     public ZonedDateTime getPersonCreationDate() {
         return personCreationDate;
     }
@@ -147,12 +144,26 @@ public class Person {
     }
 
     @Override
+    public int hashCode() {
+        int result = personId.hashCode();
+        result = 31 * result + personName.hashCode();
+        result = 31 * result + coordinates.hashCode();
+        result = 31 * result + personCreationDate.hashCode();
+        result = 31 * result + personHeight.hashCode();
+        result = 31 * result + personBirthday.hashCode();
+        result = 31 * result + personEyeColor.hashCode();
+        result = 31 * result + personNationality.hashCode();
+        result = 31 * result + location.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj instanceof Person person) {
-            return this.personName.equals(person.personName) && this.coordinates.equals(person.coordinates) && this.personHeight == person.personHeight && this.personBirthday.equals(person.personBirthday) && this.personEyeColor.equals(person.personEyeColor) && this.personNationality.equals(person.personNationality) && this.location.equals(person.location);
+            return this.personName.equals(person.personName) && this.coordinates.equals(person.coordinates) && this.personHeight.equals(person.personHeight) && this.personBirthday.equals(person.personBirthday) && this.personEyeColor.equals(person.personEyeColor) && this.personNationality.equals(person.personNationality) && this.location.equals(person.location);
         }
         return false;
     }
